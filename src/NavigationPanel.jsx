@@ -1,18 +1,26 @@
 import React from "react";
-import Login from "./Login";
-import Logout from "./Logout";
-
+import SimpleButton from "./components/SimpleButton";
+import "./NavigationPanel.css";
 
 export default class NavigationPanel extends React.Component {
-    render() {
-        const button = this.props.isConnected ?
-            <Logout logout={this.props.logout} /> :
-            <Login login={this.props.login} />;
+  render() {
+    const button = this.props.isConnected
+      ? {
+          className: "logout",
+          label: "Se déconnecter",
+          onClick: this.props.logout,
+        }
+      : {
+          className: "login",
+          label: "Se connecter",
+          onClick: this.props.login,
+        };
 
-        return (
-            <nav>
-                {button}
-            </nav>
-        );
-    }
+    return (
+      <nav>
+        <h2>Panel</h2>
+        <SimpleButton {...button} />
+      </nav>
+    );
+  }
 }
