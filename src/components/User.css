@@ -1,0 +1,22 @@
+.user {
+  background: var(--bg);
+  border: 2px var(--bg) solid;
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  gap: 2rem;
+}
+
+.user .picture {
+  width: 5rem;
+}
+
+.user .picture > img {
+  max-width: 100%;
+}
+
+.user .name {
+  align-self: start;
+  font-weight: 300;
+  margin-top: 0;
+}
