@@ -1,0 +1,10 @@
+nav {
+}
+
+.button.login {
+  --button-color: var(--primary);
+}
+
+.button.logout {
+  --button-color: var(--red);
+}

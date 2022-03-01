@@ -1,22 +1,56 @@
 .user {
+  --bg: rgb(182, 191, 214);
+
   background: var(--bg);
   border: 2px var(--bg) solid;
   border-radius: 1rem;
   padding: 1rem;
   display: flex;
+  flex-direction: column;
   gap: 2rem;
+  /* box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3); */
+}
+
+.user.friend {
+  --bg-friend: #c8e5ff;
+
+  background: var(--bg-friend);
+  border: 2px var(--bg-friend) solid;
 }
 
 .user .picture {
   width: 5rem;
 }
 
-.user .picture > img {
+.user .picture img {
   max-width: 100%;
+  border-radius: 50%;
+}
+
+.user .text {
+  flex: auto;
+}
+
+.user.friend .action {
+  background: var(--red);
+  border: 2px var(--red) solid;
 }
 
 .user .name {
   align-self: start;
   font-weight: 300;
   margin-top: 0;
+}
+
+.user .description {
+  font-weight: normal;
+}
+
+@media screen and (min-width: 768px) {
+  .user {
+    flex-direction: row;
+  }
+  .user .action {
+    align-self: flex-end;
+  }
 }

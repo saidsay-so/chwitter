@@ -10,8 +10,5 @@ export default {
 
 const Template = (args) => <SimpleButton {...args} />;
 
-export const Logout = Template.bind({});
-Logout.args = { className: "logout", label: "Se déconnecter" };
-
-export const Login = Template.bind({});
-Login.args = { className: "login", label: "Se connecter" };
+export const Primary = Template.bind({});
+Primary.args = { label: "Primary" };

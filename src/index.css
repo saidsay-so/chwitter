@@ -11,9 +11,20 @@ body {
 
 :root {
   --primary: #2e9ae2;
+  --link: #063f74;
   --red: #e73030;
   --bg: #e1f4fa;
+
   font-size: 16px;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 code {
