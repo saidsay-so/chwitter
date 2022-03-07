@@ -1,5 +1,5 @@
 import React from "react";
-import SimpleButton from "./components/SimpleButton";
+import SimpleButton from "./SimpleButton";
 import "./NavigationPanel.css";
 
 export default class NavigationPanel extends React.Component {
