@@ -1,15 +1,25 @@
 import React from "react";
-import Input from "./Input";
+import Input from "../components/Input";
+import SimpleButton from "../components/SimpleButton";
+import "./Register.css";
 
-export default class Register extends React.Component {
-  render() {
-    // const { getConnected } = this.props
+const Register = ({}) => {
+  return (
+    <form
+      className="register"
+      onSubmit={(e) => console.log(e.preventDefault())}
+    >
+      <Input name="login" label="Login" required listener={() => {}} />
+      <Input
+        name="password"
+        label="Mot de passe"
+        type="password"
+        required
+        listener={() => {}}
+      />
+      <SimpleButton label="Se connecter" />
+    </form>
+  );
+};
 
-    return (
-      <div>
-        <Input name="login" prettyName="Login" type="text" />
-        <Input name="password" prettyName="Password" type="password" />
-      </div>
-    );
-  }
-}
+export default Register;
