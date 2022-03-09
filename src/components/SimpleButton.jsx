@@ -1,16 +1,17 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./SimpleButton.css";
 
-export default class SimpleButton extends React.Component {
-  render() {
-    return (
-      <button
-        onClick={this.props.onClick}
-        className={`button ${this.props.className}`}
-      >
-        {this.props.icon && <span>{this.props.icon}</span>}
-        {this.props.label}
-      </button>
-    );
-  }
-}
+const SimpleButton = ({ onClick, label, className = "" }) => (
+  <button onClick={onClick} className={`button ${className}`}>
+    {label}
+  </button>
+);
+
+export default SimpleButton;
+
+SimpleButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  label: PropTypes.string.isRequired,
+};
