@@ -1,10 +1,17 @@
-nav {
+.panel {
+  --bg: rgb(244, 249, 250);
+
+  background-color: var(--bg);
+  min-width: 5vw;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  height: 100vh;
+  gap: 2rem;
 }
 
-.button.login {
-  --button-color: var(--primary);
-}
-
-.button.logout {
-  --button-color: var(--red);
+.panel .user-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }

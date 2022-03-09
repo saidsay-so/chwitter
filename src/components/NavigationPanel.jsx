@@ -1,26 +1,42 @@
-import React from "react";
-import SimpleButton from "./SimpleButton";
+import PropTypes from "prop-types";
 import "./NavigationPanel.css";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
+import Avatar from "../components/Avatar";
 
-export default class NavigationPanel extends React.Component {
-  render() {
-    const button = this.props.isConnected
-      ? {
-          className: "logout",
-          label: "Se déconnecter",
-          onClick: this.props.logout,
-        }
-      : {
-          className: "login",
-          label: "Se connecter",
-          onClick: this.props.login,
-        };
+const NavigationPanel = ({
+  action,
+  picture,
+  name,
+  profileLink,
+  isConnected,
+  page = "48teur",
+}) => {
+  const ButtonTag = isConnected ? LogoutButton : LoginButton;
 
-    return (
-      <nav>
-        <h2>Panel</h2>
-        <SimpleButton {...button} />
-      </nav>
-    );
-  }
-}
+  return (
+    <nav className="panel">
+      <h2>{page}</h2>
+      <div className="action">
+        <ButtonTag onClick={action} />
+      </div>
+      {isConnected && (
+      <div className="user-info">
+        <Avatar picture={picture} name={name} profileLink={profileLink} />
+        <a href={profileLink}>{name}</a>
+      </div>
+      )}
+    </nav>
+  );
+};
+
+export default NavigationPanel;
+
+NavigationPanel.propTypes = {
+  action: PropTypes.func.isRequired,
+  picture: PropTypes.string,
+  name: PropTypes.string,
+  profileLink: PropTypes.string,
+  isConnected: PropTypes.bool.isRequired,
+  page: PropTypes.string.isRequired,
+};
