@@ -1,12 +1,26 @@
+import PropTypes from "prop-types";
 import React from "react";
+import "./Input.css";
 
-const Input = ({ name, prettyName, value, type, listener }) => {
+const Input = ({
+  name,
+  label,
+  value,
+  placeholder,
+  type,
+  required,
+  listener,
+}) => {
   return (
-    <div>
-      <label htmlFor={name}>{prettyName}</label>
+    <div className="input">
+      <label htmlFor={name}>
+        {label}
+        {required && <span className="required"> *</span>}
+      </label>
       <input
         name={name}
         type={type}
+        placeholder={placeholder}
         value={value}
         onChange={(ev) => listener(ev.target.value)}
       />
@@ -15,3 +29,12 @@ const Input = ({ name, prettyName, value, type, listener }) => {
 };
 
 export default Input;
+
+Input.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  listener: PropTypes.func.isRequired,
+  required: PropTypes.bool,
+  placeholder: PropTypes.string,
+};

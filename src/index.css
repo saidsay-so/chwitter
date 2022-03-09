@@ -11,9 +11,10 @@ body {
 
 :root {
   --primary: #2e9ae2;
+  --grey: #8d8d8d;
+  --grey-light: #cecece;
   --link: #063f74;
   --red: #e73030;
-  --bg: #e1f4fa;
 
   font-size: 16px;
 }

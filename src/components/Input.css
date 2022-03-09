@@ -1,0 +1,31 @@
+.input {
+  --label-font-size: .75rem;
+}
+
+.input label {
+  position: absolute;
+  font-size: var(--label-font-size);
+  color: var(--grey);
+}
+
+.input input {
+  margin-top: calc(var(--label-font-size) + (var(--label-font-size) / 2));
+  border: .1rem solid var(--grey-light);
+  padding: .25rem;
+  border-radius: 5px;
+  outline: none;
+  font-weight: 400;
+}
+
+.input input:focus {
+    outline: 1px solid var(--grey-light);
+}
+
+.input ::placeholder {
+    color: #aaa;
+}
+
+.input .required {
+    user-select: none;
+    color: var(--red);
+}
