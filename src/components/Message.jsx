@@ -1,33 +1,29 @@
 import React from "react";
+import PropTypes from "prop-types";
 import User from "./User";
 import "./Message.css";
 import SimpleButton from "./SimpleButton";
+import Avatar from "./Avatar";
 
 const Message = ({
   message,
   authorPicture,
   author,
   authorProfileLink,
-  authorId,
   date,
   isFriend,
-  addAuthor,
-}) => {
-  const addCallback = () => addAuthor(authorId);
-
-  return (
-    <article className="message-container">
-      <div className="author-info">
-        <a className="picture" href={authorProfileLink}>
-          <img src={authorPicture} alt={`Photo de ${author}`} />
-        </a>
-        <a href={authorProfileLink} className="author">
-          {author}
-        </a>
+  action,
+}) => (
+  <article className="message-container">
+    <div className="author-info">
+      <Avatar profileLink={authorProfileLink} picture={authorPicture} />
+      <a href={authorProfileLink} className="author">
+        {author}
+      </a>
+      <div className="user-details">
         <User
           isFriend={isFriend}
-          className="user-details"
-          action={addCallback}
+          action={action}
           description="A cool doggo"
           name={author}
           picture={authorPicture}
@@ -35,19 +31,29 @@ const Message = ({
           author={author}
         />
       </div>
-      <p className="message">{message}</p>
-      <div className="metadata">
-        <span className="date">{date}</span>
-        {!isFriend && (
-          <SimpleButton
-            label="Ajouter l'auteur"
-            className="action"
-            onClick={addCallback}
-          />
-        )}
-      </div>
-    </article>
-  );
-};
+    </div>
+    <p className="message">{message}</p>
+    <div className="metadata">
+      <span className="date">{date}</span>
+      {!isFriend && (
+        <SimpleButton
+          label="Ajouter l'auteur"
+          className="action"
+          onClick={action}
+        />
+      )}
+    </div>
+  </article>
+);
 
 export default Message;
+
+Message.propTypes = {
+  message: PropTypes.string.isRequired,
+  authorPicture: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  authorProfileLink: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  isFriend: PropTypes.bool.isRequired,
+  action: PropTypes.func.isRequired,
+};

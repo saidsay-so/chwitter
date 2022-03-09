@@ -1,44 +1,37 @@
-import React from "react";
 import SimpleButton from "./SimpleButton";
 import PropTypes from "prop-types";
 import "./User.css";
+import Avatar from "./Avatar";
 
-export default class User extends React.Component {
-  render() {
-    const label = this.props.isFriend
-      ? "➖ Supprimer des amis"
-      : "➕ Ajouter aux amis";
-    const className = this.props.isFriend ? "friend" : "";
+const User = ({
+  isFriend,
+  profileLink,
+  picture,
+  name,
+  description,
+  action,
+}) => {
+  const label = isFriend ? "➖ Supprimer des amis" : "➕ Ajouter aux amis";
+  const className = isFriend ? "friend" : "";
 
-    return (
-      <div className={`user ${this.props.className} ${className}`}>
-        <div className="picture">
-          <a href={this.props.profileLink}>
-            <img
-              src={this.props.picture}
-              alt={`${this.props.name}'s picture`}
-            />
-          </a>
-        </div>
-        <div className="text">
-          <a href={this.props.profileLink} className="name">
-            {this.props.name}
-          </a>
-          <p className="description">{this.props.description}</p>
-        </div>
-        <SimpleButton
-          onClick={this.props.action}
-          className="action"
-          label={label}
-        />
+  return (
+    <div className={`user ${className}`}>
+      <Avatar profileLink={profileLink} picture={picture} />
+      <div className="text">
+        <a href={profileLink} className="name">
+          {name}
+        </a>
+        <p className="description">{description}</p>
       </div>
-    );
-  }
-}
+      <SimpleButton onClick={action} className="action" label={label} />
+    </div>
+  );
+};
+
+export default User;
 
 User.propTypes = {
   isFriend: PropTypes.bool,
-  className: PropTypes.string,
   profileLink: PropTypes.string.isRequired,
   picture: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

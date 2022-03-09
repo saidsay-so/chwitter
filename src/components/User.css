@@ -1,5 +1,5 @@
 .user {
-  --bg: rgb(182, 191, 214);
+  --bg: #b6bfd6;
 
   background: var(--bg);
   border: 2px var(--bg) solid;
@@ -7,15 +7,11 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
   /* box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3); */
 }
 
 .user.friend {
-  --bg-friend: #c8e5ff;
-
-  background: var(--bg-friend);
-  border: 2px var(--bg-friend) solid;
+  --bg: #c8e5ff;
 }
 
 .user .picture {
@@ -32,8 +28,7 @@
 }
 
 .user.friend .action {
-  background: var(--red);
-  border: 2px var(--red) solid;
+  --button-color: var(--red);
 }
 
 .user .name {
@@ -49,6 +44,7 @@
 @media screen and (min-width: 768px) {
   .user {
     flex-direction: row;
+    gap: 2rem;
   }
   .user .action {
     align-self: flex-end;
