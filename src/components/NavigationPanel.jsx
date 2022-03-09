@@ -3,9 +3,11 @@ import "./NavigationPanel.css";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import Avatar from "../components/Avatar";
+import SimpleButton from "./SimpleButton";
 
 const NavigationPanel = ({
-  action,
+  authAction,
+  createMessage,
   picture,
   name,
   profileLink,
@@ -15,25 +17,36 @@ const NavigationPanel = ({
   const ButtonTag = isConnected ? LogoutButton : LoginButton;
 
   return (
-    <nav className="panel">
-      <h2>{page}</h2>
-      <div className="action">
-        <ButtonTag onClick={action} />
-      </div>
+    <aside className="panel">
+      <h2 className="title">{page}</h2>
+
       {isConnected && (
-      <div className="user-info">
-        <Avatar picture={picture} name={name} profileLink={profileLink} />
-        <a href={profileLink}>{name}</a>
-      </div>
+        <div className="user-info">
+          <Avatar picture={picture} name={name} profileLink={profileLink} />
+          <a href={profileLink}>{name}</a>
+        </div>
       )}
-    </nav>
+
+      <div className="auth-action">
+        <ButtonTag onClick={authAction} />
+      </div>
+
+      {isConnected && (
+        <SimpleButton
+          className="create-message"
+          label="📣 &nbsp; 8ter"
+          onClick={createMessage}
+        />
+      )}
+    </aside>
   );
 };
 
 export default NavigationPanel;
 
 NavigationPanel.propTypes = {
-  action: PropTypes.func.isRequired,
+  authAction: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
   picture: PropTypes.string,
   name: PropTypes.string,
   profileLink: PropTypes.string,

@@ -4,7 +4,7 @@ import NavigationPanel from "../components/NavigationPanel";
 export default {
   title: "NavigationPanel",
   component: NavigationPanel,
-  argTypes: { action: { action: "Connect" } },
+  argTypes: { authAction: { action: "Connect" }, createMessage: { action: "Create message" } },
 };
 
 const Template = (args) => <NavigationPanel {...args} />;
