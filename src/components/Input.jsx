@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React from "react";
+import { useState } from "react";
 import "./Input.css";
 
 const Input = ({
@@ -11,19 +11,28 @@ const Input = ({
   required,
   listener,
 }) => {
+  const [reveal, setReveal] = useState(false);
+
+  const revealChar = reveal ? "-" : "👁";
+
   return (
     <div className="input">
-      <label htmlFor={name}>
-        {label}
-        {required && <span className="required"> *</span>}
-      </label>
+      {type === "password" && (
+        <div className="pass-reveal" onClick={() => setReveal(!reveal)}>
+          {revealChar}
+        </div>
+      )}
       <input
         name={name}
-        type={type}
+        type={type === "password" ? (reveal ? "text" : type) : type}
         placeholder={placeholder}
         value={value}
         onChange={(ev) => listener(ev.target.value)}
       />
+      <label htmlFor={name}>
+        {label}
+        {required && <span className="required"> *</span>}
+      </label>
     </div>
   );
 };
