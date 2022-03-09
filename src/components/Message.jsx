@@ -16,7 +16,7 @@ const Message = ({
 }) => (
   <article className="message-container">
     <div className="author-info">
-      <Avatar profileLink={authorProfileLink} picture={authorPicture} />
+      <Avatar profileLink={authorProfileLink} picture={authorPicture} name={author} />
       <a href={authorProfileLink} className="author">
         {author}
       </a>
@@ -37,7 +37,7 @@ const Message = ({
       <span className="date">{date}</span>
       {!isFriend && (
         <SimpleButton
-          label="Ajouter l'auteur"
+          label="➕ Ajouter"
           className="action"
           onClick={action}
         />

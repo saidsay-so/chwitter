@@ -16,7 +16,7 @@ const User = ({
 
   return (
     <div className={`user ${className}`}>
-      <Avatar profileLink={profileLink} picture={picture} />
+      <Avatar profileLink={profileLink} picture={picture} name={name} />
       <div className="text">
         <a href={profileLink} className="name">
           {name}
