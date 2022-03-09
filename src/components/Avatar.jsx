@@ -5,7 +5,7 @@ import "./Avatar.css";
 const Avatar = ({ profileLink, picture, name }) => (
   <div className="avatar">
     <a href={profileLink}>
-      <img src={picture} alt={`${name}'s picture`} />
+      <img src={picture} alt={`${name}`} />
     </a>
   </div>
 );
