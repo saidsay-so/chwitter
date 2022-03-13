@@ -3,7 +3,7 @@ import NavigationPanel from "../components/NavigationPanel";
 import "./MainLayout.css";
 import Register from "./Register";
 
-const MainLayout = ({}) => {
+const MainLayout = ({ }) => {
   const [connectionState, setConnectionState] = useState(false);
 
   //TODO: Real authentication
@@ -12,10 +12,12 @@ const MainLayout = ({}) => {
   const Component = connectionState ? Register : Register;
 
   return (
-    <main className="main-layout">
+    <div className="main-layout">
       <NavigationPanel authAction={authAction} isConnected={connectionState} />
-      <Component />
-    </main>
+      <main>
+        <Component />
+      </main>
+    </div>
   );
 };
 

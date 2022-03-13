@@ -1,0 +1,20 @@
+.user-profile {
+    display: flex;
+}
+
+.user-profile .info {
+    max-height: 100vh;
+    position: sticky;
+    top: 0;
+    padding: 2rem;
+}
+
+.user-profile .info .user {
+    width: fit-content;
+    height: 100%;
+}
+
+
+.user-profile .messages-container {
+    flex: auto;
+}

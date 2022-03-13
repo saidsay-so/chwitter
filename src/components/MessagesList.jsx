@@ -3,12 +3,12 @@ import Message from "./Message";
 import "./MessagesList.css";
 
 //TODO: Add the friend handler
-const MessagesList = ({ messages }) => (
+const MessagesList = ({ messages, friendAction }) => (
   <section>
     <ul className="messages">
       {messages.map((msg) => (
         <li key={msg.id}>
-          <Message {...msg} />
+          <Message {...msg} action={friendAction} />
         </li>
       ))}
     </ul>
