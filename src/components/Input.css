@@ -1,6 +1,6 @@
 .input {
   --label-font-size: 0.875rem;
-  --margin: calc(var(--label-font-size) + (var(--label-font-size) / 2));
+  --margin-top: calc(var(--label-font-size) + (var(--label-font-size) / 2));
   --input-padding: 0.35rem;
   --input-border: 0.1rem;
   --reveal-width: 2rem;
@@ -11,7 +11,7 @@
 
 .input input {
   position: relative;
-  margin-top: var(--margin);
+  margin-top: var(--margin-top);
   border: var(--input-border) solid var(--grey-light);
   padding: var(--input-padding);
   align-items: center;
@@ -22,10 +22,10 @@
   transition: outline 150ms ease-in, border 150ms ease-in;
 }
 
-.input input[type="password"],
 .pass-reveal ~ input {
   padding-right: var(--reveal-width);
 }
+
 .input input:focus {
   border: var(--input-border) solid var(--primary);
   outline: 1px solid var(--primary);
@@ -33,7 +33,7 @@
 
 .input .pass-reveal {
   position: absolute;
-  top: var(--margin);
+  top: var(--margin-top);
   right: 0;
   display: inline-flex;
   align-items: center;
