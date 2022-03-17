@@ -2,7 +2,7 @@ import SimpleButton from "./SimpleButton";
 import "./LoginButton.css";
 
 const LoginButton = (props) => (
-  <SimpleButton {...props} className="login" label="Se connecter" />
+  <SimpleButton {...props} className="login-button" label="Se connecter" />
 );
 
 export default LoginButton;
