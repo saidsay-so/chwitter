@@ -9,7 +9,14 @@
 
 .login .input-container {
   display: flex;
-  margin: auto 5rem;
+  margin: auto 4rem;
   flex-direction: column;
   gap: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  
+.login .input-container {
+  margin: auto;
+}
 }
