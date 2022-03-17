@@ -1,15 +1,25 @@
 import { useState } from "react";
 import NavigationPanel from "./components/NavigationPanel";
 import "./MainLayout.css";
-import Register from "./pages/Register";
+import Login from "./pages/Login";
+import HomeFeed from "./pages/HomeFeed";
 
 const MainLayout = ({}) => {
+  const [user, setUser] = useState({});
   const [connectionState, setConnectionState] = useState(false);
 
   //TODO: Real authentication
   const authAction = () => setConnectionState(!connectionState);
 
-  const Component = connectionState ? <Register /> : <Register />;
+  const registerAction = (login, password) => {
+    authAction();
+  };
+
+  const Component = connectionState ? (
+    <HomeFeed />
+  ) : (
+    <Login submitAction={registerAction} />
+  );
 
   return (
     <div className="main-layout">

@@ -1,0 +1,30 @@
+.message-area-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary);
+  border-radius: 10px;
+  min-height: 13rem;
+  gap: .5rem;
+  padding: .5rem;
+}
+
+.message-area-container .message-area-form {
+  resize: none;
+  border-radius: 10px;
+  flex: auto;
+}
+
+.message-area-container .message-area-form .message-area {
+  resize: none;
+  border-radius: 10px;
+  height: 100%;
+  padding: .5rem;
+  width: 100%;
+}
+
+.message-area-container .button {
+  align-self: flex-end;
+}
+.message-area:focus {
+  outline: none;
+}
