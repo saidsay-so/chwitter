@@ -19,20 +19,21 @@
   border-radius: 5px;
   outline: none;
   font-weight: 400;
-  transition: outline 150ms ease-in;
+  transition: outline 150ms ease-in, border 150ms ease-in;
 }
 
 .input input[type="password"],
 .pass-reveal ~ input {
-  padding-right: calc(var(--reveal-width));
+  padding-right: var(--reveal-width);
 }
 .input input:focus {
+  border: var(--input-border) solid var(--primary);
   outline: 1px solid var(--primary);
 }
 
 .input .pass-reveal {
   position: absolute;
-  top: calc(var(--margin) + var(--input-border));
+  top: var(--margin);
   right: 0;
   display: inline-flex;
   align-items: center;
@@ -40,7 +41,7 @@
   width: var(--reveal-width);
   height: calc(var(--input-padding) * 2 + 1rem + var(--input-border) * 2);
   z-index: 1;
-  vertical-align: middle;
+  color: var(--primary);
 }
 
 .input .pass-reveal:hover {
@@ -59,7 +60,7 @@
   color: var(--primary);
 }
 
-.input ::placeholder {
+.input::placeholder {
   color: #aaa;
 }
 

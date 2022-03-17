@@ -13,7 +13,7 @@ const Input = ({
 }) => {
   const [reveal, setReveal] = useState(false);
 
-  const revealChar = reveal ? "-" : "👁";
+  const revealChar = reveal ? "゠" : "👁";
 
   return (
     <div className="input">
@@ -24,7 +24,7 @@ const Input = ({
       )}
       <input
         name={name}
-        type={type === "password" ? (reveal ? "text" : type) : type}
+        type={type === "password" ? (reveal ? "text" : "password") : type}
         placeholder={placeholder}
         value={value}
         onChange={(ev) => listener(ev.target.value)}
