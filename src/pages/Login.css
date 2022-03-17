@@ -1,6 +1,15 @@
 .login {
-  margin: auto;
   display: flex;
+  flex-direction: column;
+}
+
+.login h1 {
+  text-align: center;
+}
+
+.login .input-container {
+  display: flex;
+  margin: auto 5rem;
   flex-direction: column;
   gap: 1rem;
 }

@@ -8,10 +8,10 @@ const Login = ({ submitAction }) => {
   const [password, setPassword] = useState("");
 
   return (
-    <>
+    <div className="login">
       <h1>Se connecter</h1>
       <form
-        className="login"
+        className="input-container"
         onSubmit={(e) => {
           e.preventDefault();
           submitAction(login, password);
@@ -34,7 +34,7 @@ const Login = ({ submitAction }) => {
         />
         <SimpleButton label="Se connecter" />
       </form>
-    </>
+    </div>
   );
 };
 
