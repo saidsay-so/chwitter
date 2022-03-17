@@ -1,10 +1,21 @@
-.main-layout {
-    display: flex;
-    gap: 2rem;
-    height: 100%;
+html,
+body,
+#root {
+  overflow: hidden;
 }
 
- .main-layout main {
-    flex: auto;
-    display: flex;
+.main-layout {
+  display: flex;
+  gap: 2rem;
+  height: 100%;
+}
+
+.main-layout main {
+  display: flex;
+  padding: 0 .5rem;
+  flex: auto;
+  overflow: auto;
+}
+.main-layout main > * {
+  flex: auto;
 }

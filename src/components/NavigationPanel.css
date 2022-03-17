@@ -2,11 +2,7 @@
   --bg: rgb(244, 249, 250);
 
   background-color: var(--bg);
-  min-width: 15vw;
   display: none;
-  flex-direction: column;
-  padding: 1rem;
-  gap: 2rem;
 }
 
 .panel .title {
@@ -33,5 +29,11 @@
 @media screen and (min-width: 768px) {
   .panel {
     display: flex;
+    min-width: 15vw;
+    position: sticky;
+    top: 0;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 2rem;
   }
 }
