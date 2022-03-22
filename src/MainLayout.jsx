@@ -1,30 +1,26 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import NavigationPanel from "./components/NavigationPanel";
 import "./MainLayout.css";
-import Login from "./pages/Login";
-import HomeFeed from "./pages/HomeFeed";
+import { useAuth } from "./providers/AuthProvider";
 
 const MainLayout = ({}) => {
-  const [user, setUser] = useState({});
-  const [connectionState, setConnectionState] = useState(false);
-
-  //TODO: Real authentication
-  const authAction = () => setConnectionState(!connectionState);
-
-  const registerAction = (login, password) => {
-    authAction();
-  };
-
-  const Component = connectionState ? (
-    <HomeFeed />
-  ) : (
-    <Login submitAction={registerAction} />
-  );
+  const { user, signOut } = useAuth();
+  const navigateFunction = useNavigate();
+  const isConnected = user !== null;
+  const navigate = navigateFunction.bind(null, isConnected ? "/login" : "/");
+  const authAction = isConnected ? signOut.bind(null, navigate) : navigate;
 
   return (
     <div className="main-layout">
-      <NavigationPanel authAction={authAction} isConnected={connectionState} />
-      <main>{Component}</main>
+      <NavigationPanel
+        {...user}
+        authAction={authAction}
+        isConnected={isConnected}
+      />
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 };

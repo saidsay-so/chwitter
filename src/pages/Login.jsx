@@ -1,22 +1,30 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Input from "../components/Input";
-import SimpleButton from "../components/SimpleButton";
+import LoginButton from "../components/LoginButton";
+import { useAuth } from "../providers/AuthProvider";
 import "./Login.css";
 
-const Login = ({ submitAction }) => {
+const Login = ({}) => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+
+  const { signIn } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const before = location.state?.from.pathname ?? "/";
+
+  const loginAction = (e) => {
+    e.preventDefault();
+    signIn({ login, password }, () => navigate(before));
+  };
 
   return (
     <div className="login">
       <h1>Se connecter</h1>
-      <form
-        className="input-container"
-        onSubmit={(e) => {
-          e.preventDefault();
-          submitAction(login, password);
-        }}
-      >
+      <form className="input-container" onSubmit={loginAction}>
         <Input
           name="login"
           label="Login"
@@ -32,7 +40,7 @@ const Login = ({ submitAction }) => {
           value={password}
           listener={setPassword}
         />
-        <SimpleButton label="Se connecter" />
+        <LoginButton />
       </form>
     </div>
   );

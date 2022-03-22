@@ -1,5 +1,7 @@
 export const createMessage = (msg) => {};
 
+export const deleteMessage = (id) => {}
+
 export const getMessages = (user = null) => {
   const placeholder = [
     {
