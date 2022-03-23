@@ -1,5 +1,5 @@
 .input {
-  --label-font-size: 0.875rem;
+  --label-font-size: 0.9rem;
   --margin-top: calc(var(--label-font-size) + (var(--label-font-size) / 2));
   --input-padding: 0.35rem;
   --input-border: 0.1rem;
