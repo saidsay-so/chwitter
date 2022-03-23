@@ -1,46 +1,23 @@
 import PropTypes from "prop-types";
 import "./NavigationPanel.css";
-import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
-import Avatar from "../components/Avatar";
-import SimpleButton from "./SimpleButton";
+import Item from "./NavigationPanelItem";
+import Avatar from "./Avatar";
+import { Link } from "react-router-dom";
 
-const NavigationPanel = ({
-  authAction,
-  createMessage,
-  picture,
-  name,
-  profileLink,
-  isConnected,
-  page = "48teur",
-}) => {
-  const ButtonTag = isConnected ? LogoutButton : LoginButton;
-
-  return (
-    <aside className="panel">
-      <h2 className="title">{page}</h2>
-
-      {isConnected && (
-        <div className="user-info">
-          <Avatar picture={picture} name={name} profileLink={profileLink} />
-          <a href={profileLink}>{name}</a>
-        </div>
-      )}
-
-      <div className="auth-action">
-        <ButtonTag onClick={authAction} />
-      </div>
-
-      {isConnected && (
-        <SimpleButton
-          className="create-message"
-          label="📣 &nbsp; 8ter"
-          onClick={createMessage}
-        />
-      )}
-    </aside>
-  );
-};
+const NavigationPanel = ({ signOut, homePage, picture, name, profileLink }) => (
+  <aside className="panel">
+    <Link to={homePage} className="title">
+      <h2>Chwitter</h2>
+    </Link>
+    <menu className="panel-actions">
+      <Item
+        icon={<img src={picture} alt={name} />}
+        link={profileLink}
+        text="Profil"
+      />
+    </menu>
+  </aside>
+);
 
 export default NavigationPanel;
 

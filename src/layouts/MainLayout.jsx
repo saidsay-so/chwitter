@@ -15,6 +15,7 @@ const MainLayout = ({}) => {
       {isConnected && (
         <NavigationPanel
           {...user}
+          homePage="/"
           signOut={authAction}
           isConnected={isConnected}
         />

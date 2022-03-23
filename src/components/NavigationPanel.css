@@ -6,7 +6,15 @@
 }
 
 .panel .title {
-  margin: 0;
+  padding: 1rem;
+}
+
+.panel .panel-actions {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.panel .panel-actions > * {
 }
 
 .panel .user-info {
@@ -29,11 +37,9 @@
 @media screen and (min-width: 768px) {
   .panel {
     display: flex;
-    min-width: 15vw;
     position: sticky;
     top: 0;
     flex-direction: column;
-    padding: 1rem;
     gap: 2rem;
   }
 }
