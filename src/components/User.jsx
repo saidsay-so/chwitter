@@ -2,6 +2,7 @@ import SimpleButton from "./SimpleButton";
 import PropTypes from "prop-types";
 import "./User.css";
 import Avatar from "./Avatar";
+import { Link } from "react-router-dom";
 
 const User = ({
   isFriend,
@@ -18,9 +19,9 @@ const User = ({
     <div className={`user ${className}`}>
       <Avatar profileLink={profileLink} picture={picture} name={name} />
       <div className="text">
-        <a href={profileLink} className="name">
+        <Link to={profileLink} className="name">
           {name}
-        </a>
+        </Link>
         <p className="description">{description}</p>
       </div>
       <SimpleButton onClick={action} className="action" label={label} />

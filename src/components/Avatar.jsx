@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import "./Avatar.css";
 
 const Avatar = ({ profileLink, picture, name }) => (
   <div className="avatar">
-    <a href={profileLink}>
+    <Link to={profileLink}>
       <img src={picture} alt={`${name}`} />
-    </a>
+    </Link>
   </div>
 );
 
