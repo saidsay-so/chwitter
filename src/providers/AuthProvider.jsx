@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-const AuthContext = createContext(null);
+const AuthContext = createContext({});
 
 export const useAuth = useContext.bind({}, AuthContext);
 
@@ -10,9 +10,10 @@ export const AuthProvider = ({ children }) => {
   const signIn = ({}, cb) => {
     setUser({
       name: "Not John",
-      profileLink: "#",
+      profileLink: "/users/1",
       picture:
         "https://hddesktopwallpapers.in/wp-content/uploads/2015/09/wildlife-picture.jpg",
+      id: 1,
     });
     if (cb) cb();
   };
@@ -22,7 +23,20 @@ export const AuthProvider = ({ children }) => {
     if (cb) cb();
   };
 
-  const value = { user, signIn, signOut };
+  const register = ({}, cb) => {
+    setUser({
+      name: "Not John",
+      profileLink: "#",
+      picture:
+        "https://hddesktopwallpapers.in/wp-content/uploads/2015/09/wildlife-picture.jpg",
+      id: 1,
+    });
+    if (cb) cb();
+  };
+
+  const isLogged = () => user !== null;
+
+  const value = { user, isLogged, signIn, signOut, register };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
