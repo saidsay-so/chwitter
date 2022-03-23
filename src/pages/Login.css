@@ -1,10 +1,8 @@
 .login {
   display: flex;
   flex-direction: column;
-}
-
-.login h1 {
-  text-align: center;
+  align-items: center;
+  padding: 3rem 0 5rem 0;
 }
 
 .login .input-container {
@@ -14,9 +12,28 @@
   gap: 1rem;
 }
 
-@media screen and (min-width: 768px) {
-  
-.login .input-container {
-  margin: auto;
+.login .buttons {
+  display: flex;
+  justify-content: end;
+  gap: 2rem;
 }
+
+.login .buttons > * {
+  flex: auto;
+}
+
+.login .invert-container .button {
+  --button-color: var(--secondary);
+}
+
+.login .invert-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .login .input-container {
+    margin: auto;
+  }
 }
