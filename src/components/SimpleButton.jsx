@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "./SimpleButton.css";
 
 const SimpleButton = ({ onClick, label, className = "" }) => (
-  <button onClick={onClick} className={`button ${className}`}>
+  <button onClick={onClick} className={`button${" " + className}`}>
     {label}
   </button>
 );
