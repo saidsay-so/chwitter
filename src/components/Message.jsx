@@ -1,9 +1,10 @@
-import React from "react";
+import React, { lazy } from "react";
 import PropTypes from "prop-types";
-import User from "./User";
 import "./Message.css";
 import SimpleButton from "./SimpleButton";
 import Avatar from "./Avatar";
+import { Link } from "react-router-dom";
+import User from "./User";
 
 const Message = ({
   message,
@@ -11,25 +12,33 @@ const Message = ({
   author,
   authorProfileLink,
   date,
+  description,
   isFriend,
-  action,
+  friendAction,
+  fromHimself,
 }) => (
   <article className="message-container">
     <div className="author-info">
-      <Avatar profileLink={authorProfileLink} picture={authorPicture} name={author} />
-      <a href={authorProfileLink} className="author">
+      <Avatar
+        profileLink={authorProfileLink}
+        picture={authorPicture}
+        name={author}
+      />
+      <Link to={authorProfileLink} className="author">
         {author}
-      </a>
+      </Link>
       <div className="user-details">
-        <User
-          isFriend={isFriend}
-          action={action}
-          description="A cool doggo"
-          name={author}
-          picture={authorPicture}
-          profileLink={authorProfileLink}
-          author={author}
-        />
+        {!fromHimself && (
+          <User
+            isFriend={isFriend}
+            friendAction={friendAction ?? undefined}
+            description={description}
+            name={author}
+            picture={authorPicture}
+            profileLink={authorProfileLink}
+            author={author}
+          />
+        )}
       </div>
     </div>
     <p className="message">{message}</p>
@@ -39,7 +48,7 @@ const Message = ({
         <SimpleButton
           label="➕ Ajouter"
           className="action"
-          onClick={action}
+          onClick={friendAction ?? undefined}
         />
       )}
     </div>
@@ -55,5 +64,5 @@ Message.propTypes = {
   authorProfileLink: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   isFriend: PropTypes.bool.isRequired,
-  action: PropTypes.func.isRequired,
+  friendAction: PropTypes.func.isRequired,
 };

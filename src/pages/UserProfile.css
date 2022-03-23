@@ -1,20 +1,28 @@
 .user-profile {
-    display: flex;
-}
-
-.user-profile .info {
-    max-height: 100vh;
-    position: sticky;
-    top: 0;
-    padding: 2rem;
+  display: flex;
+flex-direction: column;
 }
 
 .user-profile .info .user {
-    width: fit-content;
-    height: 100%;
+  width: fit-content;
+  height: 100%;
 }
 
+.user-profile .profile-nav {
+  display: inline-flex;
+  gap: 1rem;
+}
+
+.user-profile .profile-nav > a {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
 
 .user-profile .messages-container {
-    flex: auto;
+  flex: auto;
+}
+
+.user-profile .content {
+  width: 100%;
+  overflow: auto;
 }

@@ -13,15 +13,16 @@ input,
 
 html,
 body,
-#root
- {
+#root {
   margin: 0;
   padding: 0;
   height: 100%;
 }
 
 :root {
+
   --primary: #2e9ae2;
+  --secondary: #165b94;
   --grey: #8d8d8d;
   --grey-light: #cecece;
   --link: #063f74;
