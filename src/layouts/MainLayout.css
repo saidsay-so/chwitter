@@ -10,12 +10,16 @@ body,
   height: 100%;
 }
 
+.main-layout .panel {
+  min-width: fit-content;
+}
+
 .main-layout main {
   display: flex;
-  padding: 0 .5rem;
   flex: auto;
   overflow: auto;
 }
+
 .main-layout main > * {
   flex: auto;
 }
