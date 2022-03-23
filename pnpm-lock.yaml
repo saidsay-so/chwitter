@@ -1,6 +1,8 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@faker-js/faker': ^6.0.0
+  '@mui/icons-material': ^5.5.1
   '@storybook/addon-actions': ^6.4.19
   '@storybook/addon-essentials': ^6.4.19
   '@storybook/addon-interactions': ^6.4.19
@@ -25,6 +27,7 @@ specifiers:
   webpack: ^5.69.1
 
 dependencies:
+  '@mui/icons-material': 5.5.1_react@17.0.2
   '@testing-library/jest-dom': 5.16.2
   '@testing-library/react': 12.1.4_react-dom@17.0.2+react@17.0.2
   '@testing-library/user-event': 13.5.0
@@ -38,6 +41,7 @@ dependencies:
   web-vitals: 2.1.4
 
 devDependencies:
+  '@faker-js/faker': 6.0.0
   '@storybook/addon-actions': 6.4.19_react-dom@17.0.2+react@17.0.2
   '@storybook/addon-essentials': 6.4.19_bd1627cdbef72fe1bdc1845b9ffb8e92
   '@storybook/addon-interactions': 6.4.19_react-dom@17.0.2+react@17.0.2
@@ -1746,6 +1750,11 @@ packages:
       - supports-color
     dev: false
 
+  /@faker-js/faker/6.0.0:
+    resolution: {integrity: sha512-10zLCKhp3YEmBuko71ivcMoIZcCLXgQVck6aNswX+AWwaek/L8S3yz9i8m3tHigRkcF6F2vI+qtdtyySHK+bGA==}
+    engines: {node: '>=14.0.0', npm: '>=7.0.0'}
+    dev: true
+
   /@gar/promisify/1.1.3:
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
     dev: true
@@ -2072,6 +2081,21 @@ packages:
       call-me-maybe: 1.0.1
       glob-to-regexp: 0.3.0
     dev: true
+
+  /@mui/icons-material/5.5.1_react@17.0.2:
+    resolution: {integrity: sha512-40f68p5+Yhq3dCn3QYHqQt5RETPyR3AkDw+fma8PtcjqvZ+d+jF84kFmT6NqwA3he7TlwluEtkyAmPzUE4uPdA==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      '@mui/material': ^5.0.0
+      '@types/react': ^16.8.6 || ^17.0.0
+      react: ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.17.8
+      react: 17.0.2
+    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
