@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import "./User.css";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
+import FriendButton from "./FriendButton";
 
 const User = ({
   isFriend,
@@ -12,11 +13,8 @@ const User = ({
   description,
   action,
 }) => {
-  const label = isFriend ? "➖ Supprimer des amis" : "➕ Ajouter aux amis";
-  const className = isFriend ? "friend" : "";
-
   return (
-    <div className={`user ${className}`}>
+    <div className="user">
       <Avatar profileLink={profileLink} picture={picture} name={name} />
       <div className="text">
         <Link to={profileLink} className="name">
@@ -24,7 +22,7 @@ const User = ({
         </Link>
         <p className="description">{description}</p>
       </div>
-      <SimpleButton onClick={action} className="action" label={label} />
+      <FriendButton action={action} isFriend={isFriend} />
     </div>
   );
 };
