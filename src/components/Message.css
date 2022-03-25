@@ -19,6 +19,7 @@
 
 .message-container .author-info .author {
   align-self: center;
+  font-weight: bold;
 }
 
 .message-container .author-info .user-details {

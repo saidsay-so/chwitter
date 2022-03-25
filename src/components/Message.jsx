@@ -44,7 +44,7 @@ const Message = ({
     <p className="message">{message}</p>
     <div className="metadata">
       <span className="date">{date}</span>
-      {!isFriend && (
+      {!(isFriend || fromHimself) && (
         <SimpleButton
           label="➕ Ajouter"
           className="action"
