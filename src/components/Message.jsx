@@ -8,37 +8,27 @@ import User from "./User";
 
 const Message = ({
   message,
-  authorPicture,
-  author,
-  authorProfileLink,
+  author: { name, profileLink, picture, description },
   date,
-  description,
   isFriend,
   friendAction,
   fromHimself,
 }) => (
   <article className="message-container">
     <div className="author-info">
-      <Avatar
-        profileLink={authorProfileLink}
-        picture={authorPicture}
-        name={author}
-      />
-      <Link to={authorProfileLink} className="author">
-        {author}
+      <Avatar profileLink={profileLink} picture={picture} name={name} />
+      <Link to={profileLink} className="author">
+        {name}
       </Link>
       <div className="user-details">
-        {!fromHimself && (
           <User
             isFriend={isFriend}
             friendAction={friendAction ?? undefined}
             description={description}
-            name={author}
-            picture={authorPicture}
-            profileLink={authorProfileLink}
-            author={author}
+          name={name}
+          picture={picture}
+          profileLink={profileLink}
           />
-        )}
       </div>
     </div>
     <p className="message">{message}</p>
