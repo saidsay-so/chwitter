@@ -1,20 +1,41 @@
-.panel-item .action-wrapper {
+.panel-item {
+  width: 100%;
+}
+
+.panel-item .panel-button {
+  background: none;
+  margin: 0;
+  border: 0;
+  width: 100%;
+  border-radius: 15%;
+}
+
+.panel-item .panel-button .action-wrapper {
   display: inline-flex;
-  background: var(--grey);
-  padding: 0.25rem;
+  padding: 0.35rem;
   width: 100%;
   height: 100%;
   align-items: center;
-  gap: 1rem;
+  font-size: 1rem;
+  color: black;
 }
 
-.panel-item .action-wrapper .icon {
-  width: 3rem;
-  height: 3rem;
+.panel-item .panel-button .action-wrapper:hover {
+  text-decoration: none;
 }
 
-.panel-item .action-wrapper .icon img {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
+.panel-item .panel-button .action-wrapper .icon {
+  vertical-align: middle;
+  align-self: center;
+
+  width: var(--element-size);
+  height: var(--element-size);
+  color: var(--icon);
+}
+
+.panel-item .panel-button .action-wrapper .icon:hover {
+  --hover: #7cb9ff;
+
+  cursor: pointer;
+  color: var(--hover);
 }

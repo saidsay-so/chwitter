@@ -1,5 +1,9 @@
+.avatar {
+  --avatar-size: 3rem;
+}
+
 .avatar img {
-  width: 3rem;
-  height: 3rem;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
   border-radius: 50%;
 }

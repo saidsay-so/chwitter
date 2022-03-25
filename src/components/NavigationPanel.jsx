@@ -1,20 +1,34 @@
 import PropTypes from "prop-types";
 import "./NavigationPanel.css";
 import Item from "./NavigationPanelItem";
-import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
+import { MdAdd, MdLogout } from "react-icons/md";
+import { ImSearch } from "react-icons/im";
+import { IconContext } from "react-icons";
+import Avatar from "./Avatar";
 
-const NavigationPanel = ({ signOut, homePage, picture, name, profileLink }) => (
+const NavigationPanel = ({
+  signOut,
+  createMessage,
+  homePage,
+  picture,
+  name,
+  profileLink,
+}) => (
   <aside className="panel">
     <Link to={homePage} className="title">
       <h2>Chwitter</h2>
     </Link>
+    <div className="search-input">
+      <input autoComplete="on" type="search" />
+      <button className="search-button">
+        <ImSearch />
+      </button>
+    </div>
     <menu className="panel-actions">
-      <Item
-        icon={<img src={picture} alt={name} />}
-        link={profileLink}
-        text="Profil"
-      />
+      <Avatar picture={picture} profileLink={profileLink} name={name} />
+      <Item icon={<MdAdd />} text="Créer un message" action={createMessage} />
+      <Item icon={<MdLogout />} text="Se déconnecter" action={signOut} />
     </menu>
   </aside>
 );
@@ -22,11 +36,11 @@ const NavigationPanel = ({ signOut, homePage, picture, name, profileLink }) => (
 export default NavigationPanel;
 
 NavigationPanel.propTypes = {
-  authAction: PropTypes.func.isRequired,
+  signOut: PropTypes.func.isRequired,
   createMessage: PropTypes.func.isRequired,
   picture: PropTypes.string,
   name: PropTypes.string,
   profileLink: PropTypes.string,
   isConnected: PropTypes.bool.isRequired,
-  page: PropTypes.string.isRequired,
+  homePage: PropTypes.string.isRequired,
 };
