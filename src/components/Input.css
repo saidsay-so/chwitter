@@ -17,6 +17,7 @@
   align-items: center;
   width: 100%;
   border-radius: 5px;
+  background: var(--grey-light);
   outline: none;
   font-weight: 400;
   transition: outline 150ms ease-in, border 150ms ease-in;
