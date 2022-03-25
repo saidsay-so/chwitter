@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./UserProfile.css";
-import SimpleButton from "../components/SimpleButton";
 import { useParams } from "react-router-dom";
 
 import { getUser as fetchUserInfo } from "../services/user";
@@ -44,7 +43,7 @@ const UserProfile = () => {
         setIsLoading(false);
       }
     },
-    [id, mainUid]
+    [id]
   );
 
   const friendAction = (isFriend ? addFriend : removeFriend).bind(
@@ -74,20 +73,24 @@ const UserProfile = () => {
           </div>
           <p className="description">{user.description}</p>
         </article>
+
+        <div>
           {!isHimself && (
             <FriendButton action={friendAction} isFriend={isFriend} />
           )}
-          <nav className="profile-nav">
-            <NavLink className="profile-link" to="messages">
-              <AiFillMessage /> Messages
-            </NavLink>
-            <NavLink className="profile-link" to="friends">
-              <MdPeople /> Amis
-            </NavLink>
-          </nav>
+        </div>
+
+        <nav className="profile-nav">
+          <NavLink className="profile-link" to="messages">
+            <AiFillMessage /> {user.messagesCount} Messages
+          </NavLink>
+          <NavLink className="profile-link" to="friends">
+            <MdPeople /> {user.friendsCount} Amis
+          </NavLink>
+        </nav>
 
         <section className="content">
-          <Outlet context={{ id, isFriend, isHimself, friendAction }} />
+          <Outlet context={{ id, isFriend, isHimself, friendAction, user }} />
         </section>
       </div>
     </div>
