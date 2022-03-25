@@ -4,7 +4,7 @@ import { RiSendPlane2Fill } from "react-icons/ri";
 import { IconContext } from "react-icons";
 import { useState } from "react";
 
-export default function MessageArea({ id, onSubmit }) {
+export default function MessageArea({ id, onSubmit, refArea }) {
   const [message, setMessage] = useState("");
 
   return (
@@ -23,6 +23,7 @@ export default function MessageArea({ id, onSubmit }) {
       >
         <textarea
           id={id}
+          ref={refArea}
           name="message"
           className="message-area"
           placeholder="Écrire un message..."

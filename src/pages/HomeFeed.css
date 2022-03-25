@@ -2,6 +2,6 @@
   display: block;
 }
 
-.home-feed h1 {
-  text-align: center;
+.home-feed .responsive-container {
+  padding-top: 1rem;
 }

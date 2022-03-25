@@ -6,12 +6,14 @@ import { useAsyncEffect } from "../utils/extra-hooks";
 import { areFriends } from "../services/friend";
 import { useAuth } from "../providers/AuthProvider";
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
 export default function HomeFeed() {
   const [messages, setMessages] = useState([]);
   const {
     user: { id: uid },
   } = useAuth();
+  const { refMessageArea } = useOutletContext();
 
   useAsyncEffect(async (stillMounted) => {
     const rawMessages = await getMessages();
@@ -34,8 +36,11 @@ export default function HomeFeed() {
   return (
     <div className="home-feed">
       <div className="responsive-container">
-        <h1>Accueil</h1>
-        <MessageArea id="search" onSubmit={createMessage.bind(null, uid)} />
+        <MessageArea
+          refArea={refMessageArea}
+          id="search"
+          onSubmit={createMessage.bind(null, uid)}
+        />
         <MessagesList messages={messages} friendAction={console.log} />
       </div>
     </div>

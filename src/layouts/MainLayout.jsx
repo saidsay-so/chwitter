@@ -4,17 +4,33 @@ import NavigationPanel from "../components/NavigationPanel";
 import "./MainLayout.css";
 import { useAuth } from "../providers/AuthProvider";
 import { IconContext } from "react-icons";
+import { useRef } from "react";
 
 const MainLayout = ({}) => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const isConnected = user !== null;
   const authAction = signOut.bind(null, navigate.bind(null, "/login"));
-  const createMessage = () =>
-    navigate({
-      pathname: "/",
-      hash: "#search",
-    });
+
+  const refMessageArea = useRef(null);
+
+  const scrollToArea = () => {
+    if (refMessageArea.current === null) requestAnimationFrame(scrollToArea);
+
+    //TODO: We should probably use `requestAnimationFrame` here too
+    setTimeout(() => {
+      refMessageArea.current?.scrollIntoView({
+        behavior: "smooth",
+      });
+      refMessageArea.current?.focus();
+    }, 250);
+  };
+
+  const createMessage = () => {
+    navigate("/");
+
+    requestAnimationFrame(scrollToArea);
+  };
 
   return (
     <IconContext.Provider
@@ -33,7 +49,7 @@ const MainLayout = ({}) => {
           />
         )}
         <main>
-          <Outlet />
+          <Outlet context={{ refMessageArea }} />
         </main>
       </div>
     </IconContext.Provider>

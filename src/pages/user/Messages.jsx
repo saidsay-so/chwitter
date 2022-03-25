@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import MessagesList from "../../components/MessagesList";
 import { getMessages } from "../../services/message";
