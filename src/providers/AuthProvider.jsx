@@ -1,20 +1,15 @@
 import { createContext, useContext, useState } from "react";
+import { fakeUser } from "../services/user";
 
 const AuthContext = createContext({});
 
-export const useAuth = useContext.bind({}, AuthContext);
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const signIn = ({}, cb) => {
-    setUser({
-      name: "Not John",
-      profileLink: "/users/1",
-      picture:
-        "https://hddesktopwallpapers.in/wp-content/uploads/2015/09/wildlife-picture.jpg",
-      id: 1,
-    });
+    setUser(fakeUser);
     if (cb) cb();
   };
 
@@ -24,13 +19,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = ({}, cb) => {
-    setUser({
-      name: "Not John",
-      profileLink: "#",
-      picture:
-        "https://hddesktopwallpapers.in/wp-content/uploads/2015/09/wildlife-picture.jpg",
-      id: 1,
-    });
+    setUser(fakeUser);
     if (cb) cb();
   };
 
