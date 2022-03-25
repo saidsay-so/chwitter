@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import "./UserProfile.css";
-import Avatar from "../components/Avatar";
 import SimpleButton from "../components/SimpleButton";
 import { useParams } from "react-router-dom";
 
 import { getUser as fetchUserInfo } from "../services/user";
 import { useAuth } from "../providers/AuthProvider";
 import { addFriend, areFriends, removeFriend } from "../services/friend";
-import { getMessages as fetchMessages } from "../services/message";
 import { useAsyncEffect } from "../utils/extra-hooks";
-import { Link } from "react-router-dom";
+import { AiFillMessage } from "react-icons/ai";
+import { MdPeople } from "react-icons/md";
 import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import FriendButton from "../components/FriendButton";
 
 const UserProfile = () => {
   const [user, setUser] = useState({});
@@ -23,26 +23,31 @@ const UserProfile = () => {
   } = useAuth();
   const isHimself = id === mainUid;
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const label = isFriend ? "➖ Supprimer des amis" : "➕ Ajouter aux amis";
 
-  useAsyncEffect(async (stillMounted) => {
-    const isFriendPromise = isHimself
-      ? Promise.resolve(false)
-      : areFriends(id, mainUid);
+  useAsyncEffect(
+    async (stillMounted) => {
+      setIsLoading(true);
 
-    const [isFriend, user] = await Promise.all([
-      isFriendPromise,
-      fetchUserInfo(id),
-    ]);
+      const isFriendPromise = isHimself
+        ? Promise.resolve(false)
+        : areFriends(id, mainUid);
 
-    if (stillMounted) {
-      setIsFriend(isFriend);
-      setUser(user);
-      setIsLoading(false);
-    }
-  }, []);
+      const [isFriend, user] = await Promise.all([
+        isFriendPromise,
+        fetchUserInfo(id),
+      ]);
+
+      if (stillMounted) {
+        setIsFriend(isFriend);
+        setUser(user);
+        setIsLoading(false);
+      }
+    },
+    [id, mainUid]
+  );
 
   const friendAction = (isFriend ? addFriend : removeFriend).bind(
     null,
@@ -54,21 +59,39 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile">
-      <aside className="info">
-        <Avatar {...user} />
-        <Link to={user.profileLink}>{user.name}</Link>
-        <p>{user.description}</p>
-        {isHimself && <SimpleButton onClick={friendAction} label={label} />}
-      </aside>
-      <section>
-        <nav className="profile-nav">
-          <NavLink to="messages">Messages</NavLink>
-          <NavLink to="friends">Friends</NavLink>
-        </nav>
-        <div className="content">
-          <Outlet context={{ isFriend, isHimself, friendAction }} />
-        </div>
-      </section>
+      <div className="responsive-container">
+        <article className="user-info">
+          <div className="user-name-avatar">
+            <div className="profile-avatar">
+              <img src={user.picture} alt={user.name} />
+            </div>
+            <div>
+              <h3 className="user-name" to={user.profileLink}>
+                {user.name}
+              </h3>
+              <h4 className="user-pseudo" to={user.profileLink}>
+                @{user.name}
+              </h4>
+            </div>
+          </div>
+          <p className="description">{user.description}</p>
+        </article>
+          {!isHimself && (
+            <FriendButton action={friendAction} isFriend={isFriend} />
+          )}
+          <nav className="profile-nav">
+            <NavLink className="profile-link" to="messages">
+              <AiFillMessage /> Messages
+            </NavLink>
+            <NavLink className="profile-link" to="friends">
+              <MdPeople /> Amis
+            </NavLink>
+          </nav>
+
+        <section className="content">
+          <Outlet context={{ id, isFriend, isHimself, friendAction }} />
+        </section>
+      </div>
     </div>
   );
 };
