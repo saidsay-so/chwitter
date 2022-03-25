@@ -8,9 +8,9 @@ const MessagesList = ({ messages, friendAction, isFriend, fromHimself }) => {
       {messages.map((msg) => (
         <li key={msg.id}>
           <Message
+            isFriend={isFriend}
             {...msg}
             fromHimself={fromHimself}
-            isFriend={isFriend}
             action={friendAction.bind(null, msg.authorId)}
           />
         </li>
