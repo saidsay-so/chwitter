@@ -1,0 +1,7 @@
+.friend-button {
+  --button-color: var(--primary);
+}
+
+.friend-button.is-friend {
+  --button-color: var(--red);
+}

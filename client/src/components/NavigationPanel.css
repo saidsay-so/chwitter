@@ -1,0 +1,67 @@
+.panel {
+  --element-size: 1.5rem;
+
+  display: none;
+}
+
+.panel .avatar {
+  --avatar-size: var(--element-size);
+}
+
+.panel .panel-actions {
+  display: flex;
+  list-style-type: none;
+  align-items: center;
+  padding-left: 0;
+  gap: 1rem;
+}
+
+.panel .user-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.panel .connected {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.panel .create-message {
+  flex: auto;
+  padding: 0 1rem;
+}
+
+.panel .search-input {
+  width: 50%;
+  position: relative;
+}
+
+.panel .search-input input {
+  width: 100%;
+  padding: 0.5rem;
+  padding-right: calc(var(--element-size) + 0.25rem);
+}
+
+.panel .search-input .search-button {
+  position: absolute;
+  height: 100%;
+  width: var(--element-size);
+  background: none;
+  border: none;
+  top: 0;
+  right: 0.25rem;
+}
+
+@media screen and (min-width: 768px) {
+  .panel {
+    display: flex;
+    position: sticky;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+    border-bottom: 0.25rem solid var(--grey-light);
+    padding: 0 2rem;
+  }
+}

@@ -1,0 +1,78 @@
+.user-profile .responsive-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 2rem;
+  gap: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+}
+
+.user-profile .user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.user-profile .user-info .user-name-avatar {
+  display: inline-flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.user-profile .user-info .user-name-avatar .user-name {
+  font-size: 1.33rem;
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.user-profile .user-info .user-name-avatar .user-pseudo {
+  font-style: italic;
+  font-weight: normal;
+  margin: 0;
+}
+
+.user-profile .profile-nav {
+  --line: var(--grey-light);
+
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px var(--line) solid;
+}
+
+.user-profile .profile-nav .profile-link {
+  --font-size: 1.25rem;
+
+  font-weight: bold;
+  font-size: var(--font-size);
+  padding: 0.5rem;
+  transition: border-bottom 100ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.user-profile .profile-nav .profile-link .react-icon {
+  --icon-size: var(--font-size);
+}
+
+.user-profile .profile-nav .profile-link > * {
+  vertical-align: middle;
+}
+
+.user-profile .profile-nav .profile-link:hover {
+  text-decoration: none;
+}
+
+.user-profile .profile-nav .profile-link:hover,
+.user-profile .profile-nav .profile-link.active {
+  border-bottom: 3px var(--secondary) solid;
+}
+
+.user-profile .user-info .profile-avatar img {
+  margin: auto;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.user-profile .user-info .description {
+  margin: 0;
+}

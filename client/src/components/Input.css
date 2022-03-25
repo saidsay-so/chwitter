@@ -1,0 +1,71 @@
+.input {
+  --label-font-size: 0.9rem;
+  --margin-top: calc(var(--label-font-size) + (var(--label-font-size) / 2));
+  --input-padding: 0.35rem;
+  --input-border: 0.1rem;
+  --reveal-width: 2rem;
+
+  position: relative;
+  width: 100%;
+}
+
+.input input {
+  position: relative;
+  margin-top: var(--margin-top);
+  border: var(--input-border) solid var(--grey-light);
+  padding: var(--input-padding);
+  align-items: center;
+  width: 100%;
+  border-radius: 5px;
+  background: var(--grey-light);
+  outline: none;
+  font-weight: 400;
+  transition: outline 150ms ease-in, border 150ms ease-in;
+}
+
+.pass-reveal ~ input {
+  padding-right: var(--reveal-width);
+}
+
+.input input:focus {
+  border: var(--input-border) solid var(--primary);
+  outline: 1px solid var(--primary);
+}
+
+.input .pass-reveal {
+  position: absolute;
+  top: var(--margin-top);
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--reveal-width);
+  height: calc(var(--input-padding) * 2 + 1rem + var(--input-border) * 2);
+  z-index: 1;
+  color: var(--primary);
+}
+
+.input .pass-reveal:hover {
+  cursor: pointer;
+}
+
+.input label {
+  position: absolute;
+  left: 0;
+  font-size: var(--label-font-size);
+  color: var(--grey);
+  transition: color 150ms ease-in;
+}
+
+.input input:focus + label {
+  color: var(--primary);
+}
+
+.input::placeholder {
+  color: #aaa;
+}
+
+.input .required {
+  user-select: none;
+  color: var(--red);
+}

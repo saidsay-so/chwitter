@@ -1,0 +1,7 @@
+.messages {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0;
+}
