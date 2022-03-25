@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "./Message.css";
 import SimpleButton from "./SimpleButton";
