@@ -1,4 +1,4 @@
-import { getMessages } from "../services/message";
+import { createMessage, getMessages } from "../services/message";
 import MessagesList from "../components/MessagesList";
 import "./HomeFeed.css";
 import MessageArea from "../components/MessageArea";
@@ -10,7 +10,7 @@ import { useState } from "react";
 export default function HomeFeed() {
   const [messages, setMessages] = useState([]);
   const {
-    user: { id },
+    user: { id: uid },
   } = useAuth();
 
   useAsyncEffect(async (stillMounted) => {
@@ -18,10 +18,10 @@ export default function HomeFeed() {
 
     const messages = await Promise.all(
       rawMessages.map(async (msg) => {
-        const fromHimself = id === msg.authorId;
+        const fromHimself = uid === msg.authorId;
         const isFriend = fromHimself
           ? false
-          : await areFriends(id, msg.authorId);
+          : await areFriends(uid, msg.authorId);
         return { ...msg, isFriend, fromHimself };
       })
     );
@@ -33,9 +33,11 @@ export default function HomeFeed() {
 
   return (
     <div className="home-feed">
-      <h1>Accueil</h1>
-      <MessageArea />
-      <MessagesList messages={messages} friendAction={console.log} />
+      <div className="responsive-container">
+        <h1>Accueil</h1>
+        <MessageArea id="search" onSubmit={createMessage.bind(null, uid)} />
+        <MessagesList messages={messages} friendAction={console.log} />
+      </div>
     </div>
   );
 }
