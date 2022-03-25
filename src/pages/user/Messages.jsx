@@ -6,18 +6,20 @@ import { getMessages } from "../../services/message";
 import { useAsyncEffect } from "../../utils/extra-hooks";
 
 const UserMessages = () => {
-  const { isFriend, isHimself, friendAction } = useOutletContext();
-  const { id } = useParams();
+  const { id, isFriend, isHimself, friendAction } = useOutletContext();
 
   const [messages, setMessages] = useState([]);
 
-  useAsyncEffect(async (stillMounted) => {
-    const messages = await getMessages(id);
+  useAsyncEffect(
+    async (stillMounted) => {
+      const messages = await getMessages(id);
 
-    if (stillMounted) {
-      setMessages(messages);
-    }
-  }, []);
+      if (stillMounted) {
+        setMessages(messages);
+      }
+    },
+    [id]
+  );
 
   return (
     <div className="messages-container">

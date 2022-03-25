@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import User from "../../components/User";
 import { getFriends } from "../../services/friend";
 import { useAsyncEffect } from "../../utils/extra-hooks";
@@ -7,22 +7,25 @@ import "./Friends.css";
 
 const UserFriends = () => {
   const [friends, setFriends] = useState([]);
-  const { id } = useParams();
+  const { id, isHimself, friendAction } = useOutletContext();
 
-  useAsyncEffect(async (stillMounted) => {
-    const friends = getFriends(id);
+  useAsyncEffect(
+    async (stillMounted) => {
+      const rawFriends = await getFriends(id);
 
-    if (stillMounted) {
-      setFriends(friends);
-    }
-  }, []);
+      if (stillMounted) {
+        setFriends(rawFriends);
+      }
+    },
+    [id]
+  );
 
   return (
     <div className="friends-container">
       <ul className="friends">
         {friends.map((friend) => (
           <li key={friend.id}>
-            <User {...friend} />
+            <User {...friend} action={friendAction} />
           </li>
         ))}
       </ul>
