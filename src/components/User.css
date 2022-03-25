@@ -1,5 +1,5 @@
 .user {
-  --bg: #b6bfd6;
+  --bg: var(--grey-light);
 
   background: var(--bg);
   border: 2px var(--bg) solid;
@@ -23,17 +23,9 @@
   border-radius: 50%;
 }
 
-.user .text {
-  flex: auto;
-}
-
-.user.friend .action {
-  --button-color: var(--red);
-}
-
 .user .name {
   align-self: start;
-  font-weight: 300;
+  font-weight: 700;
   margin-top: 0;
 }
 
@@ -46,7 +38,13 @@
     flex-direction: row;
     gap: 2rem;
   }
+
+  .user .text {
+    flex: 2;
+  }
+
   .user .action {
     align-self: flex-end;
+    flex: 1;
   }
 }
