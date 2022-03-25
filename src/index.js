@@ -8,8 +8,10 @@ import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
 import UserProfile from "./pages/UserProfile";
 import { AuthProvider } from "./providers/AuthProvider";
+import RequireAuthProvider from "./providers/RequireAuthProvider";
 import UserMessages from "./pages/user/Messages";
 import UserFriends from "./pages/user/Friends";
+import { Navigate } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,10 +21,31 @@ ReactDOM.render(
           <Route element={<MainLayout />}>
             <Route path="/" element={<MainPage />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/users/:id" element={<UserProfile />}>
-              <Route index element={<UserMessages />} />
-              <Route path="messages" element={<UserMessages />} />
-              <Route path="friends" element={<UserFriends />} />
+            <Route
+              path="/users/:id"
+              element={
+                <RequireAuthProvider>
+                  <UserProfile />
+                </RequireAuthProvider>
+              }
+            >
+              <Route index element={<Navigate to="messages" replace />} />
+              <Route
+                path="messages"
+                element={
+                  <RequireAuthProvider>
+                    <UserMessages />
+                  </RequireAuthProvider>
+                }
+              />
+              <Route
+                path="friends"
+                element={
+                  <RequireAuthProvider>
+                    <UserFriends />
+                  </RequireAuthProvider>
+                }
+              />
             </Route>
           </Route>
         </Routes>
