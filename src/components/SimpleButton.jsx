@@ -2,8 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./SimpleButton.css";
 
-const SimpleButton = ({ onClick, label, className = "" }) => (
-  <button onClick={onClick} className={`button${" " + className}`}>
+const SimpleButton = ({ onClick, label, className = "", round }) => (
+  <button
+    onClick={onClick}
+    className={`button${" " + className + (round ? " round" : "")}`}
+  >
     {label}
   </button>
 );

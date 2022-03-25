@@ -12,6 +12,11 @@
   padding: 0.5rem;
 }
 
+.button.round {
+  border-radius: 50%;
+  display: flex;
+}
+
 .button:hover {
   cursor: pointer;
   transform: scale(1.025);
