@@ -8,6 +8,8 @@ export const fakeUserGen = () => {
     profileLink: `/users/${id}`,
     picture: faker.internet.avatar(),
     description: faker.hacker.phrase(),
+    messagesCount: faker.datatype.number({ min: 10, max: 3000 }),
+    friendsCount: faker.datatype.number({ min: 10, max: 3000 }),
     id,
   };
 };

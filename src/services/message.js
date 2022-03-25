@@ -1,5 +1,4 @@
 import faker from "@faker-js/faker";
-import { areFriends } from "./friend";
 import { fakeUser, fakeUserGen } from "./user";
 
 export const createMessage = (uid, msg) => {
@@ -16,18 +15,17 @@ export const getMessages = (uid = null, fromHimself = false) => {
   const fakeUserProfile = fakeUserGen();
 
   const placeholder = Array.from({ length }, () => {
-    const author = {};
-    const fakeUser = uid === null ? fakeUserGen() : fakeUserProfile;
-    for (const [prop, val] of Object.entries(fakeUser)) {
-      const propName = prop.charAt(0).toUpperCase() + prop.slice(1);
-      author[`author${propName}`] = val;
-    }
+    const author =
+      uid === null
+        ? fakeUserGen()
+        : fakeUser.id === uid
+        ? fakeUser
+        : fakeUserProfile;
 
     return {
-      ...author,
+      author,
       id: faker.datatype.uuid(),
       message: faker.lorem.paragraph(),
-      author: fakeUser.name,
       date: faker.date.past().toISOString(),
       action: (...args) => console.log(args),
     };

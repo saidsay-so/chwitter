@@ -2,9 +2,9 @@ import faker from "@faker-js/faker";
 import { fakeUserGen } from "./user";
 
 export const areFriends = (uid1, uid2) => {
-  if (uid1 === uid2) return false;
+  if (uid1 === uid2) return Promise.resolve(false);
 
-  return faker.datatype.boolean();
+  return Promise.resolve(faker.datatype.boolean());
 };
 
 export const getFriends = (uid, mainUid = null) => {
