@@ -6,20 +6,17 @@ body,
 
 .main-layout {
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
   height: 100%;
-}
-
-.main-layout .panel {
-  min-width: fit-content;
 }
 
 .main-layout main {
   display: flex;
+  overflow: hidden;
   flex: auto;
-  overflow: auto;
 }
 
 .main-layout main > * {
-  flex: auto;
+  overflow: auto;
+  width: 100%;
 }

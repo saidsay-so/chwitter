@@ -43,15 +43,16 @@
 }
 
 .user-profile .profile-nav .profile-link {
+  --font-size: 1.25rem;
+
   font-weight: bold;
-  font-size: 1.25rem !important;
+  font-size: var(--font-size);
   padding: 0.5rem;
   transition: border-bottom 100ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .user-profile .profile-nav .profile-link .react-icon {
-  width: 1rem !important;
-  height: 1rem !important;
+  --icon-size: var(--font-size);
 }
 
 .user-profile .profile-nav .profile-link > * {

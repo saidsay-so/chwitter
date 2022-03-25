@@ -48,6 +48,13 @@ code {
     monospace;
 }
 
+.react-icon {
+  --icon-size: 100%;
+
+  height: var(--icon-size);
+  width: var(--icon-size);
+}
+
 .responsive-container {
   flex: auto;
   padding: 0 3rem;

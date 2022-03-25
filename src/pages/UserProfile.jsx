@@ -25,8 +25,6 @@ const UserProfile = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const label = isFriend ? "➖ Supprimer des amis" : "➕ Ajouter aux amis";
-
   useAsyncEffect(
     async (stillMounted) => {
       setIsLoading(true);
