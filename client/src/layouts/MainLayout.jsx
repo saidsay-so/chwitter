@@ -6,7 +6,7 @@ import { useAuth } from "../providers/AuthProvider";
 import { IconContext } from "react-icons";
 import { useRef } from "react";
 
-const MainLayout = ({}) => {
+const MainLayout = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const isConnected = user !== null;

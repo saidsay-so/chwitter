@@ -4,9 +4,11 @@ import Item from "./NavigationPanelItem";
 import { Link } from "react-router-dom";
 import { MdAdd, MdLogout } from "react-icons/md";
 import { ImSearch } from "react-icons/im";
-import { IconContext } from "react-icons";
 import Avatar from "./Avatar";
 
+/**
+ * Panneau de navigation contenant les actions principales
+ */
 const NavigationPanel = ({
   signOut,
   createMessage,
@@ -36,11 +38,28 @@ const NavigationPanel = ({
 export default NavigationPanel;
 
 NavigationPanel.propTypes = {
+  /**
+   * Fontion de déconnextion
+   */
   signOut: PropTypes.func.isRequired,
+  /**
+   * Fontion pour afficher le champ d'envoi de message
+   */
   createMessage: PropTypes.func.isRequired,
-  picture: PropTypes.string,
-  name: PropTypes.string,
-  profileLink: PropTypes.string,
-  isConnected: PropTypes.bool.isRequired,
+  /**
+   * Lien vers la page d'accueil
+   */
   homePage: PropTypes.string.isRequired,
+  /**
+   * Lien vers la photo de profil du lecteur
+   */
+  picture: PropTypes.string,
+  /**
+   * Nom du lecteur
+   */
+  name: PropTypes.string,
+  /**
+   * Lien vers le profil du lecteur
+   */
+  profileLink: PropTypes.string,
 };

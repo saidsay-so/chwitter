@@ -3,8 +3,12 @@ import "./MessageArea.css";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import { IconContext } from "react-icons";
 import { useState } from "react";
+import PropTypes from "prop-types";
 
-export default function MessageArea({ id, onSubmit, refArea }) {
+/**
+ * Champ de saisie du message
+ */
+const MessageArea = ({ id, onSubmit, refArea }) => {
   const [message, setMessage] = useState("");
 
   return (
@@ -48,4 +52,22 @@ export default function MessageArea({ id, onSubmit, refArea }) {
       </form>
     </div>
   );
-}
+};
+
+export default MessageArea;
+
+MessageArea.propTypes = {
+  /**
+   * ID pour l'ancre
+   */
+  id: PropTypes.string,
+  /**
+   * Appelé lors de la soumission du message
+   * @param {string} message
+   */
+  onSubmit: PropTypes.func.isRequired,
+  /**
+   * Objet ref 
+   */
+  ref: PropTypes.any.isRequired,
+};

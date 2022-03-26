@@ -6,6 +6,9 @@ import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
 import User from "./User";
 
+/**
+ * Affiche un message
+ */
 const Message = ({
   message,
   author: { name, profileLink, picture, description },
@@ -21,14 +24,14 @@ const Message = ({
         {name}
       </Link>
       <div className="user-details">
-          <User
-            isFriend={isFriend}
-            friendAction={friendAction ?? undefined}
-            description={description}
+        <User
+          isFriend={isFriend}
+          friendAction={friendAction ?? undefined}
+          description={description}
           name={name}
           picture={picture}
           profileLink={profileLink}
-          />
+        />
       </div>
     </div>
     <p className="message">{message}</p>
@@ -48,11 +51,33 @@ const Message = ({
 export default Message;
 
 Message.propTypes = {
+  /**
+   * Message
+   */
   message: PropTypes.string.isRequired,
-  authorPicture: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  authorProfileLink: PropTypes.string.isRequired,
+  /**
+   * Auteur
+   */
+  author: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    profileLink: PropTypes.string.isRequired,
+    picture: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+  }).isRequired,
+  /**
+   * Date de création
+   */
   date: PropTypes.string.isRequired,
+  /**
+   * Indique si il s'agit d'un ami
+   */
   isFriend: PropTypes.bool.isRequired,
+  /**
+   * Appelé lors de la pression du bouton d'ajout/suppression
+   */
   friendAction: PropTypes.func.isRequired,
+  /**
+   * Indique si l'auteur du message est le lecteur
+   */
+  fromHimself: PropTypes.bool.isRequired,
 };

@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 import "./NavigationPanelItem.css";
 
 const Item = ({ icon, text, link, action }) => {
@@ -17,3 +18,13 @@ const Item = ({ icon, text, link, action }) => {
 };
 
 export default Item;
+
+Item.propTypes = {
+  /**
+   * 
+   */
+  icon: PropTypes.oneOfType(PropTypes.element, PropTypes.string),
+  text: PropTypes.string,
+  link: PropTypes.string,
+  action: PropTypes.func,
+};

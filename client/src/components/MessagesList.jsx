@@ -22,9 +22,20 @@ const MessagesList = ({ messages, friendAction, isFriend, fromHimself }) => {
 export default MessagesList;
 
 MessagesList.propTypes = {
+  /**
+   * Liste des messages
+   */
   messages: PropTypes.array.isRequired,
+  /**
+   * Action d'ajout/suppression d'ami
+   */
   friendAction: PropTypes.func.isRequired,
+  /**
+   * Indique si c'est un ami (lorsqu'il y n'y a qu'un seul auteur)
+   */
   isFriend: PropTypes.bool,
+  /**
+   * Indique si l'auteur est le lecteur (lorsqu'il y n'y a qu'un seul auteur)
+   */
   fromHimself: PropTypes.bool,
-  mainUid: PropTypes.string,
 };

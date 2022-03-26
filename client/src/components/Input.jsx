@@ -2,6 +2,9 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import "./Input.css";
 
+/**
+ * Champ de saisie de texte.
+ */
 const Input = ({
   name,
   label,
@@ -28,6 +31,7 @@ const Input = ({
         placeholder={placeholder}
         value={value}
         onChange={(ev) => listener(ev.target.value)}
+        required={required}
       />
       <label htmlFor={name}>
         {label}
@@ -40,11 +44,18 @@ const Input = ({
 export default Input;
 
 Input.propTypes = {
+  /**
+   *
+   */
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   type: PropTypes.string,
-  listener: PropTypes.func.isRequired,
   required: PropTypes.bool,
+  /**
+   * Appelé lors d'une modification.
+   * @param {string} input Valeur
+   */
+  listener: PropTypes.func.isRequired,
 };
