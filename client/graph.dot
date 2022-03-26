@@ -1,0 +1,61 @@
+strict digraph "dependency-cruiser output"{
+    ordering="out" rankdir="TD" splines="ortho" overlap="false" nodesep="0.2" ranksep="0.18" fontname="IBM Plex Sans Bold" fontsize="9" style="" fillcolor="transparent" compound="true" bgcolor="dodgerblue" color="white" fontcolor="white" concentrate="true"
+    node [shape="record" style="rounded, filled" height="0.2" color="white" fillcolor="#ffffff33" fontcolor="white" fontname="IBM Plex Sans" fontsize="9"]
+    edge [arrowhead="vee" arrowsize="0.5" penwidth="1" color="white" fontname="Helvetica" fontsize="9" fontcolor="white"]
+
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/Avatar.jsx" [label="<comp>Avatar.jsx|<props>
+profileLink: string\npicture: string\nname: string" tooltip="Avatar.jsx" URL="src/components/Avatar.jsx" fillcolor="#2258aa"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/FriendButton.jsx" [label="<comp>FriendButton.jsx|<props>
+action: function\nisFriend: boolean\nclassName: string" tooltip="FriendButton.jsx" URL="src/components/FriendButton.jsx" fillcolor="#2258aa"] } }
+    "src/components/FriendButton.jsx" -> "src/components/SimpleButton.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/Input.jsx" [label="<comp>Input.jsx|<props>
+name: string\nlabel: string\nvalue: string\nplaceholder: string\ntype: string\nrequired: boolean\nlistener: function" tooltip="Input.jsx" URL="src/components/Input.jsx" fillcolor="#2258aa"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/Message.jsx" [label="<comp>Message.jsx|<props>
+message: string\nauthor: shape\nname: string\nprofileLink: string\npicture: string\ndescription: string\ndate: string\nisFriend: boolean\nfriendAction: function\ndate: string\nisFriend: boolean\nfriendAction: function\nfromHimself: boolean" tooltip="Message.jsx" URL="src/components/Message.jsx" fillcolor="#2258aa"] } }
+    "src/components/Message.jsx" -> "src/components/Avatar.jsx"
+    "src/components/Message.jsx" -> "src/components/SimpleButton.jsx"
+    "src/components/Message.jsx" -> "src/components/User.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/MessageArea.jsx" [label="<comp>MessageArea.jsx|<props>
+id: string\nonSubmit: function\nref: any" tooltip="MessageArea.jsx" URL="src/components/MessageArea.jsx" fillcolor="#2258aa"] } }
+    "src/components/MessageArea.jsx" -> "src/components/SimpleButton.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/MessagesList.jsx" [label="<comp>MessagesList.jsx|<props>
+messages: array\nfriendAction: function\nisFriend: boolean\nfromHimself: boolean" tooltip="MessagesList.jsx" URL="src/components/MessagesList.jsx" fillcolor="#2258aa"] } }
+    "src/components/MessagesList.jsx" -> "src/components/Message.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/NavigationPanel.jsx" [label="<comp>NavigationPanel.jsx|<props>
+signOut: function\ncreateMessage: function\nhomePage: string\npicture: string\nname: string\nprofileLink: string" tooltip="NavigationPanel.jsx" URL="src/components/NavigationPanel.jsx" fillcolor="#2258aa"] } }
+    "src/components/NavigationPanel.jsx" -> "src/components/Avatar.jsx"
+    "src/components/NavigationPanel.jsx" -> "src/components/NavigationPanelItem.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/NavigationPanelItem.jsx" [label="<comp>NavigationPanelItem.jsx|<props>
+icon: oneOfType\ntext: string\nlink: string\naction: function" tooltip="NavigationPanelItem.jsx" URL="src/components/NavigationPanelItem.jsx" fillcolor="#2258aa"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/SimpleButton.jsx" [label="<comp>SimpleButton.jsx|<props>
+onClick: function\nclassName: string\nlabel: string\nround: boolean" tooltip="SimpleButton.jsx" URL="src/components/SimpleButton.jsx" fillcolor="#2258aa"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/User.jsx" [label="<comp>User.jsx|<props>
+isFriend: boolean\nprofileLink: string\npicture: string\nname: string\ndescription: string\naction: function" tooltip="isFriend, profileLink, picture, name, description, action" URL="src/components/User.jsx" fillcolor="#2258aa"] } }
+    "src/components/User.jsx" -> "src/components/Avatar.jsx"
+    "src/components/User.jsx" -> "src/components/FriendButton.jsx"
+    "src/components/User.jsx" -> "src/components/SimpleButton.jsx"
+    subgraph "cluster_src" {label="src" "src/index.js" [label=<index.js> tooltip="index.js" URL="src/index.js" ] }
+    "src/index.js" -> "src/layouts/MainLayout.jsx"
+    "src/layouts/MainLayout.jsx" -> "src/pages/Login.jsx"
+    "src/layouts/MainLayout.jsx" -> "src/pages/MainPage.jsx"
+    "src/layouts/MainLayout.jsx" -> "src/pages/UserProfile.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/layouts" {label="layouts" "src/layouts/MainLayout.jsx" [label=<MainLayout.jsx> tooltip="MainLayout.jsx" URL="src/layouts/MainLayout.jsx" fillcolor="#2258aa"] } }
+    "src/layouts/MainLayout.jsx" -> "src/components/NavigationPanel.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/HomeFeed.jsx" [label=<HomeFeed.jsx> tooltip="HomeFeed.jsx" URL="src/pages/HomeFeed.jsx" fillcolor="#2258aa"] } }
+    "src/pages/HomeFeed.jsx" -> "src/components/MessageArea.jsx"
+    "src/pages/HomeFeed.jsx" -> "src/components/MessagesList.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/Login.jsx" [label=<Login.jsx> tooltip="Login.jsx" URL="src/pages/Login.jsx" fillcolor="#2258aa"] } }
+    "src/pages/Login.jsx" -> "src/components/Input.jsx"
+    "src/pages/Login.jsx" -> "src/components/SimpleButton.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/MainPage.jsx" [label=<MainPage.jsx> tooltip="MainPage.jsx" URL="src/pages/MainPage.jsx" fillcolor="#2258aa"] } }
+    "src/pages/MainPage.jsx" -> "src/pages/HomeFeed.jsx"
+    "src/pages/MainPage.jsx" -> "src/pages/Login.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/UserProfile.jsx" [label=<UserProfile.jsx> tooltip="UserProfile.jsx" URL="src/pages/UserProfile.jsx" fillcolor="#2258aa"] } }
+    "src/pages/UserProfile.jsx" -> "src/components/FriendButton.jsx"
+    "src/pages/UserProfile.jsx" -> "src/pages/user/Friends.jsx"
+    "src/pages/UserProfile.jsx" -> "src/pages/user/Messages.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/user" {label="user" "src/pages/user/Friends.jsx" [label=<Friends.jsx> tooltip="Friends.jsx" URL="src/pages/user/Friends.jsx" fillcolor="#2258aa"] } } }
+    "src/pages/user/Friends.jsx" -> "src/components/User.jsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/user" {label="user" "src/pages/user/Messages.jsx" [label=<Messages.jsx> tooltip="Messages.jsx" URL="src/pages/user/Messages.jsx" fillcolor="#2258aa"] } } }
+    "src/pages/user/Messages.jsx" -> "src/components/MessagesList.jsx"
+}
