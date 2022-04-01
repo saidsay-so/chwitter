@@ -2,6 +2,9 @@ import PropTypes from "prop-types";
 import Message from "./Message";
 import "./MessagesList.css";
 
+/**
+ * Affiche une liste de messages
+ */
 const MessagesList = ({ messages, friendAction, isFriend, fromHimself }) => {
   return (
     <ul className="messages">

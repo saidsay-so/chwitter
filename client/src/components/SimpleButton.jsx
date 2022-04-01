@@ -17,11 +17,14 @@ const SimpleButton = ({ onClick, label, className = "", round }) => (
 export default SimpleButton;
 
 SimpleButton.propTypes = {
+  /**
+   * Champ standard
+   */
   onClick: PropTypes.func.isRequired,
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
   /**
-   * Indique si le bouton doit être arrondi.
+   * Indique si le bouton doit être arrondi
    */
   round: PropTypes.bool,
 };

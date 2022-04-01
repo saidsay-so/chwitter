@@ -3,7 +3,7 @@ import "./FriendButton.css";
 import PropTypes from "prop-types";
 
 /**
- * Spécialisation de [SimpleButton](#simplebutton) avec une étiquette pour l'ajout/suppression d'amis.
+ * Spécialisation de [SimpleButton](#simplebutton) avec une étiquette pour l'ajout/suppression d'amis
  */
 const FriendButton = ({ action, isFriend, className }) => (
   <SimpleButton

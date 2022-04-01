@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./Avatar.css";
 
 /**
- * Affiche une photo de profil avec une bordure arrondi.
+ * Affiche une photo de profil avec une bordure arrondie
  */
 const Avatar = ({ profileLink, picture, name }) => (
   <div className="avatar">

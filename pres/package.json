@@ -1,0 +1,23 @@
+{
+  "name": "pres",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "@mdx-deck/export": "^2.5.1",
+    "mdx-deck": "^4.1.1"
+  },
+  "scripts": {
+    "start": "mdx-deck deck.mdx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/musikid/48teur.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/musikid/48teur/issues"
+  },
+  "homepage": "https://github.com/musikid/48teur#readme"
+}

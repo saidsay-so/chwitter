@@ -3,7 +3,7 @@ import { useState } from "react";
 import "./Input.css";
 
 /**
- * Champ de saisie de texte.
+ * Champ de saisie de texte
  */
 const Input = ({
   name,
@@ -45,16 +45,31 @@ export default Input;
 
 Input.propTypes = {
   /**
-   *
+   * Champ standard
    */
   name: PropTypes.string.isRequired,
+  /**
+   * Champ standard
+   */
   label: PropTypes.string,
+  /**
+   * Champ standard
+   */
   value: PropTypes.string.isRequired,
+  /**
+   * Champ standard
+   */
   placeholder: PropTypes.string,
+  /**
+   * Champ standard
+   */
   type: PropTypes.string,
+  /**
+   * Champ standard
+   */
   required: PropTypes.bool,
   /**
-   * Appelé lors d'une modification.
+   * Appelé lors d'une modification
    * @param {string} input Valeur
    */
   listener: PropTypes.func.isRequired,
