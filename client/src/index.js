@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./index.css";
 import MainLayout from "./layouts/MainLayout";
@@ -13,7 +13,8 @@ import UserMessages from "./pages/user/Messages";
 import UserFriends from "./pages/user/Friends";
 import { Navigate } from "react-router-dom";
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root"));
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
@@ -51,8 +52,7 @@ ReactDOM.render(
         </Routes>
       </AuthProvider>
     </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
