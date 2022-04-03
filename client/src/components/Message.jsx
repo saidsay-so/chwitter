@@ -26,7 +26,7 @@ const Message = ({
   const [isLiked, setisLiked] = useState(false);
 
   return (
-    <article className="message-container">
+    <article className={cx("message-container", { isLiked })}>
       <div className="author-info">
         <div className="avatar-container">
           <Avatar profileLink={profileLink} picture={picture} name={name} />
@@ -47,7 +47,7 @@ const Message = ({
       </div>
       <p className="message">{message}</p>
       <div className="metadata">
-        <span className={cx("likes", { isLiked })}>
+        <span className="likes">
           <button
             onClick={() => {
               setisLiked(!isLiked);
