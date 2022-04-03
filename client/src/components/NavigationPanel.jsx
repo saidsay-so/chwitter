@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import "./NavigationPanel.css";
-import Item from "./NavigationPanelItem";
-import { Link } from "react-router-dom";
+import "./NavigationPanelItem.css";
+import { Link, NavLink } from "react-router-dom";
 import { MdAdd, MdLogout } from "react-icons/md";
 import { ImSearch } from "react-icons/im";
 import Avatar from "./Avatar";
@@ -28,12 +28,33 @@ const NavigationPanel = ({
       </button>
     </div>
     <menu className="panel-actions">
-      <Avatar picture={picture} profileLink={profileLink} name={name} />
-      <Item icon={<MdAdd />} text="Créer un message" action={createMessage} />
-      <Item icon={<MdLogout />} text="Se déconnecter" action={signOut} />
+      <div title={name}>
+        <Avatar picture={picture} profileLink={profileLink} name={name} />
+      </div>
+      <NavigationPanel.Item icon={<MdAdd />} text="Créer un message" action={createMessage} />
+      <NavigationPanel.Item icon={<MdLogout />} text="Se déconnecter" action={signOut} />
     </menu>
   </aside>
 );
+
+/**
+ * Élément constituant le panneau de navigation
+ */
+NavigationPanel.Item = ({ icon, text, link, action }) => {
+  const Element = action ? "div" : NavLink;
+  const props = action ? { onClick: action } : { to: link };
+
+  return (
+    <li title={text} className="panel-item">
+      <button className="panel-button">
+        <Element {...props} className="action-wrapper">
+          <span className="icon">{icon}</span>
+        </Element>
+      </button>
+    </li>
+  );
+};
+
 
 export default NavigationPanel;
 
@@ -62,4 +83,14 @@ NavigationPanel.propTypes = {
    * Lien vers le profil du lecteur
    */
   profileLink: PropTypes.string,
+};
+
+NavigationPanel.Item.propTypes = {
+  /**
+   * 
+   */
+  icon: PropTypes.oneOfType(PropTypes.element, PropTypes.string),
+  text: PropTypes.string,
+  link: PropTypes.string,
+  action: PropTypes.func,
 };
