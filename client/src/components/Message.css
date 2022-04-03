@@ -5,8 +5,8 @@
 }
 
 .message-container .message {
-  font-weight: 300;
-  font-family: "Lato";
+  font-family: "Open Sans";
+  font-size: 0.9rem;
 }
 
 .message-container .author-info {
@@ -17,7 +17,7 @@
 
 .message-container .author-info .author {
   align-self: center;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .message-container .author-info .user-details {
@@ -34,13 +34,16 @@
   align-items: flex-end;
   gap: 1rem;
   font-size: 0.9rem;
+  font-family: "Open Sans";
 }
 
 .message-container .metadata .likes {
   gap: 0.45rem;
   display: inline-flex;
-  transition: color 175ms ease;
-  color: var(--icon);
+  transition: color 250ms ease;
+
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 .message-container .metadata .likes.isLiked,
@@ -51,7 +54,6 @@
 .message-container .metadata .likes .like-button {
   background: none;
   border: none;
-  transition: color 175ms ease;
 }
 
 .message-container .metadata .likes .like-button:hover {
@@ -59,10 +61,21 @@
   color: var(--pink);
 }
 
-.message-container .metadata .likes .like-button > * {
-  width: 1rem;
+.message-container .metadata .likes .like-button .like-icon {
+  width: 1.2rem;
   vertical-align: middle;
-  height: 1rem;
+  height: 1.2rem;
+  transition: transform 175ms cubic-bezier(0.19, 1, 0.22, 1),
+    color 175ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.message-container .metadata .likes .like-button .like-icon.enter {
+  transform: scale(0);
+}
+
+.message-container .metadata .likes .like-button .like-icon.exit {
+  transform: scale(1.33);
+  color: var(--pink);
 }
 
 .message-container .metadata .action {
@@ -78,7 +91,7 @@
 }
 
 .message-container .metadata .date {
-  font-weight: 200;
+  font-weight: 300;
 }
 
 @media screen and (min-width: 768px) {
