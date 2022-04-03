@@ -31,10 +31,9 @@ const MessageArea = ({ id, onSubmit, refArea }) => {
           name="message"
           className="message-area"
           placeholder="Écrire un message..."
-          onInput={(e) => {
-            setMessage(e.target.value);
-          }}
+          onInput={(e) => setMessage(e.target.value)}
           required
+          autoFocus
           value={message}
         ></textarea>
         <SimpleButton
@@ -67,7 +66,7 @@ MessageArea.propTypes = {
    */
   onSubmit: PropTypes.func.isRequired,
   /**
-   * Objet ref 
+   * Objet ref
    */
   ref: PropTypes.any.isRequired,
 };
