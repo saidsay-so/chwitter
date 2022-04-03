@@ -1,13 +1,13 @@
 .login {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  padding: 3rem 0 5rem 0;
+  padding: 10rem 0 10rem 0;
 }
 
 .login .input-container {
   display: flex;
-  margin: auto 4rem;
   flex-direction: column;
   gap: 1rem;
 }

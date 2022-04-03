@@ -41,18 +41,6 @@ const Login = () => {
     <div className="login">
       <h1>{text.action}</h1>
       <form className="input-container" onSubmit={loginAction}>
-        <div className="invert-container">
-          <p className="text">{text.below}</p>
-          <SimpleButton
-            className="button"
-            label={text.invert}
-            onClick={(e) => {
-              e.preventDefault();
-              setRegisterView(!registerView);
-            }}
-          ></SimpleButton>
-        </div>
-
         <Input
           name="login"
           label="Login"
@@ -83,6 +71,17 @@ const Login = () => {
           <SimpleButton label={text.action} />
         </div>
       </form>
+      <div className="invert-container">
+        <p className="text">{text.below}</p>
+        <SimpleButton
+          className="button"
+          label={text.invert}
+          onClick={(e) => {
+            e.preventDefault();
+            setRegisterView(!registerView);
+          }}
+        ></SimpleButton>
+      </div>
     </div>
   );
 };
