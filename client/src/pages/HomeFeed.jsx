@@ -41,7 +41,11 @@ export default function HomeFeed() {
           id="search"
           onSubmit={createMessage.bind(null, uid)}
         />
-        <MessagesList messages={messages} friendAction={console.log} />
+        <MessagesList
+          messages={messages}
+          friendAction={console.log}
+          likeAction={console.log}
+        />
       </div>
     </div>
   );

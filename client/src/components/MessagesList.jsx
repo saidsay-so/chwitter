@@ -5,16 +5,15 @@ import "./MessagesList.css";
 /**
  * Affiche une liste de messages
  */
-const MessagesList = ({ messages, friendAction, isFriend, fromHimself }) => {
+const MessagesList = ({ messages, friendAction, likeAction }) => {
   return (
     <ul className="messages">
       {messages.map((msg) => (
         <li key={msg.id}>
           <Message
-            isFriend={isFriend}
+            friendAction={friendAction?.bind(null, msg.authorId)}
+            likeAction={likeAction?.bind(null, msg.id)}
             {...msg}
-            fromHimself={fromHimself}
-            action={friendAction.bind(null, msg.authorId)}
           />
         </li>
       ))}
@@ -32,7 +31,7 @@ MessagesList.propTypes = {
   /**
    * Action d'ajout/suppression d'ami
    */
-  friendAction: PropTypes.func.isRequired,
+  friendAction: PropTypes.func,
   /**
    * Indique si c'est un ami (lorsqu'il y n'y a qu'un seul auteur)
    */

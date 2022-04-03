@@ -5,6 +5,8 @@ import SimpleButton from "./SimpleButton";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
 import User from "./User";
+import { BsHeartFill, BsHeart } from "react-icons/bs";
+import cx from "classnames";
 
 /**
  * Affiche un message
@@ -16,10 +18,15 @@ const Message = ({
   isFriend,
   friendAction,
   fromHimself,
+  likes = "69",
+  isLiked,
+  likeAction,
 }) => (
   <article className="message-container">
     <div className="author-info">
-      <Avatar profileLink={profileLink} picture={picture} name={name} />
+      <div className="avatar-container">
+        <Avatar profileLink={profileLink} picture={picture} name={name} />
+      </div>
       <Link to={profileLink} className="author">
         {name}
       </Link>
@@ -36,18 +43,26 @@ const Message = ({
     </div>
     <p className="message">{message}</p>
     <div className="metadata">
+      <span className={cx("likes", { isLiked })}>
+        <button
+          onClick={() => {
+            isLiked = true;
+          }}
+          className="like-button"
+        >
+          {isLiked ? <BsHeartFill /> : <BsHeart />}
+        </button>
+        {likes}
+      </span>
       <span className="date">{date}</span>
-      {!(isFriend || fromHimself) && (
-        <SimpleButton
-          label="➕ Ajouter"
-          className="action"
-          onClick={friendAction ?? undefined}
-        />
-      )}
+      <SimpleButton
+        label="➕ Ajouter"
+        className={cx("action", { isVisible: !(isFriend || fromHimself) })}
+        onClick={friendAction ?? undefined}
+      />
     </div>
   </article>
 );
-
 export default Message;
 
 Message.propTypes = {
@@ -73,7 +88,7 @@ Message.propTypes = {
    */
   isFriend: PropTypes.bool.isRequired,
   /**
-   * Appelé lors de la pression du bouton d'ajout/suppression
+   * Appelé lors de la pression du bouton d'ajout/suppression d'ami
    */
   friendAction: PropTypes.func.isRequired,
   /**
