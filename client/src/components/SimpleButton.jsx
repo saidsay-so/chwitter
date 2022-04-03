@@ -1,16 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./SimpleButton.css";
+import cx from "classnames";
 
 /**
  * Bouton
  */
-const SimpleButton = ({ onClick, label, className = "", round }) => (
+const SimpleButton = ({
+  onClick,
+  label,
+  className,
+  round,
+  children,
+  ...props
+}) => (
   <button
+    {...props}
     onClick={onClick}
-    className={`button${" " + className + (round ? " round" : "")}`}
+    className={cx("button", className, { round })}
   >
-    {label}
+    {label || children}
   </button>
 );
 
