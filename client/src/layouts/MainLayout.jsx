@@ -17,13 +17,12 @@ const MainLayout = () => {
   const scrollToArea = () => {
     if (refMessageArea.current === null) requestAnimationFrame(scrollToArea);
 
-    //TODO: We should probably use `requestAnimationFrame` here too
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       refMessageArea.current?.scrollIntoView({
         behavior: "smooth",
       });
       refMessageArea.current?.focus();
-    }, 250);
+    });
   };
 
   const createMessage = () => {
