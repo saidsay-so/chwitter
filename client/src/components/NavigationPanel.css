@@ -1,7 +1,25 @@
 .panel {
-  --element-size: 1.5rem;
+  --element-size: 1.66rem;
 
-  display: none;
+  display: flex;
+  position: sticky;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 0.125rem solid var(--grey-light);
+  padding: 0.25rem;
+}
+
+.panel .title {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.panel .title .logo {
+  width: calc(var(--element-size) * 1.25);
+  height: calc(var(--element-size) * 1.25);
+  vertical-align: middle;
 }
 
 .panel .avatar {
@@ -13,43 +31,17 @@
   list-style-type: none;
   align-items: center;
   padding-left: 0;
-  gap: 1rem;
-}
-
-.panel .user-info {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.panel .connected {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.panel .create-message {
-  flex: auto;
-  padding: 0 1rem;
+  gap: 0.75rem;
 }
 
 .panel .search-input {
-  width: 50%;
   position: relative;
+  flex: 1;
+  min-height: var(--element-size);
 }
 
 .panel .search-input input {
-  width: 100%;
-  padding: 0.5rem;
-  padding-right: calc(var(--element-size) + 0.25rem);
-  border: 2px solid var(--grey);
-  background: var(--grey-light);
-  border-radius: 0.25rem;
-}
-
-.panel .search-input input:focus {
-  border: 3px solid var(--primary);
-  outline: none;
+  display: none;
 }
 
 .panel .search-input .search-button {
@@ -63,18 +55,40 @@
   right: 0.25rem;
 }
 
-.panel .search-input input:focus ~ .search-button {
-  color: var(--primary);
-}
-
 @media screen and (min-width: 768px) {
   .panel {
-    display: flex;
-    position: sticky;
-    align-items: center;
-    gap: 1rem;
-    justify-content: space-between;
+    --element-size: 1.5rem;
+
     border-bottom: 0.25rem solid var(--grey-light);
-    padding: 0 2rem;
+    padding: 0.5rem 2rem;
+  }
+
+  .panel .title .logo {
+    width: calc(var(--element-size) * 2);
+    height: calc(var(--element-size) * 2);
+  }
+
+  .panel .search-input {
+    flex: inherit;
+    width: 50vw;
+  }
+
+  .panel .search-input input {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    padding-right: calc(var(--element-size) + 0.25rem);
+    border: 2px solid var(--grey);
+    background: var(--grey-light);
+    border-radius: 0.25rem;
+  }
+
+  .panel .search-input input:focus {
+    border: 3px solid var(--primary);
+    outline: none;
+  }
+
+  .panel .search-input input:focus ~ .search-button {
+    color: var(--primary);
   }
 }
