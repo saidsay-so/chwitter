@@ -1,32 +1,25 @@
 import SimpleButton from "./SimpleButton";
 import "./FriendButton.css";
-import PropTypes from "prop-types";
+import cx from "classnames";
+import { ComponentPropsWithoutRef } from "react";
 
 /**
  * Spécialisation de [SimpleButton](#simplebutton) avec une étiquette pour l'ajout/suppression d'amis
  */
-const FriendButton = ({ action, isFriend, className }) => (
+const FriendButton = ({ isFriend, className, ...props }: FriendButtonProps) => (
   <SimpleButton
-    onClick={action}
-    className={`friend-button${isFriend ? " is-friend" : ""}${
-      className ? " " + className : ""
-    }`}
+    {...props}
+    className={cx("friend-button", className, { "is-friend": isFriend })}
     label={isFriend ? "➖ Supprimer des amis" : "➕ Ajouter aux amis"}
   />
 );
+
 export default FriendButton;
 
-FriendButton.propTypes = {
-  /**
-   * @see Voir [SimpleButton](#simplebutton)
-   */
-  action: PropTypes.func.isRequired,
+interface FriendButtonProps
+  extends ComponentPropsWithoutRef<typeof SimpleButton> {
   /**
    * Indique si il s'agit d'un ami
    */
-  isFriend: PropTypes.bool.isRequired,
-  /**
-   * @see Voir [SimpleButton](#simplebutton)
-   */
-  className: PropTypes.string,
-};
+  isFriend?: boolean;
+}

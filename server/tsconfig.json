@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "target": "ES2016",
+    "moduleResolution": "node",
+    "isolatedModules": true
+  }
+}

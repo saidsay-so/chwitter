@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import MessagesList from "../../components/MessagesList";
-import { getMessages } from "../../services/message";
+import { getMessages, Message } from "../../services/message";
 import { useAsyncEffect } from "../../utils/extra-hooks";
+import { UserProfileOutletContext } from "../UserProfile";
 
 const UserMessages = () => {
-  const { id, isFriend, isHimself, friendAction } = useOutletContext();
+  const { id, isHimself, friendAction, likeAction } =
+    useOutletContext<UserProfileOutletContext>();
 
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useAsyncEffect(
     async (stillMounted) => {
       const messages = await getMessages(id);
 
-      if (stillMounted) {
+      if (stillMounted()) {
         setMessages(messages);
       }
     },
@@ -25,8 +27,8 @@ const UserMessages = () => {
       <MessagesList
         messages={messages}
         fromHimself={isHimself}
-        isFriend={isFriend}
         friendAction={friendAction}
+        likeAction={likeAction}
       />
     </div>
   );

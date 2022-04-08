@@ -1,8 +1,35 @@
-import PropTypes from "prop-types";
 import "./User.css";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
 import FriendButton from "./FriendButton";
+import { MouseEventHandler } from "react";
+
+interface UserProps {
+  /**
+   * Indique si il s'agit d'un ami
+   */
+  isFriend?: boolean;
+  /**
+   * Lien vers le profil du lecteur
+   */
+  profileLink: string;
+  /**
+   * Lien vers la photo de profil de l'utilisateur
+   */
+  avatarLink: string;
+  /**
+   * Nom du lecteur
+   */
+  name: string;
+  /**
+   * Description du lecteur
+   */
+  description: string;
+  /**
+   * Fonction d'ajout/suppression en tant qu'ami
+   */
+  friendAction: VoidFunction;
+}
 
 /**
  * Composant affichant les informations d'un utilisateur
@@ -10,50 +37,23 @@ import FriendButton from "./FriendButton";
 const User = ({
   isFriend,
   profileLink,
-  picture,
+  avatarLink,
   name,
   description,
-  action,
-}) => {
+  friendAction,
+}: UserProps) => {
   return (
     <div className="user">
-      <Avatar profileLink={profileLink} picture={picture} name={name} />
+      <Avatar profileLink={profileLink} picture={avatarLink} name={name} />
       <div className="text">
         <Link to={profileLink} className="name">
           {name}
         </Link>
         <p className="description">{description}</p>
       </div>
-      <FriendButton action={action} isFriend={isFriend} />
+      <FriendButton onClick={friendAction} isFriend={isFriend} />
     </div>
   );
 };
 
 export default User;
-
-User.propTypes = {
-  /**
-   * Indique si il s'agit d'un ami
-   */
-  isFriend: PropTypes.bool,
-  /**
-   * Lien vers le profil du lecteur
-   */
-  profileLink: PropTypes.string.isRequired,
-  /**
-   * Lien vers la photo de profil de l'utilisateur
-   */
-  picture: PropTypes.string.isRequired,
-  /**
-   * Nom du lecteur
-   */
-  name: PropTypes.string.isRequired,
-  /**
-   * Description du lecteur
-   */
-  description: PropTypes.string.isRequired,
-  /**
-   * Fonction d'ajout/suppression en tant qu'ami
-   */
-  action: PropTypes.func.isRequired,
-};

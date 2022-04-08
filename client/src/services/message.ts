@@ -1,15 +1,28 @@
 import faker from "@faker-js/faker";
-import { fakeUser, fakeUserGen } from "./user";
+import { Message as ServerMessageResponse } from "common";
+import { fakeUser, fakeUserGen, User } from "./user";
 
-export const createMessage = (uid, msg) => {
+export interface Message extends ServerMessageResponse {
+  author: User;
+}
+
+export const createMessage = (uid: User["id"], msg: string) => {
   console.log(`Message from ${uid}: ${msg}`);
 };
 
-export const deleteMessage = (uid, id) => {
+export const deleteMessage = (uid: User["id"], id: any) => {
   console.log(`Delete message ${id} for user ${uid}`);
 };
 
-export const getMessages = (uid = null, fromHimself = false) => {
+export const changeLikeStateMessage = (
+  mainUid: User["id"],
+  messageId: Message["id"]
+) => {};
+
+export const getMessages = (
+  uid?: string,
+  fromHimself = false
+): Promise<Message[]> => {
   const length = Math.random() * 20 + 5;
 
   const fakeUserProfile = fakeUserGen();
@@ -25,9 +38,10 @@ export const getMessages = (uid = null, fromHimself = false) => {
     return {
       author,
       id: faker.datatype.uuid(),
-      message: faker.lorem.paragraph(),
-      date: faker.date.past().toISOString(),
-      action: (...args) => console.log(args),
+      content: faker.lorem.paragraph(),
+      likes: faker.datatype.number(),
+      date: faker.date.past().getTime(),
+      action: (...args: any[]) => console.log(args),
     };
   });
 

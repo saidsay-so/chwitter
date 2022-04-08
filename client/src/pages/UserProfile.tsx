@@ -11,15 +11,24 @@ import { MdPeople } from "react-icons/md";
 import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import FriendButton from "../components/FriendButton";
+import { User } from "../services/user";
+import { changeLikeStateMessage, Message } from "../services/message";
+
+export interface UserProfileOutletContext {
+  id: string;
+  isFriend: boolean;
+  isHimself: boolean;
+  friendAction: (uid: User["id"]) => void;
+  likeAction: (mid: Message["id"]) => void;
+  user: User;
+}
 
 const UserProfile = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<User>({} as User);
   const [isFriend, setIsFriend] = useState(false);
 
-  const { id } = useParams();
-  const {
-    user: { id: mainUid },
-  } = useAuth();
+  const id = useParams().id!;
+  const { id: mainUid } = useAuth().user!;
   const isHimself = id === mainUid;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +46,7 @@ const UserProfile = () => {
         fetchUserInfo(id),
       ]);
 
-      if (stillMounted) {
+      if (stillMounted()) {
         setIsFriend(isFriend);
         setUser(user);
         setIsLoading(false);
@@ -52,6 +61,17 @@ const UserProfile = () => {
     id
   );
 
+  const likeAction = changeLikeStateMessage.bind(null, mainUid);
+
+  const outlet: UserProfileOutletContext = {
+    id,
+    isFriend,
+    isHimself,
+    friendAction,
+    likeAction,
+    user,
+  };
+
   if (isLoading) return <h1>Veuillez attendre...</h1>;
 
   return (
@@ -60,15 +80,11 @@ const UserProfile = () => {
         <article className="user-info">
           <div className="user-name-avatar">
             <div className="profile-avatar">
-              <img src={user.picture} alt={user.name} />
+              <img src={user.avatarLink} alt={user.name} />
             </div>
             <div>
-              <h3 className="user-name" to={user.profileLink}>
-                {user.name}
-              </h3>
-              <h4 className="user-pseudo" to={user.profileLink}>
-                @{user.name}
-              </h4>
+              <h3 className="user-name">{user.name}</h3>
+              <h4 className="user-pseudo">@{user.name}</h4>
             </div>
           </div>
           <p className="description">{user.description}</p>
@@ -76,21 +92,21 @@ const UserProfile = () => {
 
         <div>
           {!isHimself && (
-            <FriendButton action={friendAction} isFriend={isFriend} />
+            <FriendButton onClick={friendAction} isFriend={isFriend} />
           )}
         </div>
 
         <nav className="profile-nav">
           <NavLink className="profile-link" to="messages">
-            <AiFillMessage /> {user.messagesCount} Messages
+            <AiFillMessage /> Messages
           </NavLink>
           <NavLink className="profile-link" to="friends">
-            <MdPeople /> {user.friendsCount} Amis
+            <MdPeople /> Amis
           </NavLink>
         </nav>
 
         <section className="content">
-          <Outlet context={{ id, isFriend, isHimself, friendAction, user }} />
+          <Outlet context={outlet} />
         </section>
       </div>
     </div>

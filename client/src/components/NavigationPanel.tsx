@@ -1,12 +1,40 @@
 import PropTypes from "prop-types";
 import "./NavigationPanel.css";
 import "./NavigationPanelAction.css";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, NavLinkProps } from "react-router-dom";
 import { MdAdd, MdLogout } from "react-icons/md";
 import { ImSearch } from "react-icons/im";
 import Avatar from "./Avatar";
 import cx from "classnames";
-import { useState } from "react";
+import { MouseEventHandler, ReactElement, useState } from "react";
+import { ReactNode } from "react";
+
+interface PanelProps {
+  /**
+   * Fontion de déconnextion
+   */
+  signOut: () => void;
+  /**
+   * Fontion pour afficher le champ d'envoi de message
+   */
+  createMessage: () => void;
+  /**
+   * Lien vers la page d'accueil
+   */
+  homePage: string;
+  /**
+   * Lien vers la photo de profil du lecteur
+   */
+  avatarLink: string;
+  /**
+   * Nom du lecteur
+   */
+  name: string;
+  /**
+   * Lien vers le profil du lecteur
+   */
+  profileLink: string;
+}
 
 /**
  * Panneau de navigation contenant les actions principales
@@ -15,10 +43,10 @@ const NavigationPanel = ({
   signOut,
   createMessage,
   homePage,
-  picture,
+  avatarLink,
   name,
   profileLink,
-}) => (
+}: PanelProps) => (
   <aside className="panel">
     <div className="title">
       <Link to={homePage}>
@@ -33,7 +61,7 @@ const NavigationPanel = ({
     </div>
     <div className="panel-actions">
       <div title={name}>
-        <Avatar picture={picture} profileLink={profileLink} name={name} />
+        <Avatar picture={avatarLink} profileLink={profileLink} name={name} />
       </div>
       <NavigationPanel.Action
         icon={<MdAdd />}
@@ -48,12 +76,32 @@ const NavigationPanel = ({
     </div>
   </aside>
 );
+
+interface BasePanelActionProps {
+  icon: ReactNode;
+  text: string;
+}
+
+interface ActionPanelActionProps extends BasePanelActionProps {
+  link?: never;
+  action: MouseEventHandler;
+}
+
+interface LinkPanelActionProps extends BasePanelActionProps {
+  link: NavLinkProps["to"];
+  action?: never;
+}
+
+type PanelActionProps = ActionPanelActionProps | LinkPanelActionProps;
+
 /**
  * Élément constituant le panneau de navigation
  */
-NavigationPanel.Action = ({ icon, text, link, action }) => {
-  const Element = action ? "div" : NavLink;
-  const props = action ? { onClick: action } : { to: link };
+NavigationPanel.Action = ({ icon, text, link, action }: PanelActionProps) => {
+  const Element = link ? NavLink : "div";
+  //TODO: Typescript seems unable to discriminate between navlink and div props
+  type Props = { to: NavLinkProps["to"]; onClick: typeof action };
+  const props: Props = (link ? { to: link } : { onClick: action }) as Props;
 
   return (
     <li title={text} className="panel-action">
@@ -67,40 +115,3 @@ NavigationPanel.Action = ({ icon, text, link, action }) => {
 };
 
 export default NavigationPanel;
-
-NavigationPanel.propTypes = {
-  /**
-   * Fontion de déconnextion
-   */
-  signOut: PropTypes.func.isRequired,
-  /**
-   * Fontion pour afficher le champ d'envoi de message
-   */
-  createMessage: PropTypes.func.isRequired,
-  /**
-   * Lien vers la page d'accueil
-   */
-  homePage: PropTypes.string.isRequired,
-  /**
-   * Lien vers la photo de profil du lecteur
-   */
-  picture: PropTypes.string,
-  /**
-   * Nom du lecteur
-   */
-  name: PropTypes.string,
-  /**
-   * Lien vers le profil du lecteur
-   */
-  profileLink: PropTypes.string,
-};
-
-NavigationPanel.Action.propTypes = {
-  /**
-   *
-   */
-  icon: PropTypes.oneOfType(PropTypes.element, PropTypes.string),
-  text: PropTypes.string,
-  link: PropTypes.string,
-  action: PropTypes.func,
-};

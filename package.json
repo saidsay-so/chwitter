@@ -2,6 +2,7 @@
   "name": "chwitter",
   "workspaces": [
     "client",
-    "server"
+    "server",
+    "common"
   ]
 }

@@ -1,0 +1,24 @@
+{
+  "name": "common",
+  "version": "0.0.0",
+  "types": "index.ts",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/musikid/48teur.git"
+  },
+  "author": "",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/musikid/48teur/issues"
+  },
+  "homepage": "https://github.com/musikid/48teur#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
+}

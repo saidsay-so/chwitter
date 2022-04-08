@@ -4,15 +4,19 @@ import NavigationPanel from "../components/NavigationPanel";
 import "./MainLayout.css";
 import { useAuth } from "../providers/AuthProvider";
 import { IconContext } from "react-icons";
-import { useRef } from "react";
+import { MutableRefObject, useRef } from "react";
+
+export interface MainLayoutOutlet {
+  refMessageArea: MutableRefObject<HTMLTextAreaElement>;
+}
 
 const MainLayout = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const isConnected = user !== null;
-  const authAction = signOut.bind(null, navigate.bind(null, "/login"));
+  const authAction = signOut.bind(null, () => navigate("/login"));
 
-  const refMessageArea = useRef(null);
+  const refMessageArea = useRef<HTMLTextAreaElement>(null);
 
   const scrollToArea = () => {
     if (refMessageArea.current === null) requestAnimationFrame(scrollToArea);
@@ -41,9 +45,9 @@ const MainLayout = () => {
         {isConnected && (
           <NavigationPanel
             {...user}
+            profileLink={user.profileLink}
             homePage="/"
             signOut={authAction}
-            isConnected={isConnected}
             createMessage={createMessage}
           />
         )}

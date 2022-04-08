@@ -2,13 +2,28 @@ import SimpleButton from "./SimpleButton";
 import "./MessageArea.css";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import { IconContext } from "react-icons";
-import { useState } from "react";
-import PropTypes from "prop-types";
+import { MutableRefObject, useState } from "react";
+
+interface MessageAreaProps {
+  /**
+   * ID pour l'ancre
+   */
+  id: string;
+  /**
+   * Appelé lors de la soumission du message
+   * @param {string} message Message
+   */
+  onSubmit: (message: string) => void;
+  /**
+   * Objet ref pour accéder directement à l'élément sous-jacent
+   */
+  refArea: MutableRefObject<HTMLTextAreaElement>;
+}
 
 /**
  * Champ de saisie du message
  */
-const MessageArea = ({ id, onSubmit, refArea }) => {
+const MessageArea = ({ id, onSubmit, refArea }: MessageAreaProps) => {
   const [message, setMessage] = useState("");
 
   return (
@@ -31,7 +46,7 @@ const MessageArea = ({ id, onSubmit, refArea }) => {
           name="message"
           className="message-area"
           placeholder="Écrire un message..."
-          onInput={(e) => setMessage(e.target.value)}
+          onInput={(e) => setMessage((e.target as HTMLTextAreaElement).value)}
           required
           autoFocus
           value={message}
@@ -54,19 +69,3 @@ const MessageArea = ({ id, onSubmit, refArea }) => {
 };
 
 export default MessageArea;
-
-MessageArea.propTypes = {
-  /**
-   * ID pour l'ancre
-   */
-  id: PropTypes.string,
-  /**
-   * Appelé lors de la soumission du message
-   * @param {string} message
-   */
-  onSubmit: PropTypes.func.isRequired,
-  /**
-   * Objet ref
-   */
-  ref: PropTypes.any.isRequired,
-};

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Input from "../components/Input";
@@ -29,11 +29,12 @@ const Login = () => {
   const text = registerView ? registerStrings : loginStrings;
 
   const location = useLocation();
-  const before = location.state?.from?.pathname ?? "/";
+  const before = (location.state as any)?.from?.pathname ?? "/";
 
-  const loginAction = (e) => {
+  const loginAction: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const action = registerView ? register : signIn;
+    //@ts-expect-error
     action({ login, password }, () => navigate(before, { replace: true }));
   };
 

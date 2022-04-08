@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
 import "./Input.css";
 
 /**
@@ -13,7 +12,7 @@ const Input = ({
   type,
   required,
   listener,
-}) => {
+}: InputProps) => {
   const [reveal, setReveal] = useState(false);
 
   const revealChar = reveal ? "゠" : "👁";
@@ -30,7 +29,7 @@ const Input = ({
         type={type === "password" ? (reveal ? "text" : "password") : type}
         placeholder={placeholder}
         value={value}
-        onChange={(ev) => listener(ev.target.value)}
+        onChange={(ev) => listener((ev.target as HTMLInputElement).value)}
         required={required}
       />
       <label htmlFor={name}>
@@ -43,34 +42,14 @@ const Input = ({
 
 export default Input;
 
-Input.propTypes = {
+interface InputProps extends ComponentPropsWithoutRef<"input"> {
   /**
-   * Champ standard
+   * Label
    */
-  name: PropTypes.string.isRequired,
-  /**
-   * Champ standard
-   */
-  label: PropTypes.string,
-  /**
-   * Champ standard
-   */
-  value: PropTypes.string.isRequired,
-  /**
-   * Champ standard
-   */
-  placeholder: PropTypes.string,
-  /**
-   * Champ standard
-   */
-  type: PropTypes.string,
-  /**
-   * Champ standard
-   */
-  required: PropTypes.bool,
+  label: string;
   /**
    * Appelé lors d'une modification
    * @param {string} input Valeur
    */
-  listener: PropTypes.func.isRequired,
-};
+  listener: (msg: string) => void;
+}

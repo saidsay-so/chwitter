@@ -13,7 +13,11 @@ import UserMessages from "./pages/user/Messages";
 import UserFriends from "./pages/user/Friends";
 import { Navigate } from "react-router-dom";
 
-const root = createRoot(document.getElementById("root"));
+import "dayjs/locale/fr";
+import dayjs from "dayjs";
+dayjs.locale("fr");
+
+const root = createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
