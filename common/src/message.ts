@@ -1,5 +1,4 @@
 import { UserResponse } from "./user";
-
 export class MessageResponse {
   id!: string;
   author!: UserResponse;
@@ -38,4 +37,20 @@ export class UpdateMessageParams {
 
 export class CreateMessageParams {
   content!: string;
+}
+
+export class MessagesResponse {
+  messages!: MessageResponse[];
+
+  constructor({ messages }: { messages: MessageResponse[] }) {
+    this.messages = messages;
+  }
+}
+
+export class MessagesSearchParams {
+  uid?: string;
+  search?: string;
+  onlyfollowed?: "false" | "true" | string;
+  limit?: number;
+  skip?: number;
 }

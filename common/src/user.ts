@@ -3,8 +3,8 @@ export class UserResponse {
   name!: string;
   mail?: string;
   displayName!: string;
-  avatarLink!: string;
-  isFriend!: boolean;
+  avatarLink?: string;
+  isFriend?: boolean;
   description!: string;
 
   constructor({
@@ -41,4 +41,12 @@ export class UpdateUserParams {
   password?: string;
   displayName?: string;
   description?: string;
+}
+
+export class UsersResponse {
+  users: UserResponse[];
+
+  constructor({ users }: { users: UserResponse[] }) {
+    this.users = users;
+  }
 }

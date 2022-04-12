@@ -75,7 +75,6 @@ const Login = () => {
       <div className="invert-container">
         <p className="text">{text.below}</p>
         <SimpleButton
-          className="button"
           label={text.invert}
           onClick={(e) => {
             e.preventDefault();

@@ -1,9 +1,9 @@
 import { promisify } from "util";
-import { scrypt } from "crypto";
+import { BinaryLike, scrypt } from "crypto";
 import { ErrorRequestHandler, RequestHandler } from "express";
 import mongoose from "mongoose";
 
-export const hash = promisify(scrypt);
+export const hash = promisify<BinaryLike, BinaryLike, number, Buffer>(scrypt);
 
 export const requireAuth: RequestHandler = (req, res, next) => {
   if (!req.session.active) {

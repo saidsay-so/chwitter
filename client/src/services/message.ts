@@ -1,8 +1,8 @@
 import faker from "@faker-js/faker";
-import { Message as ServerMessageResponse } from "common";
+import { MessageResponse } from "common";
 import { fakeUser, fakeUserGen, User } from "./user";
 
-export interface Message extends ServerMessageResponse {
+export interface Message extends MessageResponse {
   author: User;
 }
 

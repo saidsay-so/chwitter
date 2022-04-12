@@ -2,6 +2,7 @@ import express from "express";
 import session from "cookie-session";
 import cors from "cors";
 import morgan from "morgan";
+import compression from "compression";
 
 import authRoute from "./routes/auth";
 import userRoute from "./routes/user";
@@ -17,6 +18,7 @@ app.use(
   })
 );
 app.use(cors());
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(morgan("dev"));

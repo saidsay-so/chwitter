@@ -28,7 +28,11 @@ const UserFriends = () => {
       <ul className="friends">
         {friends.map((friend) => (
           <li key={friend.id}>
-            <UserElement {...friend} friendAction={friendAction.bind(null, friend.id)} />
+            <UserElement
+              {...friend}
+              isFriend={isHimself || friend.isFriend}
+              friendAction={friendAction.bind(null, friend.id)}
+            />
           </li>
         ))}
       </ul>

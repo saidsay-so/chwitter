@@ -1,4 +1,4 @@
-import { RegisterParams, UpdateUserParams, UserResponse } from "common";
+import { RegisterParams, UpdateUserParams } from "common";
 import { Router, Response } from "express";
 import multer from "multer";
 import sharp from "sharp";
@@ -31,8 +31,14 @@ routes.all("*", requireAuth);
 routes.post("/", async (req, res, next) => {
   try {
     const { name, mail, password }: RegisterParams = req.body;
-    await UserModel.create({ name, mail, password });
-    return res.sendStatus(201);
+    const newUser = await UserModel.create({ name, mail, password });
+    return res.status(201).json(
+      newUser.toJSON({
+        user: {
+          avatarLink: `${req.path}/avatar`,
+        },
+      })
+    );
   } catch (e) {
     return next(e);
   }
@@ -43,24 +49,19 @@ routes.get("/:uid", async (req, res, next) => {
 
   try {
     const rawUser = await UserModel.findById(uid)
-      .select("_id name displayName description")
-      .lean()
+      .orFail(new AuthError(AuthErrorType.UNKNOWN_USER))
       .exec();
 
-    //TODO: Change error type
-    if (!rawUser) {
-      throw new AuthError(AuthErrorType.UNKNOWN_USER);
-    }
-
-    const user: UserResponse = new UserResponse({
-      ...rawUser,
-      isFriend:
-        (await UserModel.exists({
-          _id: req.session.userId,
-          friends: uid,
-        })) !== null,
-      //TODO: Dangerous?
-      avatarLink: `${req.path}/avatar`,
+    const user = rawUser.toJSON({
+      user: {
+        isFriend:
+          (await UserModel.exists({
+            _id: req.session.userId,
+            friends: uid,
+          })) !== null,
+        //TODO: Dangerous?
+        avatarLink: `${req.path}/avatar`,
+      },
     });
 
     return res.status(200).json(user);
@@ -70,7 +71,7 @@ routes.get("/:uid", async (req, res, next) => {
 });
 
 routes.patch(
-  "/:uid?",
+  "/:uid",
   checkRights,
   dataHandler.single("avatar"),
   async (req, res, next) => {
@@ -92,15 +93,24 @@ routes.patch(
         ? await sharp(req.file.buffer).resize(64, 64).avif().toBuffer()
         : undefined;
 
-      await UserModel.findByIdAndUpdate(uid, {
-        name,
-        mail,
-        avatar,
-        password,
-        displayName,
-        description,
-      });
-      return res.sendStatus(203);
+      const user = await UserModel.findByIdAndUpdate(
+        uid,
+        {
+          name,
+          mail,
+          avatar,
+          password,
+          displayName,
+          description,
+        },
+        { new: true }
+      )
+        .orFail(new AuthError(AuthErrorType.UNKNOWN_USER))
+        .exec();
+
+      return res
+        .status(203)
+        .json(user.toJSON({ user: { avatarLink: `${req.path}/avatar` } }));
     } catch (e) {
       return next(e);
     }
@@ -119,6 +129,7 @@ routes.get("/:uid/avatar", async (req, res, next) => {
   }
 });
 
+///TODO: add delete
 routes.delete("/:uid?");
 
 export default routes;

@@ -1,8 +1,7 @@
 import {
   MessageResponse,
-  MessagesParams,
+  MessagesSearchParams,
   MessagesResponse,
-  UserResponse,
 } from "common";
 import { Router } from "express";
 import mongoose from "mongoose";
@@ -22,7 +21,7 @@ routes.get("/", async (req, res, next) => {
       onlyfollowed = "false",
       skip = 0,
       limit: unclampedLimit = 10,
-    }: MessagesParams = req.query;
+    }: MessagesSearchParams = req.query;
 
     const limit = Math.max(0, Math.min(50, unclampedLimit));
 
@@ -47,17 +46,14 @@ routes.get("/", async (req, res, next) => {
     const rawMessages = await MessageModel.find(params)
       .skip(skip)
       .limit(limit)
-      .populate("author", "_id name displayName description")
-      .lean()
+      .populate("author")
       .exec();
 
     const messages = await Promise.all(
       rawMessages.map(
-        async ({ author, date, ...msg }) =>
-          new MessageResponse({
-            ...msg,
-            author: new UserResponse({
-              ...author,
+        async (msg) =>
+          msg.toJSON({
+            user: {
               isFriend:
                 (await UserModel.exists({
                   _id: req.session.userId,
@@ -65,14 +61,15 @@ routes.get("/", async (req, res, next) => {
                 })) !== null,
               //TODO: Dangerous?
               avatarLink: `${req.path}/avatar`,
-            } as ConstructorParameters<typeof UserResponse>[0]),
-            date: date.getTime(),
-            isLiked:
-              (await UserModel.exists({
-                _id: req.session.userId,
-                likedMessages: msg._id,
-              })) !== null,
-          })
+            },
+            message: {
+              isLiked:
+                (await UserModel.exists({
+                  _id: req.session.userId,
+                  likedMessages: msg._id,
+                })) !== null,
+            },
+          }) as unknown as MessageResponse
       )
     );
 
@@ -140,7 +137,8 @@ routes.delete("/:mid/like", async (req, res, next) => {
   }
 });
 
-routes.get("/:mid", async (req, res) => {
+//TODO: should we add this route?
+routes.get("/:mid", async (_req, res) => {
   return res.sendStatus(501);
 });
 

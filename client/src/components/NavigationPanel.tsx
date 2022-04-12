@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import "./NavigationPanel.css";
 import "./NavigationPanelAction.css";
 import { Link, NavLink, NavLinkProps } from "react-router-dom";
@@ -6,7 +5,7 @@ import { MdAdd, MdLogout } from "react-icons/md";
 import { ImSearch } from "react-icons/im";
 import Avatar from "./Avatar";
 import cx from "classnames";
-import { MouseEventHandler, ReactElement, useState } from "react";
+import { MouseEventHandler } from "react";
 import { ReactNode } from "react";
 
 interface PanelProps {
@@ -25,7 +24,7 @@ interface PanelProps {
   /**
    * Lien vers la photo de profil du lecteur
    */
-  avatarLink: string;
+  avatarLink?: string;
   /**
    * Nom du lecteur
    */

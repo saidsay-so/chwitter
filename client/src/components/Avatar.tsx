@@ -9,7 +9,7 @@ interface AvatarProps  {
   /**
    * Image de profil
    */
-  picture: string;
+  picture?: string;
   /**
    * Nom de l'utilisateur
    */

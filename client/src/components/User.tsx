@@ -16,7 +16,7 @@ interface UserProps {
   /**
    * Lien vers la photo de profil de l'utilisateur
    */
-  avatarLink: string;
+  avatarLink?: string;
   /**
    * Nom du lecteur
    */
@@ -44,7 +44,9 @@ const User = ({
 }: UserProps) => {
   return (
     <div className="user">
-      <Avatar profileLink={profileLink} picture={avatarLink} name={name} />
+      {avatarLink && (
+        <Avatar profileLink={profileLink} picture={avatarLink} name={name} />
+      )}
       <div className="text">
         <Link to={profileLink} className="name">
           {name}
