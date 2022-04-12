@@ -5,10 +5,15 @@
   "main": "index.js",
   "devDependencies": {
     "@mdx-deck/export": "^2.5.1",
-    "mdx-deck": "^4.1.1"
+    "@types/node": "^17.0.23",
+    "mdx-deck": "^4.1.1",
+    "playwright": "^1.21.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
   },
   "scripts": {
-    "start": "mdx-deck deck.mdx"
+    "start": "mdx-deck deck.mdx",
+    "screen": "ts-node take-screenshots.ts"
   },
   "repository": {
     "type": "git",
