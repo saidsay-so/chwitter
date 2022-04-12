@@ -1,7 +1,7 @@
 import faker from "@faker-js/faker";
-import { User as ServerUserResponse } from "common";
+import { UserResponse } from "common";
 
-export interface User extends ServerUserResponse {
+export interface User extends UserResponse {
   profileLink: string;
 }
 

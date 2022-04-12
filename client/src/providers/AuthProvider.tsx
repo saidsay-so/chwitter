@@ -1,19 +1,6 @@
+import { LoginParams, RegisterParams } from "common";
 import { createContext, ReactNode, useContext, useState } from "react";
 import { fakeUser, User } from "../services/user";
-
-interface LoginParams {
-  login: string;
-  password: string;
-}
-
-interface RegisterParams {
-  mail: string;
-  name: string;
-  displayName: string;
-  description: string;
-  avatar: Blob;
-  password: string;
-}
 
 interface Context {
   user: User | null;
