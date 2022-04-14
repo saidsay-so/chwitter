@@ -1,7 +1,7 @@
 import {
-  MessageResponse,
   MessagesSearchParams,
   MessagesResponse,
+  MessageResponse,
 } from "common";
 import { Router } from "express";
 import mongoose from "mongoose";
@@ -44,6 +44,7 @@ routes.get("/", async (req, res, next) => {
     }
 
     const rawMessages = await MessageModel.find(params)
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .populate("author")
@@ -53,7 +54,7 @@ routes.get("/", async (req, res, next) => {
       rawMessages.map(
         async (msg) =>
           msg.toJSON({
-            user: {
+            custom: {
               isFriend:
                 (await UserModel.exists({
                   _id: req.session.userId,
@@ -61,8 +62,6 @@ routes.get("/", async (req, res, next) => {
                 })) !== null,
               //TODO: Dangerous?
               avatarLink: `${req.path}/avatar`,
-            },
-            message: {
               isLiked:
                 (await UserModel.exists({
                   _id: req.session.userId,
@@ -83,9 +82,24 @@ routes.post("/", async (req, res, next) => {
   const { userId: author } = req.session;
   try {
     const { content } = req.body;
-    await MessageModel.create({ author, content });
 
-    return res.sendStatus(200);
+    //TODO: Check if user exists
+    await UserModel.exists({ _id: author });
+
+    const msg = await (
+      await MessageModel.create({ author, content })
+    ).populate("author");
+
+    return res.status(201).json(
+      msg.toJSON({
+        custom: {
+          isFriend: false,
+          //TODO: Dangerous?
+          avatarLink: `${req.path}/avatar`,
+          isLiked: false,
+        },
+      })
+    );
   } catch (e) {
     return next(e);
   }
@@ -146,10 +160,16 @@ routes.patch("/:mid", async (req, res, next) => {
   const { mid } = req.params;
   try {
     const { content } = req.body;
-    if (content) {
-      await MessageModel.findByIdAndUpdate(mid, { $set: { content } }).exec();
-    }
-    return res.sendStatus(200);
+    //TODO: Outer check for author
+    const msg = await MessageModel.findOneAndUpdate(
+      { _id: mid, author: req.session.userId },
+      {
+        $set: { content },
+      }
+    )
+      .populate("author")
+      .exec();
+    return res.status(200).json(msg);
   } catch (e) {
     return next(e);
   }

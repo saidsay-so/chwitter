@@ -15,8 +15,10 @@ declare module "express-session" {
 
 routes.put("/login", async (req, res, next) => {
   try {
-    const { mail: login, password }: LoginParams = req.body;
-    const user = await UserModel.findUserLogin(login, password);
+    const { mail, password }: LoginParams = req.body;
+    const user = (await UserModel.findUserLogin(mail, password)).toJSON({
+      custom: { isFriend: false, avatarLink: `${req.path}/avatar` },
+    });
 
     req.session.userId = user.id;
 

@@ -26,16 +26,16 @@ const renderAvatar = (buffer: Buffer, res: Response) => {
   return res.format(render);
 };
 
-routes.all("*", requireAuth);
-
 routes.post("/", async (req, res, next) => {
   try {
     const { name, mail, password }: RegisterParams = req.body;
     const newUser = await UserModel.create({ name, mail, password });
     return res.status(201).json(
       newUser.toJSON({
-        user: {
-          avatarLink: `${req.path}/avatar`,
+        custom: {
+          isFriend: false,
+          //TODO: Generate avatar link
+          avatarLink: `${newUser._id}/avatar`,
         },
       })
     );
@@ -43,6 +43,8 @@ routes.post("/", async (req, res, next) => {
     return next(e);
   }
 });
+
+routes.all("/:uid/*", requireAuth);
 
 routes.get("/:uid", async (req, res, next) => {
   const { uid } = req.params;
@@ -53,7 +55,7 @@ routes.get("/:uid", async (req, res, next) => {
       .exec();
 
     const user = rawUser.toJSON({
-      user: {
+      custom: {
         isFriend:
           (await UserModel.exists({
             _id: req.session.userId,
@@ -108,9 +110,11 @@ routes.patch(
         .orFail(new AuthError(AuthErrorType.UNKNOWN_USER))
         .exec();
 
-      return res
-        .status(203)
-        .json(user.toJSON({ user: { avatarLink: `${req.path}/avatar` } }));
+      return res.status(203).json(
+        user.toJSON({
+          custom: { isFriend: false, avatarLink: `${req.path}/avatar` },
+        })
+      );
     } catch (e) {
       return next(e);
     }
@@ -130,6 +134,6 @@ routes.get("/:uid/avatar", async (req, res, next) => {
 });
 
 ///TODO: add delete
-routes.delete("/:uid?");
+routes.delete("/:uid");
 
 export default routes;
