@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 export const hash = promisify<BinaryLike, BinaryLike, number, Buffer>(scrypt);
 
 export const requireAuth: RequestHandler = (req, res, next) => {
-  if (!req.session.active) {
+  if (!req.session.userId) {
     return res.sendStatus(401);
   }
 
@@ -23,9 +23,12 @@ export const checkRights: RequestHandler = (req, res, next) => {
   return next();
 };
 
-export const errorHandle: ErrorRequestHandler = (err, req, res, next) => {
+export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   if (err instanceof mongoose.Error.ValidationError) {
     console.error(err.errors);
     return res.status(400).json({ error: err.errors });
   }
+
+  console.error(err);
+  return res.sendStatus(500);
 };

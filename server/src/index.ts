@@ -8,7 +8,7 @@ app.listen(parseInt(SERVER_PORT!), async () => {
   try {
     await connect();
   } catch (e) {
-    console.error(e);
+    throw e;
   }
 
   console.log(`Server listening on port ${SERVER_PORT}`);
