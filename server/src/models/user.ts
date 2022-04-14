@@ -6,12 +6,10 @@ import {
   ReturnModelType,
   index,
 } from "@typegoose/typegoose";
-import { Exclude, Expose } from "class-transformer";
 import { AuthError, AuthErrorType } from "../errors";
 import { hash } from "../utils";
 import { MessageSchema } from "./message";
 
-@Exclude()
 @pre("save", async function (this: DocumentType<UserSchema>) {
   const buffer = await hash(this.password.normalize(), this.id, 128);
   this.password = buffer.toString("hex");
@@ -27,7 +25,6 @@ export class UserSchema {
     index: true,
     unique: true,
   })
-  @Expose()
   name!: string;
 
   @prop({
@@ -37,11 +34,9 @@ export class UserSchema {
     index: true,
     unique: true,
   })
-  @Expose({ groups: ["user", "admin"] })
   mail!: string;
 
   @prop({ required: true })
-  @Expose({ groups: ["user", "admin"] })
   password!: string;
 
   @prop({
@@ -50,15 +45,12 @@ export class UserSchema {
     minlength: 1,
     maxlength: 64,
   })
-  @Expose()
   displayName!: string;
 
   @prop()
-  @Expose({ groups: ["admin"] })
   avatar?: Buffer;
 
   @prop({ default: "Bienvenue sur ma page !" })
-  @Expose()
   description!: string;
 
   // @prop({ localField: "_id", foreignField: "author", ref: () => MessageSchema })
