@@ -3,12 +3,12 @@ export class UserResponse {
   name!: string;
   mail?: string;
   displayName!: string;
-  avatarLink?: string;
-  isFriend?: boolean;
+  avatarLink!: string;
+  isFriend!: boolean;
   description!: string;
 
   constructor({
-    _id,
+    id,
     name,
     mail,
     displayName,
@@ -16,7 +16,7 @@ export class UserResponse {
     isFriend,
     description,
   }: {
-    _id: string;
+    id: string;
     name: string;
     mail: string;
     displayName: string;
@@ -24,7 +24,7 @@ export class UserResponse {
     isFriend: boolean;
     description: string;
   }) {
-    this.id = _id;
+    this.id = id;
     this.name = name;
     this.mail = mail;
     this.displayName = displayName;

@@ -8,21 +8,21 @@ export class MessageResponse {
   isLiked?: boolean;
 
   constructor({
-    _id,
+    id,
     author,
     content,
     date,
     likes,
     isLiked,
   }: {
-    _id: string;
+    id: string;
     author: UserResponse;
     content: string;
     date: number;
     likes: number;
     isLiked: boolean;
   }) {
-    this.id = _id;
+    this.id = id;
     this.author = author;
     this.content = content;
     this.date = date;

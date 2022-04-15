@@ -1,6 +1,6 @@
 export class AddFriendResponse {}
 
-export class GetFriendResponse {
+export class GetFriendStateResponse {
   isFriend!: boolean;
 
   constructor({ isFriend }: { isFriend: boolean }) {
