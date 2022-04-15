@@ -1,49 +1,49 @@
-import faker from "@faker-js/faker";
-import { MessageResponse } from "common";
-import { fakeUser, fakeUserGen, User } from "./user";
+import axios from "axios";
+import {
+  MessageResponse,
+  MessagesResponse,
+  MessagesSearchParams,
+} from "common";
+import { User } from "./user";
 
 export interface Message extends MessageResponse {
   author: User;
 }
 
-export const createMessage = (uid: User["id"], msg: string) => {
-  console.log(`Message from ${uid}: ${msg}`);
+export const createMessage = async (content: string, uid?: User["id"]) => {
+  const res = await axios.post("/api/messages", { content });
+
+  console.info(res.data);
 };
 
-export const deleteMessage = (uid: User["id"], id: any) => {
-  console.log(`Delete message ${id} for user ${uid}`);
+export const deleteMessage = async (mid: Message["id"]) => {
+  await axios.delete(`/api/messages/${mid}`);
 };
 
-export const changeLikeStateMessage = (
-  mainUid: User["id"],
-  messageId: Message["id"]
-) => {};
+export const likeMessage = async (mid: Message["id"], uid?: User["id"]) => {
+  await axios.put(`/api/messages/${mid}/${uid ?? ""}/like`);
+};
 
-export const getMessages = (
-  uid?: string,
-  fromHimself = false
+export const unlikeMessage = async (mid: Message["id"], uid?: User["id"]) => {
+  await axios.delete(`/api/messages/${mid}/${uid ?? ""}/like`);
+};
+
+export const getMessages = async (
+  params?: MessagesSearchParams
 ): Promise<Message[]> => {
-  const length = Math.random() * 20 + 5;
-
-  const fakeUserProfile = fakeUserGen();
-
-  const placeholder = Array.from({ length }, () => {
-    const author =
-      uid === null
-        ? fakeUserGen()
-        : fakeUser.id === uid
-        ? fakeUser
-        : fakeUserProfile;
-
-    return {
-      author,
-      id: faker.datatype.uuid(),
-      content: faker.lorem.paragraph(),
-      likes: faker.datatype.number(),
-      date: faker.date.past().getTime(),
-      action: (...args: any[]) => console.log(args),
-    };
+  const res = await axios.get<MessagesResponse>("/api/messages", {
+    params,
   });
 
-  return Promise.resolve(placeholder);
+  const { messages: rawMessages } = res.data;
+  console.log(rawMessages);
+
+  const messages = rawMessages.map(
+    ({ author: { id, ...author }, ...user }) => ({
+      ...user,
+      author: { ...author, id, profileLink: `/users/${id}` },
+    })
+  );
+
+  return messages;
 };
