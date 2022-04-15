@@ -2,6 +2,7 @@ import { promisify } from "util";
 import { BinaryLike, scrypt } from "crypto";
 import { ErrorRequestHandler, RequestHandler } from "express";
 import mongoose from "mongoose";
+import { UserModel } from "./models";
 
 export const hash = promisify<BinaryLike, BinaryLike, number, Buffer>(scrypt);
 
@@ -22,6 +23,11 @@ export const checkRights: RequestHandler = (req, res, next) => {
 
   return next();
 };
+
+export const getAvatarLink = (uid: string) => `/api/users/${uid}/avatar`;
+
+export const getFriendState = async (uid: string, friendUid: string) =>
+  (await UserModel.exists({ _id: uid, friends: friendUid })) !== null;
 
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   if (err instanceof mongoose.Error.ValidationError) {

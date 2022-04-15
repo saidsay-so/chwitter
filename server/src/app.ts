@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import session from "cookie-session";
 import cors from "cors";
 import morgan from "morgan";
@@ -7,6 +7,7 @@ import compression from "compression";
 import authRoute from "./routes/auth";
 import userRoute from "./routes/user";
 import messageRoute from "./routes/message";
+import friendRoute from "./routes/friend";
 import { errorHandler } from "./utils";
 
 const app = express();
@@ -25,9 +26,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use("/auth", authRoute);
-app.use("/users", userRoute);
-app.use("/messages", messageRoute);
+const api = Router();
+
+api.use("/auth", authRoute);
+api.use("/users", userRoute);
+api.use("/messages", messageRoute);
+api.use("/friends", friendRoute);
+
+app.use("/api", api);
 
 app.use(errorHandler);
 

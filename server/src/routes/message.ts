@@ -1,3 +1,4 @@
+import { DocumentType } from "@typegoose/typegoose";
 import {
   MessagesSearchParams,
   MessagesResponse,
@@ -7,7 +8,13 @@ import { Router } from "express";
 import mongoose from "mongoose";
 import { MessageModel, UserModel } from "../models";
 import { MessageSchema } from "../models/message";
-import { requireAuth } from "../utils";
+import { UserSchema } from "../models/user";
+import {
+  checkRights,
+  getAvatarLink,
+  getFriendState,
+  requireAuth,
+} from "../utils";
 
 const routes = Router();
 
@@ -44,7 +51,7 @@ routes.get("/", async (req, res, next) => {
     }
 
     const rawMessages = await MessageModel.find(params)
-      .sort({ createdAt: -1 })
+      .sort({ date: -1 })
       .skip(skip)
       .limit(limit)
       .populate("author")
@@ -55,13 +62,13 @@ routes.get("/", async (req, res, next) => {
         async (msg) =>
           msg.toJSON({
             custom: {
-              isFriend:
-                (await UserModel.exists({
-                  _id: req.session.userId,
-                  friends: uid,
-                })) !== null,
-              //TODO: Dangerous?
-              avatarLink: `${req.path}/avatar`,
+              isFriend: await getFriendState(
+                req.session.userId!,
+                (msg!.author! as UserSchema & { _id: any })._id!
+              ),
+              avatarLink: getAvatarLink(
+                (msg!.author! as DocumentType<UserSchema>).id!
+              ),
               isLiked:
                 (await UserModel.exists({
                   _id: req.session.userId,
@@ -82,6 +89,7 @@ routes.post("/", async (req, res, next) => {
   const { userId: author } = req.session;
   try {
     const { content } = req.body;
+    console.info(content);
 
     //TODO: Check if user exists
     await UserModel.exists({ _id: author });
@@ -95,7 +103,7 @@ routes.post("/", async (req, res, next) => {
         custom: {
           isFriend: false,
           //TODO: Dangerous?
-          avatarLink: `${req.path}/avatar`,
+          avatarLink: getAvatarLink(author!),
           isLiked: false,
         },
       })
@@ -105,8 +113,9 @@ routes.post("/", async (req, res, next) => {
   }
 });
 
-routes.put("/:mid/like", async (req, res, next) => {
-  const { mid } = req.params;
+//TODO: Add check that user hasn't liked the message
+routes.put("/:mid/:uid?/like", checkRights, async (req, res, next) => {
+  const { mid, uid } = req.params;
   const session = await mongoose.startSession();
   try {
     await session.withTransaction(async () => {
@@ -115,9 +124,13 @@ routes.put("/:mid/like", async (req, res, next) => {
         { $inc: { likes: 1 } },
         { session }
       ).exec();
-      await UserModel.findByIdAndUpdate(req.session.userId, {
-        $push: { likedMessages: mid },
-      }).exec();
+      await UserModel.findByIdAndUpdate(
+        uid ?? req.session.userId,
+        {
+          $addToSet: { likedMessages: mid },
+        },
+        { session }
+      ).exec();
     });
 
     return res.sendStatus(200);
@@ -128,8 +141,9 @@ routes.put("/:mid/like", async (req, res, next) => {
   }
 });
 
-routes.delete("/:mid/like", async (req, res, next) => {
-  const { mid } = req.params;
+//TODO: Add check that user has liked the message
+routes.delete("/:mid/:uid?/like", checkRights, async (req, res, next) => {
+  const { mid, uid } = req.params;
   const session = await mongoose.startSession();
   try {
     await session.withTransaction(async () => {
@@ -138,7 +152,7 @@ routes.delete("/:mid/like", async (req, res, next) => {
         { $inc: { likes: -1 } },
         { session }
       ).exec();
-      await UserModel.findByIdAndUpdate(req.session.userId, {
+      await UserModel.findByIdAndUpdate(uid ?? req.session.userId, {
         $pull: { likedMessages: mid },
       }).exec();
     });
@@ -175,6 +189,7 @@ routes.patch("/:mid", async (req, res, next) => {
   }
 });
 
+//TODO: Check if it's the owner
 routes.delete("/:mid", async (req, res, next) => {
   const { mid } = req.params;
   const session = await mongoose.startSession();

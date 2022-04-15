@@ -1,7 +1,14 @@
-import { GetFriendResponse, UserResponse, UsersResponse } from "common";
+import { DocumentType } from "@typegoose/typegoose";
+import { GetFriendStateResponse, UserResponse, UsersResponse } from "common";
 import { Router } from "express";
 import { UserModel } from "../models";
-import { checkRights, requireAuth } from "../utils";
+import { UserSchema } from "../models/user";
+import {
+  checkRights,
+  getAvatarLink,
+  getFriendState,
+  requireAuth,
+} from "../utils";
 
 const routes = Router();
 
@@ -16,29 +23,28 @@ routes.get("/:uid?/all", async (req, res, next) => {
 
     const user = await UserModel.findById(uid)
       .select("friends")
-      .populate("friends", "_id name displayName description")
-      .lean()
+      .populate("friends")
       .exec();
 
     if (user) {
-      const users =
-        user.friends && user.friends[0]
-          ? await Promise.all(
-              user.friends.map(
-                async (friend) =>
-                  new UserResponse({
-                    ...friend,
-                    isFriend:
-                      (await UserModel.exists({
-                        _id: req.session.userId,
-                        friends: (friend as typeof friend & { _id: any })._id,
-                      })) !== null,
-                    //TODO: Dangerous?
-                    avatarLink: `${req.path}/avatar`,
-                  } as ConstructorParameters<typeof UserResponse>[0])
-              )
+      const users = user.friends
+        ? await Promise.all(
+            user.friends.map(
+              async (friend) =>
+                (friend as DocumentType<UserSchema>).toJSON({
+                  custom: {
+                    isFriend: await getFriendState(
+                      req.session.userId!,
+                      (friend as typeof friend & { _id: any })._id
+                    ),
+                    avatarLink: getAvatarLink(
+                      (friend as DocumentType<UserSchema>)!.id!
+                    ),
+                  },
+                }) as unknown as UserResponse
             )
-          : [];
+          )
+        : [];
 
       return res.status(200).json(new UsersResponse({ users }));
     }
@@ -55,10 +61,11 @@ routes.get("/:uid?/:friendUid", checkRights, async (req, res, next) => {
     uid = req.session.userId;
   }
 
+  if (uid === friendUid) return res.sendStatus(403);
+
   try {
-    const isFriend =
-      (await UserModel.find({ _id: uid, friends: friendUid }).exec()) !== null;
-    return res.status(200).json(new GetFriendResponse({ isFriend }));
+    const isFriend = await getFriendState(uid!, friendUid!);
+    return res.status(200).json(new GetFriendStateResponse({ isFriend }));
   } catch (e) {
     return next(e);
   }
@@ -69,6 +76,8 @@ routes.put("/:uid?/:friendUid", checkRights, async (req, res, next) => {
   if (!uid) {
     uid = req.session.userId;
   }
+
+  if (uid === friendUid) return res.sendStatus(403);
 
   try {
     await UserModel.findByIdAndUpdate(uid, {
@@ -84,6 +93,10 @@ routes.delete("/:uid?/:friendUid", checkRights, async (req, res, next) => {
   let { uid, friendUid } = req.params;
   if (!uid) {
     uid = req.session.userId;
+  }
+
+  if (uid === friendUid) {
+    return res.sendStatus(403);
   }
 
   try {

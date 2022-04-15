@@ -21,7 +21,7 @@ export const MessageModel = getModelForClass(MessageSchema, {
     timestamps: { createdAt: "date" },
     toJSON: {
       transform: (
-        _doc: DocumentType<MessageSchema>,
+        doc: DocumentType<MessageSchema>,
         returnValue: mongoose.LeanDocument<MessageSchema> & {
           author: UserResponse;
         } & { _id: string },
@@ -30,8 +30,9 @@ export const MessageModel = getModelForClass(MessageSchema, {
         assert(opts.custom);
         return new MessageResponse({
           ...returnValue,
-          date: returnValue.date.getTime(),
           ...opts.custom,
+          date: returnValue.date.getTime(),
+          id: doc.id,
         });
       },
     },
@@ -47,12 +48,12 @@ export const UserModel = getModelForClass(UserSchema, {
   schemaOptions: {
     toJSON: {
       transform: (
-        _doc: DocumentType<UserSchema>,
+        doc: DocumentType<UserSchema>,
         returnValue: mongoose.LeanDocument<UserSchema> & { _id: string },
         opts: mongoose.ToObjectOptions & { custom: UserTransformOptions }
       ): UserResponse => {
         assert(opts.custom);
-        return new UserResponse({ ...returnValue, ...opts.custom });
+        return new UserResponse({ ...returnValue, ...opts.custom, id: doc.id });
       },
     },
   },

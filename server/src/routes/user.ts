@@ -4,7 +4,14 @@ import multer from "multer";
 import sharp from "sharp";
 import { AuthError, AuthErrorType } from "../errors";
 import { UserModel } from "../models";
-import { checkRights, requireAuth } from "../utils";
+import {
+  checkRights,
+  getAvatarLink,
+  getFriendState,
+  requireAuth,
+} from "../utils";
+import { createAvatar } from "@dicebear/avatars";
+import * as avatarStyle from "@dicebear/micah";
 
 const routes = Router();
 const dataHandler = multer();
@@ -29,13 +36,26 @@ const renderAvatar = (buffer: Buffer, res: Response) => {
 routes.post("/", async (req, res, next) => {
   try {
     const { name, mail, password }: RegisterParams = req.body;
-    const newUser = await UserModel.create({ name, mail, password });
+    const avatar = await sharp(
+      Buffer.from(
+        createAvatar(avatarStyle, {
+          seed: name,
+        })
+      )
+    )
+      .resize(96, 96)
+      .avif({ lossless: true })
+      .toBuffer();
+    const newUser = await UserModel.create({ name, mail, password, avatar });
+
+    req.session.userId = newUser.id;
+
     return res.status(201).json(
       newUser.toJSON({
         custom: {
           isFriend: false,
           //TODO: Generate avatar link
-          avatarLink: `${newUser._id}/avatar`,
+          avatarLink: getAvatarLink(newUser.id!),
         },
       })
     );
@@ -56,13 +76,9 @@ routes.get("/:uid", async (req, res, next) => {
 
     const user = rawUser.toJSON({
       custom: {
-        isFriend:
-          (await UserModel.exists({
-            _id: req.session.userId,
-            friends: uid,
-          })) !== null,
+        isFriend: await getFriendState(req.session.userId!, uid),
         //TODO: Dangerous?
-        avatarLink: `${req.path}/avatar`,
+        avatarLink: getAvatarLink(uid),
       },
     });
 
@@ -127,7 +143,8 @@ routes.get("/:uid/avatar", async (req, res, next) => {
   try {
     const user = await UserModel.findById(uid).select("avatar").lean().exec();
     if (!user || !user.avatar) return res.sendStatus(404);
-    return renderAvatar(user.avatar, res);
+    //@ts-expect-error
+    return renderAvatar(user.avatar.buffer, res);
   } catch (e) {
     return next(e);
   }

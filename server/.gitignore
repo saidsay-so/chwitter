@@ -1,3 +1,4 @@
 dist
 .env
 .parcel-cache
+globalConfig.json

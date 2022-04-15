@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { LoginParams } from "common";
 import { UserModel } from "../models";
-import { promisify } from "util";
 import { AuthErrorType } from "../errors";
+import { getAvatarLink } from "../utils";
 
 const routes = Router();
 
@@ -16,18 +16,18 @@ declare module "express-session" {
 routes.put("/login", async (req, res, next) => {
   try {
     const { mail, password }: LoginParams = req.body;
-    const user = (await UserModel.findUserLogin(mail, password)).toJSON({
-      custom: { isFriend: false, avatarLink: `${req.path}/avatar` },
-    });
-
+    const user = await UserModel.findUserLogin(mail, password);
     req.session.userId = user.id;
 
-    return res.status(200).json(user);
+    return res.status(200).json(
+      user.toJSON({
+        custom: { isFriend: false, avatarLink: getAvatarLink(user.id) },
+      })
+    );
   } catch (e) {
     if (e instanceof Error) {
       switch (e.name) {
         case AuthErrorType.UNKNOWN_USER:
-          return res.status(404).send({ error: e.message });
         case AuthErrorType.EMPTY_INFORMATION:
         case AuthErrorType.INVALID_PASSWORD:
           return res.status(403).send({ error: e.message });
@@ -42,7 +42,8 @@ routes.put("/login", async (req, res, next) => {
 routes.delete("/logout", async (req, res, next) => {
   try {
     if (req.session.userId) {
-      await promisify(req.session.destroy)();
+      //@ts-expect-error
+      req.session = null;
     }
     return res.sendStatus(200);
   } catch (e) {
