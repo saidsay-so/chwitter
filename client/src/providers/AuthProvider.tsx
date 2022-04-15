@@ -1,6 +1,7 @@
 import { LoginParams, RegisterParams } from "common";
 import { createContext, ReactNode, useContext, useState } from "react";
-import { fakeUser, User } from "../services/user";
+import { login, logout, register as registerService } from "../services/auth";
+import { User } from "../services/user";
 
 interface Context {
   user: User | null;
@@ -17,18 +18,21 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const signIn = ({}, cb: VoidFunction) => {
-    setUser(fakeUser);
+  const signIn = async (loginInfo: LoginParams, cb: VoidFunction) => {
+    const { id, ...user } = await login(loginInfo);
+    setUser({ ...user, id, profileLink: `/users/${id}` });
     if (cb) cb();
   };
 
-  const signOut = (cb: VoidFunction) => {
+  const signOut = async (cb: VoidFunction) => {
+    await logout();
     setUser(null);
     if (cb) cb();
   };
 
-  const register = ({}, cb: VoidFunction) => {
-    setUser(fakeUser);
+  const register = async (registerInfo: RegisterParams, cb: VoidFunction) => {
+    const { id, ...user } = await registerService(registerInfo);
+    setUser({ ...user, id, profileLink: `/users/${id}` });
     if (cb) cb();
   };
 

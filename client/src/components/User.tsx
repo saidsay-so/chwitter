@@ -53,7 +53,7 @@ const User = ({
         </Link>
         <p className="description">{description}</p>
       </div>
-      <FriendButton onClick={friendAction} isFriend={isFriend} />
+      <FriendButton onClick={() => friendAction()} isFriend={isFriend} />
     </div>
   );
 };

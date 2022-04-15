@@ -1,14 +1,19 @@
-import { createMessage, getMessages } from "../services/message";
+import {
+  createMessage,
+  getMessages,
+  likeMessage,
+  unlikeMessage,
+} from "../services/message";
 import MessagesList from "../components/MessagesList";
 import "./HomeFeed.css";
 import MessageArea from "../components/MessageArea";
 import { useAsyncEffect } from "../utils/extra-hooks";
-import { areFriends } from "../services/friend";
 import { useAuth } from "../providers/AuthProvider";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { MainLayoutOutlet } from "../layouts/MainLayout";
 import { Message } from "../services/message";
+import { addFriend, removeFriend } from "../services/friend";
 
 export default function HomeFeed() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -35,12 +40,12 @@ export default function HomeFeed() {
         <MessageArea
           refArea={refMessageArea}
           id="search"
-          onSubmit={createMessage.bind(null, uid)}
+          onSubmit={createMessage}
         />
         <MessagesList
           messages={messages}
-          friendAction={console.log}
-          likeAction={console.log}
+          friendActions={{ add: addFriend, remove: removeFriend }}
+          likeActions={{ like: likeMessage, unlike: unlikeMessage }}
         />
       </div>
     </div>

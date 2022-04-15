@@ -78,7 +78,7 @@ const Message = ({
         <div className="user-details">
           <UserElement
             isFriend={isFriend}
-            friendAction={friendAction ?? undefined}
+            friendAction={() => friendAction()}
             description={description}
             name={name}
             avatarLink={avatarLink}
@@ -89,7 +89,7 @@ const Message = ({
       <p className="message">{content}</p>
       <div className="metadata">
         <span className="likes">
-          <button onClick={likeAction} className="like-button">
+          <button onClick={() => likeAction()} className="like-button">
             <CSSTransition in={isLiked} timeout={100}>
               <div className="like-icon">
                 {isLiked ? <BsHeartFill /> : <BsHeart />}
@@ -102,7 +102,7 @@ const Message = ({
         <SimpleButton
           label="➕ Ajouter"
           className={cx("action", { isVisible: !(isFriend || fromHimself) })}
-          onClick={friendAction ?? undefined}
+          onClick={() => friendAction()}
         />
       </div>
     </article>

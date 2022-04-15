@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { FormEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -23,8 +24,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [registerView, setRegisterView] = useState(false);
-  const [login, setLogin] = useState("");
+  const [mail, setMail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
 
   const text = registerView ? registerStrings : loginStrings;
 
@@ -33,9 +36,13 @@ const Login = () => {
 
   const loginAction: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    const action = registerView ? register : signIn;
-    //@ts-expect-error
-    action({ login, password }, () => navigate(before, { replace: true }));
+    //TODO: Add feedback
+    if (!registerView || (registerView && confirmPass === password)) {
+      const action = registerView ? register : signIn;
+      action({ name, mail, password }, () =>
+        navigate(before, { replace: true })
+      );
+    }
   };
 
   return (
@@ -43,12 +50,22 @@ const Login = () => {
       <h1>{text.action}</h1>
       <form className="input-container" onSubmit={loginAction}>
         <Input
-          name="login"
-          label="Login"
+          name="mail"
+          label="Mail"
           required
-          value={login}
-          listener={setLogin}
+          type="email"
+          value={mail}
+          listener={setMail}
         />
+        {registerView && (
+          <Input
+            name="username"
+            label="Nom d'utilisateur"
+            required
+            value={name}
+            listener={setName}
+          />
+        )}
         <Input
           name="password"
           label="Mot de passe"
@@ -63,8 +80,8 @@ const Login = () => {
             label="Confirmer le mot de passe"
             type="password"
             required
-            value={password}
-            listener={setPassword}
+            value={confirmPass}
+            listener={setConfirmPass}
           />
         )}
 

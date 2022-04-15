@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { getUser as fetchUserInfo } from "../services/user";
 import { useAuth } from "../providers/AuthProvider";
-import { addFriend, areFriends, removeFriend } from "../services/friend";
+import { addFriend, removeFriend } from "../services/friend";
 import { useAsyncEffect } from "../utils/extra-hooks";
 import { AiFillMessage } from "react-icons/ai";
 import { MdPeople } from "react-icons/md";
@@ -12,20 +12,17 @@ import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import FriendButton from "../components/FriendButton";
 import { User } from "../services/user";
-import { changeLikeStateMessage, Message } from "../services/message";
 
 export interface UserProfileOutletContext {
-  id: string;
+  uid: string;
   isFriend: boolean;
   isHimself: boolean;
   friendAction: (uid: User["id"]) => void;
-  likeAction: (mid: Message["id"]) => void;
   user: User;
 }
 
 const UserProfile = () => {
   const [user, setUser] = useState<User>({} as User);
-  const [isFriend, setIsFriend] = useState(false);
 
   const id = useParams().id!;
   const { id: mainUid } = useAuth().user!;
@@ -37,17 +34,9 @@ const UserProfile = () => {
     async (stillMounted) => {
       setIsLoading(true);
 
-      const isFriendPromise = isHimself
-        ? Promise.resolve(false)
-        : areFriends(id, mainUid);
-
-      const [isFriend, user] = await Promise.all([
-        isFriendPromise,
-        fetchUserInfo(id),
-      ]);
+      const user = await fetchUserInfo(id);
 
       if (stillMounted()) {
-        setIsFriend(isFriend);
         setUser(user);
         setIsLoading(false);
       }
@@ -55,20 +44,16 @@ const UserProfile = () => {
     [id]
   );
 
-  const friendAction = (isFriend ? addFriend : removeFriend).bind(
+  const friendAction = (user.isFriend ? removeFriend : addFriend).bind(
     null,
-    mainUid,
     id
   );
 
-  const likeAction = changeLikeStateMessage.bind(null, mainUid);
-
   const outlet: UserProfileOutletContext = {
-    id,
-    isFriend,
+    uid: id,
+    isFriend: user.isFriend,
     isHimself,
     friendAction,
-    likeAction,
     user,
   };
 
@@ -92,7 +77,10 @@ const UserProfile = () => {
 
         <div>
           {!isHimself && (
-            <FriendButton onClick={friendAction} isFriend={isFriend} />
+            <FriendButton
+              onClick={() => friendAction()}
+              isFriend={user.isFriend}
+            />
           )}
         </div>
 

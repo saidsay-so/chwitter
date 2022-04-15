@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import UserElement from "../../components/User";
-import { getFriends } from "../../services/friend";
+import { addFriend, getFriends, removeFriend } from "../../services/friend";
 import { User } from "../../services/user";
 import { useAsyncEffect } from "../../utils/extra-hooks";
 import { UserProfileOutletContext } from "../UserProfile";
@@ -9,18 +9,17 @@ import "./Friends.css";
 
 const UserFriends = () => {
   const [friends, setFriends] = useState<User[]>([]);
-  const { id, isHimself, friendAction } =
-    useOutletContext<UserProfileOutletContext>();
+  const { uid, isHimself } = useOutletContext<UserProfileOutletContext>();
 
   useAsyncEffect(
     async (stillMounted) => {
-      const rawFriends = await getFriends(id);
+      const rawFriends = await getFriends(uid);
 
       if (stillMounted()) {
         setFriends(rawFriends);
       }
     },
-    [id]
+    [uid]
   );
 
   return (
@@ -31,7 +30,10 @@ const UserFriends = () => {
             <UserElement
               {...friend}
               isFriend={isHimself || friend.isFriend}
-              friendAction={friendAction.bind(null, friend.id)}
+              friendAction={(friend.isFriend ? removeFriend : addFriend).bind(
+                null,
+                friend.id
+              )}
             />
           </li>
         ))}
