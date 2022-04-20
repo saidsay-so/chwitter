@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
 import UserProfile from "./pages/UserProfile";
 import { AuthProvider } from "./providers/AuthProvider";
+import { ToastProvider } from "./providers/ToastProvider";
 import RequireAuthProvider from "./providers/RequireAuthProvider";
 import UserMessages from "./pages/user/Messages";
 import UserFriends from "./pages/user/Friends";
@@ -21,40 +22,42 @@ const root = createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/users/:id"
-              element={
-                <RequireAuthProvider>
-                  <UserProfile />
-                </RequireAuthProvider>
-              }
-            >
-              <Route index element={<Navigate to="messages" replace />} />
+      <ToastProvider>
+        <AuthProvider>
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<MainPage />} />
+              <Route path="/login" element={<Login />} />
               <Route
-                path="messages"
+                path="/users/:id"
                 element={
                   <RequireAuthProvider>
-                    <UserMessages />
+                    <UserProfile />
                   </RequireAuthProvider>
                 }
-              />
-              <Route
-                path="friends"
-                element={
-                  <RequireAuthProvider>
-                    <UserFriends />
-                  </RequireAuthProvider>
-                }
-              />
+              >
+                <Route index element={<Navigate to="messages" replace />} />
+                <Route
+                  path="messages"
+                  element={
+                    <RequireAuthProvider>
+                      <UserMessages />
+                    </RequireAuthProvider>
+                  }
+                />
+                <Route
+                  path="friends"
+                  element={
+                    <RequireAuthProvider>
+                      <UserFriends />
+                    </RequireAuthProvider>
+                  }
+                />
+              </Route>
             </Route>
-          </Route>
-        </Routes>
-      </AuthProvider>
+          </Routes>
+        </AuthProvider>
+      </ToastProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

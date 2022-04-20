@@ -1,27 +1,25 @@
-import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import MessagesList from "../../components/MessagesList";
-import { addFriend, removeFriend } from "../../services/friend";
-import {
-  getMessages,
-  likeMessage,
-  Message,
-  unlikeMessage,
-} from "../../services/message";
-import { useAsyncEffect } from "../../utils/extra-hooks";
+import { useAuth } from "../../providers/AuthProvider";
+import { getMessages } from "../../services/message";
+import { useAsyncEffect, useMessagesReducer } from "../../utils/extra-hooks";
 import { UserProfileOutletContext } from "../UserProfile";
 
 const UserMessages = () => {
-  const { uid, isHimself } = useOutletContext<UserProfileOutletContext>();
-
-  const [messages, setMessages] = useState<Message[]>([]);
+  const { uid } = useOutletContext<UserProfileOutletContext>();
+  const { id: mainUid } = useAuth().user!;
+  // const [isPending, startTransition] = useTransition();
+  const [
+    messages,
+    { load, like, removeMessage, unlike, addFriend, removeFriend },
+  ] = useMessagesReducer();
 
   useAsyncEffect(
     async (stillMounted) => {
       const messages = await getMessages({ uid });
 
       if (stillMounted()) {
-        setMessages(messages);
+        load(messages);
       }
     },
     [uid]
@@ -31,9 +29,10 @@ const UserMessages = () => {
     <div className="messages-container">
       <MessagesList
         messages={messages}
-        fromHimself={isHimself}
         friendActions={{ add: addFriend, remove: removeFriend }}
-        likeActions={{ like: likeMessage, unlike: unlikeMessage }}
+        likeActions={{ like, unlike }}
+        removeAction={removeMessage}
+        uid={mainUid}
       />
     </div>
   );

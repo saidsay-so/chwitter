@@ -5,7 +5,7 @@ export class MessageResponse {
   content!: string;
   date!: number;
   likes!: number;
-  isLiked?: boolean;
+  isLiked!: boolean;
 
   constructor({
     id,
@@ -49,6 +49,7 @@ export class MessagesResponse {
 
 export class MessagesSearchParams {
   uid?: string;
+  username?: string;
   search?: string;
   onlyfollowed?: "false" | "true" | string;
   limit?: number;

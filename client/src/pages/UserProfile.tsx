@@ -21,7 +21,7 @@ export interface UserProfileOutletContext {
   user: User;
 }
 
-const UserProfile = () => {
+export default function UserProfile() {
   const [user, setUser] = useState<User>({} as User);
 
   const id = useParams().id!;
@@ -44,10 +44,10 @@ const UserProfile = () => {
     [id]
   );
 
-  const friendAction = (user.isFriend ? removeFriend : addFriend).bind(
-    null,
-    id
-  );
+  const friendAction = () => {
+    setUser(({ isFriend, ...user }) => ({ ...user, isFriend: !isFriend }));
+    (user.isFriend ? removeFriend : addFriend)(id);
+  };
 
   const outlet: UserProfileOutletContext = {
     uid: id,
@@ -99,6 +99,4 @@ const UserProfile = () => {
       </div>
     </div>
   );
-};
-
-export default UserProfile;
+}

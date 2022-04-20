@@ -1,36 +1,25 @@
-import {
-  createMessage,
-  getMessages,
-  likeMessage,
-  unlikeMessage,
-} from "../services/message";
+import { getMessages } from "../services/message";
 import MessagesList from "../components/MessagesList";
 import "./HomeFeed.css";
 import MessageArea from "../components/MessageArea";
-import { useAsyncEffect } from "../utils/extra-hooks";
+import { useAsyncEffect, useMessagesReducer } from "../utils/extra-hooks";
 import { useAuth } from "../providers/AuthProvider";
-import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { MainLayoutOutlet } from "../layouts/MainLayout";
-import { Message } from "../services/message";
-import { addFriend, removeFriend } from "../services/friend";
 
 export default function HomeFeed() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [
+    messages,
+    { load, create, removeMessage, addFriend, removeFriend, like, unlike },
+  ] = useMessagesReducer();
   const { id: uid } = useAuth().user!;
   const { refMessageArea } = useOutletContext<MainLayoutOutlet>();
 
   useAsyncEffect(async (stillMounted) => {
-    const rawMessages = await getMessages();
-
-    const messages = await Promise.all(
-      rawMessages.map(async (msg) => {
-        return { ...msg, fromHimself: msg.author.id == uid };
-      })
-    );
+    const messages = await getMessages();
 
     if (stillMounted()) {
-      setMessages(messages);
+      load(messages);
     }
   }, []);
 
@@ -40,12 +29,14 @@ export default function HomeFeed() {
         <MessageArea
           refArea={refMessageArea}
           id="search"
-          onSubmit={createMessage}
+          onSubmit={(content) => create({ content })}
         />
         <MessagesList
           messages={messages}
           friendActions={{ add: addFriend, remove: removeFriend }}
-          likeActions={{ like: likeMessage, unlike: unlikeMessage }}
+          likeActions={{ like, unlike }}
+          uid={uid}
+          removeAction={removeMessage}
         />
       </div>
     </div>

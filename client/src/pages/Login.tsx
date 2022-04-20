@@ -1,10 +1,11 @@
-import axios from "axios";
 import React, { FormEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Input from "../components/Input";
 import SimpleButton from "../components/SimpleButton";
+import { Severity } from "../components/Toast";
 import { useAuth } from "../providers/AuthProvider";
+import { useToast } from "../providers/ToastProvider";
 import "./Login.css";
 
 const loginStrings = {
@@ -19,8 +20,9 @@ const registerStrings = {
   invert: loginStrings.action,
 };
 
-const Login = () => {
+export default function Login() {
   const { signIn, register } = useAuth();
+  const { report } = useToast();
   const navigate = useNavigate();
 
   const [registerView, setRegisterView] = useState(false);
@@ -36,12 +38,13 @@ const Login = () => {
 
   const loginAction: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    //TODO: Add feedback
+
     if (!registerView || (registerView && confirmPass === password)) {
       const action = registerView ? register : signIn;
-      action({ name, mail, password }, () =>
-        navigate(before, { replace: true })
-      );
+      action({ name, mail, password }, (err) => {
+        if (err) report({ severity: Severity.ERROR, error: err });
+        else navigate(before, { replace: true });
+      });
     }
   };
 
@@ -101,6 +104,4 @@ const Login = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}

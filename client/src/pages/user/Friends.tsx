@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import UserElement from "../../components/User";
+import { useAuth } from "../../providers/AuthProvider";
 import { addFriend, getFriends, removeFriend } from "../../services/friend";
 import { User } from "../../services/user";
 import { useAsyncEffect } from "../../utils/extra-hooks";
@@ -9,6 +10,7 @@ import "./Friends.css";
 
 const UserFriends = () => {
   const [friends, setFriends] = useState<User[]>([]);
+  const { id: mainUid } = useAuth().user!;
   const { uid, isHimself } = useOutletContext<UserProfileOutletContext>();
 
   useAsyncEffect(
@@ -29,7 +31,9 @@ const UserFriends = () => {
           <li key={friend.id}>
             <UserElement
               {...friend}
-              isFriend={isHimself || friend.isFriend}
+              isFriend={
+                friend.id !== mainUid ? isHimself || friend.isFriend : undefined
+              }
               friendAction={(friend.isFriend ? removeFriend : addFriend).bind(
                 null,
                 friend.id

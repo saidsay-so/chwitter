@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../providers/AuthProvider";
 import HomeFeed from "./HomeFeed";
 
-const MainPage = () => {
+export default function MainPage() {
   const { isLogged } = useAuth();
   const location = useLocation();
 
@@ -14,6 +14,4 @@ const MainPage = () => {
   );
 
   return Page;
-};
-
-export default MainPage;
+}

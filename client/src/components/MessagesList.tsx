@@ -16,16 +16,18 @@ interface MessagesListProps {
     remove: (authorId: User["id"]) => void;
   };
   /**
-   * Indique si l'auteur est le lecteur (si tous les messages viennent du même auteur)
+   * ID du lecteur
    */
-  fromHimself?: boolean;
+  uid: User["id"];
   /**
    * Action d'ajout/suppression du like
    */
   likeActions: {
-    like: (messageId: Message["id"]) => void;
-    unlike: (messageId: Message["id"]) => void;
+    like: (messageId: Message["id"], index: number) => void;
+    unlike: (messageId: Message["id"], index: number) => void;
   };
+
+  removeAction: (mid: Message["id"], index: number) => void;
 }
 
 /**
@@ -35,19 +37,21 @@ const MessagesList = ({
   messages,
   friendActions: { add, remove },
   likeActions: { like, unlike },
-  fromHimself,
+  uid,
+  removeAction,
 }: MessagesListProps) => {
   return (
     <ul className="messages">
-      {messages.map((msg) => (
+      {messages.map((msg, i) => (
         <li key={msg.id}>
           <MessageElement
             friendAction={(msg.author.isFriend ? remove : add)?.bind(
               null,
               msg.author.id
             )}
-            likeAction={(msg.isLiked ? unlike : like)?.bind(null, msg.id)}
-            fromHimself={fromHimself}
+            likeAction={(msg.isLiked ? unlike : like)?.bind(null, msg.id, i)}
+            fromHimself={msg.author.id === uid}
+            removeAction={removeAction.bind(null, msg.id, i)}
             {...msg}
           />
         </li>

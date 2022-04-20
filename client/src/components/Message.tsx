@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from "react";
+import React from "react";
 import "./Message.css";
 import SimpleButton from "./SimpleButton";
 import Avatar from "./Avatar";
@@ -27,21 +27,17 @@ interface MessageProps {
    */
   date: number;
   /**
-   * Indique si il s'agit d'un ami
-   */
-  isFriend?: boolean;
-  /**
    * Appelé lors de la pression du bouton d'ajout/suppression d'ami
    */
   friendAction: VoidFunction;
   /**
    * Indique si l'auteur du message est le lecteur
    */
-  fromHimself?: boolean;
+  fromHimself: boolean;
   /**
    * Indique si le lecteur a liké le message
    */
-  isLiked?: boolean;
+  isLiked: boolean;
   /**
    * Nombre de likes
    */
@@ -50,6 +46,8 @@ interface MessageProps {
    * Appelé lors de la pression du bouton d'ajout/suppression de like
    */
   likeAction: VoidFunction;
+
+  removeAction: VoidFunction;
 }
 
 /**
@@ -57,14 +55,14 @@ interface MessageProps {
  */
 const Message = ({
   content,
-  author: { name, profileLink, avatarLink, description },
+  author: { name, profileLink, avatarLink, description, isFriend },
   date,
-  isFriend,
   friendAction,
-  fromHimself,
   likes,
   isLiked,
   likeAction,
+  fromHimself,
+  removeAction,
 }: MessageProps) => {
   return (
     <article className={cx("message-container", { isLiked })}>
@@ -77,7 +75,7 @@ const Message = ({
         </Link>
         <div className="user-details">
           <UserElement
-            isFriend={isFriend}
+            isFriend={fromHimself ? undefined : isFriend}
             friendAction={() => friendAction()}
             description={description}
             name={name}
@@ -100,9 +98,18 @@ const Message = ({
         </span>
         <span className="date">{dayjs(date).fromNow()}</span>
         <SimpleButton
-          label="➕ Ajouter"
-          className={cx("action", { isVisible: !(isFriend || fromHimself) })}
+          label="➕ Ajouter aux amis"
+          className={cx("action", {
+            isVisible: !(fromHimself || isFriend),
+          })}
           onClick={() => friendAction()}
+        />
+        <SimpleButton
+          label="Supprimer"
+          className={cx("action", {
+            isVisible: fromHimself,
+          })}
+          onClick={() => removeAction()}
         />
       </div>
     </article>

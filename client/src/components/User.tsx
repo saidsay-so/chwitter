@@ -16,7 +16,7 @@ interface UserProps {
   /**
    * Lien vers la photo de profil de l'utilisateur
    */
-  avatarLink?: string;
+  avatarLink: string;
   /**
    * Nom du lecteur
    */
@@ -53,7 +53,9 @@ const User = ({
         </Link>
         <p className="description">{description}</p>
       </div>
-      <FriendButton onClick={() => friendAction()} isFriend={isFriend} />
+      {isFriend !== undefined && (
+        <FriendButton onClick={() => friendAction()} isFriend={isFriend} />
+      )}
     </div>
   );
 };
