@@ -10,7 +10,7 @@ import { AuthError, AuthErrorType } from "../errors";
 import { hash } from "../utils";
 import { MessageSchema } from "./message";
 
-@pre("save", async function (this: DocumentType<UserSchema>) {
+@pre("save", async function(this: DocumentType<UserSchema>) {
   const buffer = await hash(this.password.normalize(), this.id, 128);
   this.password = buffer.toString("hex");
 })
@@ -80,7 +80,7 @@ export class UserSchema {
   }
 
   static findByName(this: ReturnModelType<typeof UserSchema>, name: string) {
-    return this.find({ name });
+    return this.findOne({ name });
   }
 
   async verifyPassword(

@@ -10,9 +10,9 @@ export class MessageSchema extends BaseDocument {
   // We add it to the model using schema options
   date!: Date;
 
-  @prop({ required: true })
+  @prop({ required: true, minlength: 8, maxlength: 320 })
   content!: string;
 
-  @prop({ default: 0 })
+  @prop({ default: 0, min: 0 })
   likes!: number;
 }

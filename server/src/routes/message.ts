@@ -4,8 +4,9 @@ import {
   MessagesResponse,
   MessageResponse,
 } from "common";
-import { Router } from "express";
+import { RequestHandler, Router } from "express";
 import mongoose from "mongoose";
+import { AuthError, AuthErrorType } from "../errors";
 import { MessageModel, UserModel } from "../models";
 import { MessageSchema } from "../models/message";
 import { UserSchema } from "../models/user";
@@ -18,12 +19,42 @@ import {
 
 const routes = Router();
 
+const messageIsLiked = async (mid: string, uid: string) =>
+  (await UserModel.exists({ _id: uid, likedMessages: mid })) !== null;
+
+const isMessageAuthor: RequestHandler = async (req, res, next) => {
+  const { mid } = req.params;
+  try {
+    if ((await MessageModel.exists({ _id: mid, author: req.session.userId! })) === null) {
+      return res.sendStatus(409);
+    }
+
+    return next();
+  } catch (e) {
+    return next(e);
+  }
+}
+
+const checkMessageExists: RequestHandler = async (req, res, next) => {
+  const { mid } = req.params;
+  try {
+    if ((await MessageModel.exists({ _id: mid })) === null) {
+      return res.sendStatus(409);
+    }
+
+    return next();
+  } catch (e) {
+    return next(e)
+  }
+};
+
 routes.all("*", requireAuth);
 
 routes.get("/", async (req, res, next) => {
   try {
     const {
       uid = "",
+      username = "",
       search = "",
       onlyfollowed = "false",
       skip = 0,
@@ -48,6 +79,8 @@ routes.get("/", async (req, res, next) => {
       }
     } else if (uid) {
       params["author"] = uid;
+    } else if (username) {
+      params["author"] = (await UserModel.findByName(username).exec())?._id;
     }
 
     const rawMessages = await MessageModel.find(params)
@@ -64,16 +97,13 @@ routes.get("/", async (req, res, next) => {
             custom: {
               isFriend: await getFriendState(
                 req.session.userId!,
-                (msg!.author! as UserSchema & { _id: any })._id!
+                (msg.author as DocumentType<UserSchema>)._id!
               ),
               avatarLink: getAvatarLink(
-                (msg!.author! as DocumentType<UserSchema>).id!
+                (msg.author as DocumentType<UserSchema>).id!
               ),
               isLiked:
-                (await UserModel.exists({
-                  _id: req.session.userId,
-                  likedMessages: msg._id,
-                })) !== null,
+                await messageIsLiked(msg.id, req.session.userId!),
             },
           }) as unknown as MessageResponse
       )
@@ -89,10 +119,9 @@ routes.post("/", async (req, res, next) => {
   const { userId: author } = req.session;
   try {
     const { content } = req.body;
-    console.info(content);
 
-    //TODO: Check if user exists
-    await UserModel.exists({ _id: author });
+    if (!await UserModel.exists({ _id: author }))
+      return res.sendStatus(409);
 
     const msg = await (
       await MessageModel.create({ author, content })
@@ -102,7 +131,6 @@ routes.post("/", async (req, res, next) => {
       msg.toJSON({
         custom: {
           isFriend: false,
-          //TODO: Dangerous?
           avatarLink: getAvatarLink(author!),
           isLiked: false,
         },
@@ -113,91 +141,139 @@ routes.post("/", async (req, res, next) => {
   }
 });
 
-//TODO: Add check that user hasn't liked the message
-routes.put("/:mid/:uid?/like", checkRights, async (req, res, next) => {
-  const { mid, uid } = req.params;
-  const session = await mongoose.startSession();
+routes.put(
+  "/:mid/like",
+  checkRights,
+  checkMessageExists,
+  async (req, res, next) => {
+    const { mid } = req.params;
+    const session = await mongoose.startSession();
+    try {
+      if (await messageIsLiked(mid!, req.session.userId!)) {
+        return res.sendStatus(409);
+      }
+
+      await session.withTransaction(async () => {
+        await MessageModel.findByIdAndUpdate(
+          mid,
+          { $inc: { likes: 1 } },
+          { session }
+        ).exec();
+        await UserModel.findByIdAndUpdate(
+          req.session.userId,
+          {
+            $addToSet: { likedMessages: mid },
+          },
+          { session }
+        ).exec();
+      });
+
+      return res.sendStatus(200);
+    } catch (e) {
+      return next(e);
+    } finally {
+      session.endSession();
+    }
+  }
+);
+
+routes.delete(
+  "/:mid/like",
+  checkRights,
+  checkMessageExists,
+  async (req, res, next) => {
+    const { mid } = req.params;
+    const session = await mongoose.startSession();
+    try {
+      if (!(await messageIsLiked(mid!, req.session.userId!))) {
+        return res.sendStatus(409);
+      }
+
+      await session.withTransaction(async () => {
+        await MessageModel.findByIdAndUpdate(
+          mid,
+          { $inc: { likes: -1 } },
+          { session }
+        ).exec();
+        await UserModel.findByIdAndUpdate(req.session.userId, {
+          $pull: { likedMessages: mid },
+        }).exec();
+      });
+
+      return res.sendStatus(200);
+    } catch (e) {
+      return next(e);
+    } finally {
+      session.endSession();
+    }
+  }
+);
+
+routes.get("/:mid", checkMessageExists, async (req, res, next) => {
+  let { mid } = req.params;
+
   try {
-    await session.withTransaction(async () => {
-      await MessageModel.findByIdAndUpdate(
-        mid,
-        { $inc: { likes: 1 } },
-        { session }
-      ).exec();
-      await UserModel.findByIdAndUpdate(
-        uid ?? req.session.userId,
-        {
-          $addToSet: { likedMessages: mid },
+    const msg = await MessageModel.findById(mid).populate("author").exec();
+    //TODO: Change error type
+    if (!msg) throw new AuthError(AuthErrorType.EMPTY_INFORMATION);
+
+    return res.status(200).json(
+      msg.toJSON({
+        custom: {
+          isLiked: await messageIsLiked(mid!, req.session.userId!),
+          isFriend: await getFriendState(
+            req.session.userId!,
+            (msg.author as DocumentType<UserSchema>)._id!
+          ),
+          avatarLink: getAvatarLink(
+            (msg.author as DocumentType<UserSchema>)._id!
+          ),
         },
-        { session }
-      ).exec();
-    });
-
-    return res.sendStatus(200);
+      })
+    );
   } catch (e) {
     return next(e);
-  } finally {
-    session.endSession();
   }
 });
 
-//TODO: Add check that user has liked the message
-routes.delete("/:mid/:uid?/like", checkRights, async (req, res, next) => {
-  const { mid, uid } = req.params;
-  const session = await mongoose.startSession();
-  try {
-    await session.withTransaction(async () => {
-      await MessageModel.findByIdAndUpdate(
-        mid,
-        { $inc: { likes: -1 } },
-        { session }
-      ).exec();
-      await UserModel.findByIdAndUpdate(uid ?? req.session.userId, {
-        $pull: { likedMessages: mid },
-      }).exec();
-    });
-
-    return res.sendStatus(200);
-  } catch (e) {
-    return next(e);
-  } finally {
-    session.endSession();
-  }
-});
-
-//TODO: should we add this route?
-routes.get("/:mid", async (_req, res) => {
-  return res.sendStatus(501);
-});
-
-routes.patch("/:mid", async (req, res, next) => {
+routes.patch("/:mid", checkMessageExists, isMessageAuthor, async (req, res, next) => {
   const { mid } = req.params;
+
   try {
     const { content } = req.body;
-    //TODO: Outer check for author
-    const msg = await MessageModel.findOneAndUpdate(
-      { _id: mid, author: req.session.userId },
-      {
-        $set: { content },
-      }
+    const msg = await MessageModel.findByIdAndUpdate(
+      { _id: mid },
+      { $set: { content } }
     )
       .populate("author")
       .exec();
-    return res.status(200).json(msg);
+    return res.status(200).json(
+      msg!.toJSON({
+        custom: {
+          isLiked: await messageIsLiked(mid!, req.session.userId!),
+          isFriend: await getFriendState(
+            req.session.userId!,
+            (msg!.author as DocumentType<UserSchema>).id!
+          ),
+          avatarLink: getAvatarLink(
+            (msg!.author as DocumentType<UserSchema>).id!
+          ),
+        },
+      })
+    );
   } catch (e) {
     return next(e);
   }
 });
 
-//TODO: Check if it's the owner
-routes.delete("/:mid", async (req, res, next) => {
+routes.delete("/:mid", checkMessageExists, isMessageAuthor, async (req, res, next) => {
   const { mid } = req.params;
   const session = await mongoose.startSession();
   try {
     await session.withTransaction(async () => {
       await UserModel.updateMany(
         { likedMessages: mid },
-        { likedMessages: { $pull: mid } },
+        { $pull: { likedMessages: mid } },
         { session }
       ).exec();
       await MessageModel.findByIdAndDelete(mid, { session }).exec();

@@ -54,7 +54,6 @@ routes.post("/", async (req, res, next) => {
       newUser.toJSON({
         custom: {
           isFriend: false,
-          //TODO: Generate avatar link
           avatarLink: getAvatarLink(newUser.id!),
         },
       })
@@ -77,7 +76,6 @@ routes.get("/:uid", async (req, res, next) => {
     const user = rawUser.toJSON({
       custom: {
         isFriend: await getFriendState(req.session.userId!, uid),
-        //TODO: Dangerous?
         avatarLink: getAvatarLink(uid),
       },
     });
