@@ -4,6 +4,7 @@
   --input-padding: 0.35rem;
   --input-border: 0.1rem;
   --reveal-width: 2rem;
+  --reveal-icon-size: 1.25rem;
 
   position: relative;
   width: 100%;
@@ -43,6 +44,12 @@
   height: calc(var(--input-padding) * 2 + 1rem + var(--input-border) * 2);
   z-index: 1;
   color: var(--primary);
+}
+
+.input .pass-reveal .icon {
+  vertical-align: middle;
+  width: var(--reveal-icon-size);
+  height: var(--reveal-icon-size);
 }
 
 .input .pass-reveal:hover {

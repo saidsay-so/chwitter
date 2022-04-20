@@ -1,4 +1,5 @@
 import { ComponentPropsWithoutRef, useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import "./Input.css";
 
 /**
@@ -15,13 +16,13 @@ const Input = ({
 }: InputProps) => {
   const [reveal, setReveal] = useState(false);
 
-  const revealChar = reveal ? "゠" : "👁";
+  const RevealIcon = reveal ? AiFillEyeInvisible : AiFillEye;
 
   return (
     <div className="input">
       {type === "password" && (
         <div className="pass-reveal" onClick={() => setReveal(!reveal)}>
-          {revealChar}
+          <RevealIcon className="icon" />
         </div>
       )}
       <input
