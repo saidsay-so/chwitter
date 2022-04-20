@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  CreateMessageParams,
   MessageResponse,
   MessagesResponse,
   MessagesSearchParams,
@@ -10,22 +11,24 @@ export interface Message extends MessageResponse {
   author: User;
 }
 
-export const createMessage = async (content: string, uid?: User["id"]) => {
-  const res = await axios.post("/api/messages", { content });
+export const createMessage = async (message: CreateMessageParams) => {
+  const res = await axios.post<MessageResponse>("/api/messages", message);
 
-  console.info(res.data);
+  const { author, ...msg } = res.data;
+
+  return { ...msg, author: new User(author) };
 };
 
 export const deleteMessage = async (mid: Message["id"]) => {
   await axios.delete(`/api/messages/${mid}`);
 };
 
-export const likeMessage = async (mid: Message["id"], uid?: User["id"]) => {
-  await axios.put(`/api/messages/${mid}/${uid ?? ""}/like`);
+export const likeMessage = async (mid: Message["id"]) => {
+  await axios.put(`/api/messages/${mid}/like`);
 };
 
-export const unlikeMessage = async (mid: Message["id"], uid?: User["id"]) => {
-  await axios.delete(`/api/messages/${mid}/${uid ?? ""}/like`);
+export const unlikeMessage = async (mid: Message["id"]) => {
+  await axios.delete(`/api/messages/${mid}/like`);
 };
 
 export const getMessages = async (
@@ -34,16 +37,12 @@ export const getMessages = async (
   const res = await axios.get<MessagesResponse>("/api/messages", {
     params,
   });
-
   const { messages: rawMessages } = res.data;
-  console.log(rawMessages);
 
-  const messages = rawMessages.map(
-    ({ author: { id, ...author }, ...user }) => ({
-      ...user,
-      author: { ...author, id, profileLink: `/users/${id}` },
-    })
-  );
+  const messages = rawMessages.map(({ author, ...user }) => ({
+    ...user,
+    author: new User(author),
+  }));
 
   return messages;
 };
