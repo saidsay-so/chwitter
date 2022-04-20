@@ -1,0 +1,26 @@
+/** TODO: Weird to have CSS and provider */
+
+.toast-container {
+  position: absolute;
+  width: 25%;
+  left: 0;
+  right: 0;
+  bottom: -5rem;
+  margin: auto;
+}
+
+.toast-container-enter {
+  opacity: 0;
+}
+.toast-container-enter-active {
+  opacity: 1;
+  bottom: 1rem;
+  transition: all 200ms;
+}
+.toast-container-exit {
+  opacity: 1;
+}
+.toast-container-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
