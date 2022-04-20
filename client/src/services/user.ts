@@ -5,9 +5,8 @@ export class User extends UserResponse {
   profileLink!: string;
 
   constructor(params: UserResponse) {
-    //@ts-expect-error
     super({ ...params });
-    this.profileLink = `/users/${this.id}`;
+    this.profileLink = `/users/${params.id}`;
   }
 }
 
