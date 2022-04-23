@@ -26,7 +26,6 @@ export default function Login() {
   const navigate = useNavigate();
 
   const [registerView, setRegisterView] = useState(false);
-  const [mail, setMail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -41,7 +40,7 @@ export default function Login() {
 
     if (!registerView || (registerView && confirmPass === password)) {
       const action = registerView ? register : signIn;
-      action({ name, mail, password }, (err) => {
+      action({ name, password }, (err) => {
         if (err) report({ severity: Severity.ERROR, error: err });
         else navigate(before, { replace: true });
       });
@@ -53,22 +52,12 @@ export default function Login() {
       <h1>{text.action}</h1>
       <form className="input-container" onSubmit={loginAction}>
         <Input
-          name="mail"
-          label="Mail"
+          name="username"
+          label="Nom d'utilisateur"
           required
-          type="email"
-          value={mail}
-          listener={setMail}
+          value={name}
+          listener={setName}
         />
-        {registerView && (
-          <Input
-            name="username"
-            label="Nom d'utilisateur"
-            required
-            value={name}
-            listener={setName}
-          />
-        )}
         <Input
           name="password"
           label="Mot de passe"
@@ -87,7 +76,6 @@ export default function Login() {
             listener={setConfirmPass}
           />
         )}
-
         <div className="buttons">
           <SimpleButton label={text.action} />
         </div>

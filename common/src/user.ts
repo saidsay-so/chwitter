@@ -32,7 +32,6 @@ export class UserResponse {
 
 export class UpdateUserParams {
   name?: string;
-  mail?: string;
   avatar?: File;
   password?: string;
   displayName?: string;

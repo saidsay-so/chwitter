@@ -40,7 +40,6 @@ describe("/users", () => {
     await request(app)
       .post("/api/users/")
       .send({ name: "musikid" })
-      .send({ mail: "musikid@outlook.com" })
       .send({ password: "thisismypassword" })
       .expect(201)
       .expect("Content-Type", /json/);
@@ -51,7 +50,6 @@ describe("/users", () => {
       .post("/api/users/")
       .type("form")
       .send({ name: "musikid" })
-      .send({ mail: "musikid@outlook.com" })
       .send({ password: "thisismypassword" })
       .expect(201)
       .expect("Content-Type", /json/);
@@ -67,8 +65,7 @@ describe("/friends", () => {
   beforeEach(async () => {
     const length = 100;
     users = Array.from({ length }, () => ({
-      name: faker.internet.userName(),
-      mail: faker.internet.email(),
+      name: faker.internet.userName().toLowerCase().replace(".", "_"),
       password: "12",
     }));
 
@@ -128,7 +125,6 @@ describe("/messages", () => {
   beforeEach(async () => {
     const bareUser = {
       name: "example",
-      mail: "ex@example.com",
       password: "ex",
     };
     user = await UserModel.create(bareUser);
@@ -137,10 +133,12 @@ describe("/messages", () => {
   });
 
   it("POST / - create message", async () => {
+    const content = faker.lorem.sentence();
+
     const res = await authenticatedAgent
       .post("/api/messages")
       .send({
-        content: "garbage",
+        content,
       })
       .expect(201)
       .expect("Content-Type", /json/);
@@ -157,7 +155,7 @@ describe("/messages", () => {
         }),
         id: user.id,
       } as unknown as UserResponse,
-      content: "garbage",
+      content,
       date: expect.any(Number),
       likes: 0,
       isLiked: false,

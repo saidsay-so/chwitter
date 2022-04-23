@@ -35,7 +35,7 @@ const renderAvatar = (buffer: Buffer, res: Response) => {
 
 routes.post("/", async (req, res, next) => {
   try {
-    const { name, mail, password }: RegisterParams = req.body;
+    const { name, password }: RegisterParams = req.body;
     const avatar = await sharp(
       Buffer.from(
         createAvatar(avatarStyle, {
@@ -46,7 +46,7 @@ routes.post("/", async (req, res, next) => {
       .resize(96, 96)
       .avif({ lossless: true })
       .toBuffer();
-    const newUser = await UserModel.create({ name, mail, password, avatar });
+    const newUser = await UserModel.create({ name, password, avatar });
 
     req.session.userId = newUser.id;
 
@@ -98,8 +98,6 @@ routes.patch(
 
     try {
       const {
-        name,
-        mail,
         password,
         displayName,
         description,
@@ -112,8 +110,6 @@ routes.patch(
       const user = await UserModel.findByIdAndUpdate(
         uid,
         {
-          name,
-          mail,
           avatar,
           password,
           displayName,

@@ -8,7 +8,7 @@ export const enum AuthErrorType {
 
 const AuthErrorMessages = {
   [AuthErrorType.UNKNOWN_USER]: "User does not exist",
-  [AuthErrorType.EMPTY_INFORMATION]: "Missing email/password",
+  [AuthErrorType.EMPTY_INFORMATION]: "Missing name/password",
   [AuthErrorType.INVALID_PASSWORD]: "Passsword is incorrect",
 };
 

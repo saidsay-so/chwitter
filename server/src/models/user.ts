@@ -20,21 +20,12 @@ export class UserSchema {
     required: true,
     minlength: 1,
     maxlength: 32,
-    match: /^\S+$/,
+    match: /^[a-z_0-9]+$/,
     trim: true,
     index: true,
     unique: true,
   })
   name!: string;
-
-  @prop({
-    required: true,
-    match: /^\S+@\S+\.\S+$/,
-    trim: true,
-    index: true,
-    unique: true,
-  })
-  mail!: string;
 
   @prop({ required: true })
   password!: string;
@@ -43,7 +34,7 @@ export class UserSchema {
     default: "Sans Titre",
     trim: true,
     minlength: 1,
-    maxlength: 64,
+    maxlength: 32,
   })
   displayName!: string;
 
@@ -64,13 +55,13 @@ export class UserSchema {
 
   static async findUserLogin(
     this: ReturnModelType<typeof UserSchema>,
-    mail: string,
+    name: string,
     password: string
   ): Promise<DocumentType<UserSchema>> {
-    if (!mail || !password)
+    if (!name || !password)
       throw new AuthError(AuthErrorType.EMPTY_INFORMATION);
 
-    const user = await this.findOne({ mail }).exec();
+    const user = await this.findOne({ name }).exec();
     if (user === null) throw new AuthError(AuthErrorType.UNKNOWN_USER);
 
     if (!user.verifyPassword(password))

@@ -14,8 +14,8 @@ declare module "express-session" {
 
 routes.put("/login", async (req, res, next) => {
   try {
-    const { mail, password }: LoginParams = req.body;
-    const user = req.session.userId ? await UserModel.findById(req.session.userId).exec() : await UserModel.findUserLogin(mail, password);
+    const { name, password }: LoginParams = req.body;
+    const user = req.session.userId ? await UserModel.findById(req.session.userId).exec() : await UserModel.findUserLogin(name, password);
 
     if (!user) {
       throw new AuthError(AuthErrorType.UNKNOWN_USER);
