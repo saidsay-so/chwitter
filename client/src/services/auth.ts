@@ -1,7 +1,7 @@
 import axios from "axios";
 import { LoginParams, RegisterParams, UserResponse } from "common";
 
-export const login = async (loginInfo: LoginParams) => {
+export const login = async (loginInfo: LoginParams | null) => {
   const res = await axios.put<UserResponse>("/api/auth/login", {
     ...loginInfo,
   });

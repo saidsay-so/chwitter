@@ -8,7 +8,7 @@ type MaybeErrorCallback = (err?: any) => void;
 interface Context {
   user: User | null;
   isLogged: () => boolean;
-  signIn: (l: LoginParams, cb: MaybeErrorCallback) => void;
+  signIn: (l: LoginParams | null, cb: MaybeErrorCallback) => void;
   signOut: (cb: MaybeErrorCallback) => void;
   register: (r: RegisterParams, cb: MaybeErrorCallback) => void;
 }
@@ -20,7 +20,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const signIn = (loginInfo: LoginParams, cb: MaybeErrorCallback) =>
+  const signIn = (loginInfo: LoginParams | null, cb: MaybeErrorCallback) =>
     login(loginInfo)
       .then((user) => setUser(new User(user)))
       .then(cb)

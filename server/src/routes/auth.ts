@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { LoginParams } from "common";
 import { UserModel } from "../models";
-import { AuthErrorType } from "../errors";
+import { AuthError, AuthErrorType } from "../errors";
 import { getAvatarLink } from "../utils";
 
 const routes = Router();
@@ -9,15 +9,21 @@ const routes = Router();
 declare module "express-session" {
   export interface SessionData {
     userId: string;
-    active: boolean;
   }
 }
 
 routes.put("/login", async (req, res, next) => {
   try {
     const { mail, password }: LoginParams = req.body;
-    const user = await UserModel.findUserLogin(mail, password);
-    req.session.userId = user.id;
+    const user = req.session.userId ? await UserModel.findById(req.session.userId).exec() : await UserModel.findUserLogin(mail, password);
+
+    if (!user) {
+      throw new AuthError(AuthErrorType.UNKNOWN_USER);
+    };
+
+    if (!req.session.userId) {
+      req.session.userId = user.id;
+    }
 
     return res.status(200).json(
       user.toJSON({
@@ -27,8 +33,9 @@ routes.put("/login", async (req, res, next) => {
   } catch (e) {
     if (e instanceof Error) {
       switch (e.name) {
-        case AuthErrorType.UNKNOWN_USER:
         case AuthErrorType.EMPTY_INFORMATION:
+          return res.sendStatus(409);
+        case AuthErrorType.UNKNOWN_USER:
         case AuthErrorType.INVALID_PASSWORD:
           return res.status(403).send({ error: e.message });
         default:
