@@ -55,7 +55,7 @@ interface MessageProps {
  */
 const Message = ({
   content,
-  author: { name, profileLink, avatarLink, description, isFriend },
+  author: { name, profileLink, avatarLink, description, isFriend, displayName },
   date,
   friendAction,
   likes,
@@ -70,9 +70,12 @@ const Message = ({
         <div className="avatar-container">
           <Avatar profileLink={profileLink} picture={avatarLink} name={name} />
         </div>
-        <Link to={profileLink} className="author">
-          {name}
-        </Link>
+        <div>
+          <Link to={profileLink} className="author">
+            <h4 className="author-display">{displayName}</h4>
+            <span>@{name}</span>
+          </Link>
+        </div>
         <div className="user-details">
           <UserElement
             isFriend={fromHimself ? undefined : isFriend}
@@ -80,6 +83,7 @@ const Message = ({
             description={description}
             name={name}
             avatarLink={avatarLink}
+            displayName={displayName}
             profileLink={profileLink}
           />
         </div>
@@ -97,20 +101,22 @@ const Message = ({
           {likes}
         </span>
         <span className="date">{dayjs(date).fromNow()}</span>
-        <SimpleButton
-          label="➕ Ajouter aux amis"
-          className={cx("action", {
-            isVisible: !(fromHimself || isFriend),
-          })}
-          onClick={() => friendAction()}
-        />
-        <SimpleButton
-          label="Supprimer"
-          className={cx("action", {
-            isVisible: fromHimself,
-          })}
-          onClick={() => removeAction()}
-        />
+        <div className={cx("actions", { isVisible: fromHimself || !isFriend })}>
+          {!(fromHimself || isFriend) && (
+            <SimpleButton
+              label="➕ Ajouter aux amis"
+              className={cx("action")}
+              onClick={() => friendAction()}
+            />
+          )}
+          {fromHimself && (
+            <SimpleButton
+              label="Supprimer"
+              className={cx("action")}
+              onClick={() => removeAction()}
+            />
+          )}
+        </div>
       </div>
     </article>
   );

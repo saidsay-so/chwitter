@@ -22,6 +22,11 @@
   font-weight: 700;
 }
 
+.message-container .author-info .author-display {
+  color: var(--text);
+  margin: 0;
+}
+
 .message-container .author-info .user-details {
   visibility: hidden;
   opacity: 0;
@@ -40,6 +45,7 @@
 }
 
 .message-container .metadata .likes {
+  flex: 1;
   gap: 0.45rem;
   display: inline-flex;
   transition: color 250ms ease;
@@ -80,20 +86,25 @@
   color: var(--pink);
 }
 
-.message-container .metadata .action {
-  visibility: hidden;
-  flex: auto;
-  display: none;
-  align-self: normal;
-}
-
-.message-container .metadata .action.isVisible {
-  visibility: visible;
-  display: block;
-}
-
 .message-container .metadata .date {
+  flex: 1;
+  display: flex;
+  justify-content: center;
   font-weight: 300;
+}
+
+.message-container .metadata .actions {
+  flex: 1;
+  display: none;
+  justify-content: flex-end;
+}
+
+.message-container .metadata .actions.isVisible {
+  display: flex;
+}
+
+.message-container .metadata .actions .action {
+  align-self: normal;
 }
 
 @media screen and (min-width: 768px) {
@@ -110,7 +121,17 @@
     top: 100%;
   }
 
-  .message-container .metadata .action {
+  .message-container .metadata .actions {
+    visibility: hidden;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .message-container .metadata .actions.isVisible {
+    visibility: visible;
+  }
+
+  .message-container .metadata .actions .action {
     flex: initial;
     display: block;
   }
