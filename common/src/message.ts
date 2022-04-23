@@ -52,6 +52,5 @@ export class MessagesSearchParams {
   username?: string;
   search?: string;
   onlyfollowed?: "false" | "true" | string;
-  limit?: number;
-  skip?: number;
+  page?: string;
 }
