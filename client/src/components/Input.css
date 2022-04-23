@@ -2,7 +2,7 @@
   --label-font-size: 0.9rem;
   --margin-top: calc(var(--label-font-size) + (var(--label-font-size) / 2));
   --input-padding: 0.35rem;
-  --input-border: 0.1rem;
+  --input-border: 0.2rem;
   --reveal-width: 2rem;
   --reveal-icon-size: 1.25rem;
 
@@ -21,7 +21,11 @@
   background: var(--grey-light);
   outline: none;
   font-weight: 400;
-  transition: outline 150ms ease-in, border 150ms ease-in;
+  transition: border 150ms ease-in;
+}
+
+.input input:invalid {
+  border: var(--input-border) solid var(--red);
 }
 
 .pass-reveal ~ input {
@@ -30,7 +34,6 @@
 
 .input input:focus {
   border: var(--input-border) solid var(--primary);
-  outline: 1px solid var(--primary);
 }
 
 .input .pass-reveal {
