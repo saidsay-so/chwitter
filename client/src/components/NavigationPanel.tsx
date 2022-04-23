@@ -5,7 +5,7 @@ import { MdAdd, MdLogout } from "react-icons/md";
 import { ImSearch } from "react-icons/im";
 import Avatar from "./Avatar";
 import cx from "classnames";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useState } from "react";
 import { ReactNode } from "react";
 
 interface PanelProps {
@@ -17,6 +17,7 @@ interface PanelProps {
    * Fontion pour afficher le champ d'envoi de message
    */
   createMessage: () => void;
+  search: (keywords: string) => void;
   /**
    * Lien vers la page d'accueil
    */
@@ -41,40 +42,59 @@ interface PanelProps {
 const NavigationPanel = ({
   signOut,
   createMessage,
+  search,
   homePage,
   avatarLink,
   name,
   profileLink,
-}: PanelProps) => (
-  <aside className="panel">
-    <div className="title">
-      <Link to={homePage}>
-        <img className="logo" src="/logo192.png" alt="" />
-      </Link>
-    </div>
-    <div className="search-input">
-      <input autoComplete="on" type="search" />
-      <button className="search-button">
-        <ImSearch />
-      </button>
-    </div>
-    <div className="panel-actions">
-      <div title={name}>
-        <Avatar picture={avatarLink} profileLink={profileLink} name={name} />
+}: PanelProps) => {
+  const [searchTerms, setSearchTerms] = useState("");
+
+  return (
+    <aside className="panel">
+      <div className="title">
+        <Link to={homePage}>
+          <img className="logo" src="/logo192.png" alt="" />
+        </Link>
       </div>
-      <NavigationPanel.Action
-        icon={<MdAdd />}
-        text="Créer un message"
-        action={createMessage}
-      />
-      <NavigationPanel.Action
-        icon={<MdLogout />}
-        text="Se déconnecter"
-        action={signOut}
-      />
-    </div>
-  </aside>
-);
+      <div className="search-input">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            search(searchTerms);
+          }}
+        >
+          <input
+            value={searchTerms}
+            onInput={(e) =>
+              setSearchTerms((e.target as HTMLInputElement).value)
+            }
+            autoComplete="on"
+            type="search"
+          />
+        </form>
+        <button className="search-button">
+          <ImSearch />
+        </button>
+      </div>
+      <div className="panel-actions">
+        <div title={name}>
+          <Avatar picture={avatarLink} profileLink={profileLink} name={name} />
+        </div>
+        <NavigationPanel.Action
+          icon={<MdAdd />}
+          text="Créer un message"
+          action={createMessage}
+        />
+        <NavigationPanel.Action
+          icon={<MdLogout />}
+          text="Se déconnecter"
+          action={signOut}
+        />
+      </div>
+    </aside>
+  );
+};
 
 interface BasePanelActionProps {
   icon: ReactNode;

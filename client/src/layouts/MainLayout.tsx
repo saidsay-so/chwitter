@@ -31,8 +31,12 @@ const MainLayout = () => {
 
   const createMessage = () => {
     navigate("/");
-
     requestAnimationFrame(scrollToArea);
+  };
+
+  const search = (search: string) => {
+    const params = new URLSearchParams({ search });
+    navigate({ pathname: "/search", search: params.toString() });
   };
 
   return (
@@ -45,6 +49,7 @@ const MainLayout = () => {
         {isConnected && (
           <NavigationPanel
             {...user}
+            search={search}
             profileLink={user.profileLink}
             homePage="/"
             signOut={authAction}

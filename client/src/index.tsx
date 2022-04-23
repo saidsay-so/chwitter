@@ -12,6 +12,7 @@ import { ToastProvider } from "./providers/ToastProvider";
 import RequireAuthProvider from "./providers/RequireAuthProvider";
 import UserMessages from "./pages/user/Messages";
 import UserFriends from "./pages/user/Friends";
+import Search from "./pages/Search";
 import { Navigate } from "react-router-dom";
 
 import "dayjs/locale/fr";
@@ -26,8 +27,23 @@ root.render(
         <AuthProvider>
           <Routes>
             <Route element={<MainLayout />}>
-              <Route path="/" element={<MainPage />} />
+              <Route
+                path="/"
+                element={
+                  <RequireAuthProvider>
+                    <MainPage />
+                  </RequireAuthProvider>
+                }
+              />
               <Route path="/login" element={<Login />} />
+              <Route
+                path="/search"
+                element={
+                  <RequireAuthProvider>
+                    <Search />
+                  </RequireAuthProvider>
+                }
+              />
               <Route
                 path="/users/:id"
                 element={

@@ -1,0 +1,12 @@
+.search-page .search-params-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.5rem;
+  margin: 1rem;
+  border-bottom: 2px var(--grey) solid;
+}
+
+.search-page .search-params-container .search-params-title {
+  margin: 0;
+}
