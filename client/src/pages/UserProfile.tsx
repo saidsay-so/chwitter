@@ -17,7 +17,7 @@ export interface UserProfileOutletContext {
   uid: string;
   isFriend: boolean;
   isHimself: boolean;
-  friendAction: (uid: User["id"]) => void;
+  friendAction: () => void;
   user: User;
 }
 
@@ -68,7 +68,7 @@ export default function UserProfile() {
               <img src={user.avatarLink} alt={user.name} />
             </div>
             <div>
-              <h3 className="user-name">{user.name}</h3>
+              <h3 className="user-name">{user.displayName}</h3>
               <h4 className="user-pseudo">@{user.name}</h4>
             </div>
           </div>
