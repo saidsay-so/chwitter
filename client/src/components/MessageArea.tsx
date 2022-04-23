@@ -32,17 +32,14 @@ const MessageArea = ({ id, onSubmit, refArea }: MessageAreaProps) => {
         className="message-area-form"
         onSubmit={(e) => {
           e.preventDefault();
-          try {
-            onSubmit(message);
-            setMessage("");
-          } catch (e) {
-            console.error(e);
-          }
+          onSubmit(message);
+          setMessage("");
         }}
       >
         <textarea
           id={id}
           ref={refArea}
+          minLength={8}
           name="message"
           className="message-area"
           placeholder="Écrire un message..."
