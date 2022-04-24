@@ -34,14 +34,15 @@ export class UserSchema {
     default: "Sans Titre",
     trim: true,
     minlength: 1,
-    maxlength: 32,
+    maxlength: 16,
+    match: /^[^@]$/
   })
   displayName!: string;
 
   @prop()
   avatar?: Buffer;
 
-  @prop({ default: "Bienvenue sur ma page !" })
+  @prop({ default: "Bienvenue sur ma page !", maxlength: 64 })
   description!: string;
 
   // @prop({ localField: "_id", foreignField: "author", ref: () => MessageSchema })

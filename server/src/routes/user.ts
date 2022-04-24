@@ -1,6 +1,5 @@
 import { RegisterParams, UpdateUserParams } from "common";
 import { Router, Response } from "express";
-import multer from "multer";
 import sharp from "sharp";
 import { AuthError, AuthErrorType } from "../errors";
 import { UserModel } from "../models";
@@ -14,7 +13,6 @@ import { createAvatar } from "@dicebear/avatars";
 import * as avatarStyle from "@dicebear/micah";
 
 const routes = Router();
-const dataHandler = multer();
 
 const SAVED_FORMAT: keyof sharp.FormatEnum & keyof sharp.Sharp = "avif";
 const OUTPUT_FORMATS: (keyof sharp.FormatEnum & keyof sharp.Sharp)[] = [
@@ -87,9 +85,8 @@ routes.get("/:uid", async (req, res, next) => {
 });
 
 routes.patch(
-  "/:uid",
+  "/:uid?",
   checkRights,
-  dataHandler.single("avatar"),
   async (req, res, next) => {
     let { uid } = req.params;
     if (!uid) {
@@ -103,19 +100,16 @@ routes.patch(
         description,
       }: UpdateUserParams = req.body;
 
-      const avatar = req.file
-        ? await sharp(req.file.buffer).resize(64, 64).avif().toBuffer()
-        : undefined;
+      console.log(req.body);
 
       const user = await UserModel.findByIdAndUpdate(
         uid,
         {
-          avatar,
           password,
           displayName,
           description,
         },
-        { new: true }
+        { new: true, runValidators: true }
       )
         .orFail(new AuthError(AuthErrorType.UNKNOWN_USER))
         .exec();
