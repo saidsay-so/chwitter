@@ -1,7 +1,3 @@
-.home-feed {
-  display: block;
-}
-
-.home-feed .responsive-container {
-  padding-top: 1rem;
+.home-feed .home-message-area {
+  margin: 2rem 0;
 }

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./UserProfile.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { getUser as fetchUserInfo } from "../services/user";
+import { getUser } from "../services/user";
 import { useAuth } from "../providers/AuthProvider";
 import { addFriend, removeFriend } from "../services/friend";
 import { useAsyncEffect } from "../utils/extra-hooks";
@@ -13,6 +13,7 @@ import { NavLink } from "react-router-dom";
 import FriendButton from "../components/FriendButton";
 import { User } from "../services/user";
 import { LoadingPlaceholder } from "../components/LoadingPlaceholder";
+import SimpleButton from "../components/SimpleButton";
 
 export interface UserProfileOutletContext {
   uid: string;
@@ -29,13 +30,14 @@ export default function UserProfile() {
   const { id: mainUid } = useAuth().user!;
   const isHimself = id === mainUid;
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useAsyncEffect(
     async (stillMounted) => {
       setIsLoading(true);
 
-      const user = await fetchUserInfo(id);
+      const user = await getUser(id);
 
       if (stillMounted()) {
         setUser(user);
@@ -48,6 +50,10 @@ export default function UserProfile() {
   const friendAction = () => {
     setUser(({ isFriend, ...user }) => ({ ...user, isFriend: !isFriend }));
     (user.isFriend ? removeFriend : addFriend)(id);
+  };
+
+  const editProfile = () => {
+    navigate("/edit");
   };
 
   const outlet: UserProfileOutletContext = {
@@ -79,7 +85,7 @@ export default function UserProfile() {
             </article>
 
             <div>
-              {!isHimself && (
+              {isHimself ? <SimpleButton label="Editer le profil" onClick={editProfile} /> : (
                 <FriendButton
                   onClick={() => friendAction()}
                   isFriend={user.isFriend}

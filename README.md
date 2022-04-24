@@ -4,13 +4,16 @@ Twitter, but it's lame.
 
 ## Status
 
-The server is not yet in a usable state, but the client is pretty complete.
+This project is complete.
 
 ## Features
 
 - Likes
 - Search function
 - Add/remove friends
+- Create/remove messages
+- Light/Dark mode
+- Edit profile
 
 ## Highlights
 

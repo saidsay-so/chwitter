@@ -8,6 +8,7 @@ import { useOutletContext } from "react-router-dom";
 import { MainLayoutOutlet } from "../layouts/MainLayout";
 import { LoadingPlaceholder } from "../components/LoadingPlaceholder";
 import { useState, useTransition } from "react";
+import { EmptyPlaceholder } from "../components/EmptyPlaceholder";
 
 export default function HomeFeed() {
   const [
@@ -33,14 +34,16 @@ export default function HomeFeed() {
   return (
     <div className="home-feed">
       <div className="responsive-container">
-        <MessageArea
-          refArea={refMessageArea}
-          id="search"
-          onSubmit={(content) => create({ content })}
-        />
+        <div className="home-message-area">
+          <MessageArea
+            refArea={refMessageArea}
+            id="search"
+            onSubmit={(content) => create({ content })}
+          />
+        </div>
         {isPending || isLoading ? (
           <LoadingPlaceholder />
-        ) : (
+        ) : messages.length > 0 ? (
           <>
             <MessagesList
               messages={messages}
@@ -50,6 +53,8 @@ export default function HomeFeed() {
               removeAction={removeMessage}
             />
           </>
+        ) : (
+          <EmptyPlaceholder />
         )}
       </div>
     </div>

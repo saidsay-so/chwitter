@@ -1,5 +1,6 @@
 import { useState, useTransition } from "react";
 import { useOutletContext } from "react-router-dom";
+import { EmptyPlaceholder } from "../../components/EmptyPlaceholder";
 import { LoadingPlaceholder } from "../../components/LoadingPlaceholder";
 import MessagesList from "../../components/MessagesList";
 import { useAuth } from "../../providers/AuthProvider";
@@ -34,7 +35,7 @@ const UserMessages = () => {
     <div className="messages-container">
       {isPending || isLoading ? (
         <LoadingPlaceholder />
-      ) : (
+      ) : messages.length > 0 ? (
         <MessagesList
           messages={messages}
           friendActions={{ add: addFriend, remove: removeFriend }}
@@ -42,6 +43,8 @@ const UserMessages = () => {
           removeAction={removeMessage}
           uid={mainUid}
         />
+      ) : (
+        <EmptyPlaceholder />
       )}
     </div>
   );

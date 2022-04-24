@@ -5,7 +5,6 @@ import "./index.css";
 import MainLayout from "./layouts/MainLayout";
 import reportWebVitals from "./reportWebVitals";
 import Login from "./pages/Login";
-import MainPage from "./pages/MainPage";
 import UserProfile from "./pages/UserProfile";
 import { AuthProvider } from "./providers/AuthProvider";
 import { ToastProvider } from "./providers/ToastProvider";
@@ -17,6 +16,8 @@ import { Navigate } from "react-router-dom";
 
 import "dayjs/locale/fr";
 import dayjs from "dayjs";
+import EditProfile from "./pages/EditProfile";
+import HomeFeed from "./pages/HomeFeed";
 dayjs.locale("fr");
 
 const root = createRoot(document.getElementById("root")!);
@@ -31,7 +32,7 @@ root.render(
                 path="/"
                 element={
                   <RequireAuthProvider>
-                    <MainPage />
+                    <HomeFeed />
                   </RequireAuthProvider>
                 }
               />
@@ -41,6 +42,14 @@ root.render(
                 element={
                   <RequireAuthProvider>
                     <Search />
+                  </RequireAuthProvider>
+                }
+              />
+              <Route
+                path="/edit"
+                element={
+                  <RequireAuthProvider>
+                    <EditProfile />
                   </RequireAuthProvider>
                 }
               />

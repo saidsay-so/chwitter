@@ -10,18 +10,21 @@ const RequireAuthProvider = ({ children }: { children: JSX.Element }) => {
   const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
-    signIn(null, () => {
-      setIsPending(false);
-    });
+    if (!isLogged()) {
+      signIn(null, () => {
+        setIsPending(false);
+      });
+    }
   }, []);
 
   if (!isLogged()) {
-    if (isPending)
+    if (isPending) {
       return (
         <div>
           <LoadingPlaceholder />
         </div>
       );
+    }
 
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
