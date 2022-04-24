@@ -36,12 +36,28 @@
 
 .panel .search-input {
   position: relative;
-  flex: 1;
+  flex: inherit;
+  width: 50vw;
   min-height: var(--element-size);
 }
 
 .panel .search-input input {
-  display: none;
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  padding-right: calc(var(--element-size) + 0.25rem);
+  border: 2px solid var(--grey);
+  background: var(--grey-light);
+  border-radius: 0.25rem;
+}
+
+.panel .search-input input:focus {
+  border: 3px solid var(--primary);
+  outline: none;
+}
+
+.panel .search-input .search-button {
+  color: var(--text);
 }
 
 .panel .search-input .search-button {
@@ -66,29 +82,5 @@
   .panel .title .logo {
     width: calc(var(--element-size) * 2);
     height: calc(var(--element-size) * 2);
-  }
-
-  .panel .search-input {
-    flex: inherit;
-    width: 50vw;
-  }
-
-  .panel .search-input input {
-    display: block;
-    width: 100%;
-    padding: 0.5rem;
-    padding-right: calc(var(--element-size) + 0.25rem);
-    border: 2px solid var(--grey);
-    background: var(--grey-light);
-    border-radius: 0.25rem;
-  }
-
-  .panel .search-input input:focus {
-    border: 3px solid var(--primary);
-    outline: none;
-  }
-
-  .panel .search-input input:focus ~ .search-button {
-    color: var(--primary);
   }
 }
