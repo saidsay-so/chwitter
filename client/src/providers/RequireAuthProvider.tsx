@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { LoadingPlaceholder } from "../components/LoadingPlaceholder";
 import { useAuth } from "./AuthProvider";
 
 const RequireAuthProvider = ({ children }: { children: JSX.Element }) => {
@@ -15,7 +16,12 @@ const RequireAuthProvider = ({ children }: { children: JSX.Element }) => {
   }, []);
 
   if (!isLogged()) {
-    if (isPending) return <h1>Veuillez attendre...</h1>;
+    if (isPending)
+      return (
+        <div>
+          <LoadingPlaceholder />
+        </div>
+      );
 
     return <Navigate to="/login" state={{ from: location }} replace />;
   }

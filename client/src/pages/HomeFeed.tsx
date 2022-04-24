@@ -6,6 +6,8 @@ import { useAsyncEffect, useMessagesReducer } from "../utils/extra-hooks";
 import { useAuth } from "../providers/AuthProvider";
 import { useOutletContext } from "react-router-dom";
 import { MainLayoutOutlet } from "../layouts/MainLayout";
+import { LoadingPlaceholder } from "../components/LoadingPlaceholder";
+import { useState, useTransition } from "react";
 
 export default function HomeFeed() {
   const [
@@ -14,12 +16,17 @@ export default function HomeFeed() {
   ] = useMessagesReducer();
   const { id: uid } = useAuth().user!;
   const { refMessageArea } = useOutletContext<MainLayoutOutlet>();
+  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(true);
 
   useAsyncEffect(async (stillMounted) => {
     const messages = await getMessages();
+    setIsLoading(false);
 
     if (stillMounted()) {
-      load(messages);
+      startTransition(() => {
+        load(messages);
+      });
     }
   }, []);
 
@@ -31,13 +38,19 @@ export default function HomeFeed() {
           id="search"
           onSubmit={(content) => create({ content })}
         />
-        <MessagesList
-          messages={messages}
-          friendActions={{ add: addFriend, remove: removeFriend }}
-          likeActions={{ like, unlike }}
-          uid={uid}
-          removeAction={removeMessage}
-        />
+        {isPending || isLoading ? (
+          <LoadingPlaceholder />
+        ) : (
+          <>
+            <MessagesList
+              messages={messages}
+              friendActions={{ add: addFriend, remove: removeFriend }}
+              likeActions={{ like, unlike }}
+              uid={uid}
+              removeAction={removeMessage}
+            />
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,18 @@
+.loading-placeholder {
+  margin: auto;
+  animation: 1s loading cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  border-radius: 50%;
+  border: var(--grey) 1rem solid;
+  border-top: var(--secondary) 1rem solid;
+  width: 7rem;
+  height: 7rem;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -12,6 +12,7 @@ import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import FriendButton from "../components/FriendButton";
 import { User } from "../services/user";
+import { LoadingPlaceholder } from "../components/LoadingPlaceholder";
 
 export interface UserProfileOutletContext {
   uid: string;
@@ -57,45 +58,49 @@ export default function UserProfile() {
     user,
   };
 
-  if (isLoading) return <h1>Veuillez attendre...</h1>;
-
   return (
     <div className="user-profile">
       <div className="responsive-container">
-        <article className="user-info">
-          <div className="user-name-avatar">
-            <div className="profile-avatar">
-              <img src={user.avatarLink} alt={user.name} />
-            </div>
+        {isLoading ? (
+          <LoadingPlaceholder />
+        ) : (
+          <>
+            <article className="user-info">
+              <div className="user-name-avatar">
+                <div className="profile-avatar">
+                  <img src={user.avatarLink} alt={user.name} />
+                </div>
+                <div>
+                  <h3 className="user-name">{user.displayName}</h3>
+                  <h4 className="user-pseudo">@{user.name}</h4>
+                </div>
+              </div>
+              <p className="description">{user.description}</p>
+            </article>
+
             <div>
-              <h3 className="user-name">{user.displayName}</h3>
-              <h4 className="user-pseudo">@{user.name}</h4>
+              {!isHimself && (
+                <FriendButton
+                  onClick={() => friendAction()}
+                  isFriend={user.isFriend}
+                />
+              )}
             </div>
-          </div>
-          <p className="description">{user.description}</p>
-        </article>
 
-        <div>
-          {!isHimself && (
-            <FriendButton
-              onClick={() => friendAction()}
-              isFriend={user.isFriend}
-            />
-          )}
-        </div>
+            <nav className="profile-nav">
+              <NavLink className="profile-link" to="messages">
+                <AiFillMessage /> Messages
+              </NavLink>
+              <NavLink className="profile-link" to="friends">
+                <MdPeople /> Amis
+              </NavLink>
+            </nav>
 
-        <nav className="profile-nav">
-          <NavLink className="profile-link" to="messages">
-            <AiFillMessage /> Messages
-          </NavLink>
-          <NavLink className="profile-link" to="friends">
-            <MdPeople /> Amis
-          </NavLink>
-        </nav>
-
-        <section className="content">
-          <Outlet context={outlet} />
-        </section>
+            <section className="content">
+              <Outlet context={outlet} />
+            </section>
+          </>
+        )}
       </div>
     </div>
   );
