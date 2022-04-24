@@ -60,6 +60,7 @@
 }
 
 .message-container .metadata .likes .like-button {
+  color: var(--text);
   background: none;
   border: none;
 }

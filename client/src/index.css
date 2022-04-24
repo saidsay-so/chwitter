@@ -11,14 +11,6 @@ input,
   -moz-osx-font-smoothing: grayscale;
 }
 
-html,
-body,
-#root {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
 :root {
   --bg: #ffffff;
 
@@ -37,6 +29,43 @@ body,
   --pink: #f52a6e;
 
   --red: #e73030;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+input {
+  color: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111111;
+
+    --primary: #2e9ae2;
+    --secondary: #8f70ee;
+    --warning: #fa8f20;
+
+    --grey: #555;
+    --grey-light: #222;
+    --text: #fff;
+    --text-invert: #fff;
+
+    --link: #aaa;
+    --icon: #eee;
+
+    --pink: #f52a6e;
+
+    --red: #e73030;
+  }
 }
 
 a {

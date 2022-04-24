@@ -19,6 +19,7 @@
 .message-area-container .message-area-form .message-area {
   resize: none;
   background-color: var(--grey-light);
+  color: var(--text);
   border-radius: 10px;
   border: none;
   height: 100%;

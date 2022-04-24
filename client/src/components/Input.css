@@ -46,7 +46,6 @@
   width: var(--reveal-width);
   height: calc(var(--input-padding) * 2 + 1rem + var(--input-border) * 2);
   z-index: 1;
-  color: var(--primary);
 }
 
 .input .pass-reveal .icon {
