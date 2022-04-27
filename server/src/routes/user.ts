@@ -46,7 +46,7 @@ routes.post("/", async (req, res, next) => {
       .toBuffer();
     const newUser = await UserModel.create({ name, password, avatar });
 
-    req.session.userId = newUser.id;
+    req.session!.userId! = newUser.id;
 
     return res.status(201).json(
       newUser.toJSON({
@@ -73,7 +73,7 @@ routes.get("/:uid", async (req, res, next) => {
 
     const user = rawUser.toJSON({
       custom: {
-        isFriend: await getFriendState(req.session.userId!, uid),
+        isFriend: await getFriendState(req.session!.userId!, uid),
         avatarLink: getAvatarLink(uid),
       },
     });
@@ -90,7 +90,7 @@ routes.patch(
   async (req, res, next) => {
     let { uid } = req.params;
     if (!uid) {
-      uid = req.session.userId;
+      uid = req.session!.userId!;
     }
 
     try {

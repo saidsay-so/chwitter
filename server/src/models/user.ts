@@ -35,7 +35,7 @@ export class UserSchema {
     trim: true,
     minlength: 1,
     maxlength: 16,
-    match: /^[^@]$/
+    match: /^[^@]+$/
   })
   displayName!: string;
 
@@ -62,7 +62,7 @@ export class UserSchema {
     if (!name || !password)
       throw new AuthError(AuthErrorType.EMPTY_INFORMATION);
 
-    const user = await this.findOne({ name }).exec();
+    const user = await this.findByName(name).exec();
     if (user === null) throw new AuthError(AuthErrorType.UNKNOWN_USER);
 
     if (!user.verifyPassword(password))

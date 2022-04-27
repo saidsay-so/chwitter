@@ -27,7 +27,7 @@ const messageIsLiked = async (mid: string, uid: string) =>
 const isMessageAuthor: RequestHandler = async (req, res, next) => {
   const { mid } = req.params;
   try {
-    if ((await MessageModel.exists({ _id: mid, author: req.session.userId! })) === null) {
+    if ((await MessageModel.exists({ _id: mid, author: req.session!.userId! })) === null) {
       return res.sendStatus(409);
     }
 
@@ -71,7 +71,7 @@ routes.get("/", async (req, res, next) => {
     }
 
     if (onlyfollowed !== "false") {
-      const user = await UserModel.findById(req.session.userId)
+      const user = await UserModel.findById(req.session!.userId!)
         .select("friends")
         .exec();
 
@@ -97,14 +97,14 @@ routes.get("/", async (req, res, next) => {
           msg.toJSON({
             custom: {
               isFriend: await getFriendState(
-                req.session.userId!,
+                req.session!.userId!,
                 (msg.author as DocumentType<UserSchema>)._id!
               ),
               avatarLink: getAvatarLink(
                 (msg.author as DocumentType<UserSchema>).id!
               ),
               isLiked:
-                await messageIsLiked(msg.id, req.session.userId!),
+                await messageIsLiked(msg.id, req.session!.userId!),
             },
           }) as unknown as MessageResponse
       )
@@ -117,7 +117,7 @@ routes.get("/", async (req, res, next) => {
 });
 
 routes.post("/", async (req, res, next) => {
-  const { userId: author } = req.session;
+  const { userId: author } = req.session!;
   try {
     const { content } = req.body;
 
@@ -150,7 +150,7 @@ routes.put(
     const { mid } = req.params;
     const session = await mongoose.startSession();
     try {
-      if (await messageIsLiked(mid!, req.session.userId!)) {
+      if (await messageIsLiked(mid!, req.session!.userId!)) {
         return res.sendStatus(409);
       }
 
@@ -161,7 +161,7 @@ routes.put(
           { session }
         ).exec();
         await UserModel.findByIdAndUpdate(
-          req.session.userId,
+          req.session!.userId!,
           {
             $addToSet: { likedMessages: mid },
           },
@@ -186,7 +186,7 @@ routes.delete(
     const { mid } = req.params;
     const session = await mongoose.startSession();
     try {
-      if (!(await messageIsLiked(mid!, req.session.userId!))) {
+      if (!(await messageIsLiked(mid!, req.session!.userId!))) {
         return res.sendStatus(409);
       }
 
@@ -196,7 +196,7 @@ routes.delete(
           { $inc: { likes: -1 } },
           { session }
         ).exec();
-        await UserModel.findByIdAndUpdate(req.session.userId, {
+        await UserModel.findByIdAndUpdate(req.session!.userId!, {
           $pull: { likedMessages: mid },
         }).exec();
       });
@@ -221,9 +221,9 @@ routes.get("/:mid", checkMessageExists, async (req, res, next) => {
     return res.status(200).json(
       msg.toJSON({
         custom: {
-          isLiked: await messageIsLiked(mid!, req.session.userId!),
+          isLiked: await messageIsLiked(mid!, req.session!.userId!),
           isFriend: await getFriendState(
-            req.session.userId!,
+            req.session!.userId!,
             (msg.author as DocumentType<UserSchema>)._id!
           ),
           avatarLink: getAvatarLink(
@@ -251,9 +251,9 @@ routes.patch("/:mid", checkMessageExists, isMessageAuthor, async (req, res, next
     return res.status(200).json(
       msg!.toJSON({
         custom: {
-          isLiked: await messageIsLiked(mid!, req.session.userId!),
+          isLiked: await messageIsLiked(mid!, req.session!.userId!),
           isFriend: await getFriendState(
-            req.session.userId!,
+            req.session!.userId!,
             (msg!.author as DocumentType<UserSchema>).id!
           ),
           avatarLink: getAvatarLink(

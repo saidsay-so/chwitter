@@ -18,7 +18,7 @@ routes.get("/:uid?/all", async (req, res, next) => {
   let { uid } = req.params;
   try {
     if (!uid) {
-      uid = req.session.userId;
+      uid = req.session!.userId!;
     }
 
     const user = await UserModel.findById(uid)
@@ -34,7 +34,7 @@ routes.get("/:uid?/all", async (req, res, next) => {
                 (friend as DocumentType<UserSchema>).toJSON({
                   custom: {
                     isFriend: await getFriendState(
-                      req.session.userId!,
+                      req.session!.userId!,
                       (friend as typeof friend & { _id: any })._id
                     ),
                     avatarLink: getAvatarLink(
@@ -58,7 +58,7 @@ routes.get("/:uid?/all", async (req, res, next) => {
 routes.get("/:uid?/:friendUid", checkRights, async (req, res, next) => {
   let { uid, friendUid } = req.params;
   if (!uid) {
-    uid = req.session.userId;
+    uid = req.session!.userId!;
   }
 
   if (uid === friendUid) return res.sendStatus(403);
@@ -74,7 +74,7 @@ routes.get("/:uid?/:friendUid", checkRights, async (req, res, next) => {
 routes.put("/:uid?/:friendUid", checkRights, async (req, res, next) => {
   let { uid, friendUid } = req.params;
   if (!uid) {
-    uid = req.session.userId;
+    uid = req.session!.userId!;
   }
 
   if (uid === friendUid) return res.sendStatus(403);
@@ -92,7 +92,7 @@ routes.put("/:uid?/:friendUid", checkRights, async (req, res, next) => {
 routes.delete("/:uid?/:friendUid", checkRights, async (req, res, next) => {
   let { uid, friendUid } = req.params;
   if (!uid) {
-    uid = req.session.userId;
+    uid = req.session!.userId!;
   }
 
   if (uid === friendUid) {

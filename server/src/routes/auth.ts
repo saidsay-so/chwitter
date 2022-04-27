@@ -6,23 +6,17 @@ import { getAvatarLink } from "../utils";
 
 const routes = Router();
 
-declare module "express-session" {
-  export interface SessionData {
-    userId: string;
-  }
-}
-
 routes.put("/login", async (req, res, next) => {
   try {
     const { name, password }: LoginParams = req.body;
-    const user = req.session.userId ? await UserModel.findById(req.session.userId).exec() : await UserModel.findUserLogin(name, password);
+    const user = req.session!.userId! ? await UserModel.findById(req.session!.userId!).exec() : await UserModel.findUserLogin(name, password);
 
     if (!user) {
       throw new AuthError(AuthErrorType.UNKNOWN_USER);
     };
 
-    if (!req.session.userId) {
-      req.session.userId = user.id;
+    if (!req.session!.userId!) {
+      req.session!.userId! = user.id;
     }
 
     return res.status(200).json(
@@ -48,8 +42,7 @@ routes.put("/login", async (req, res, next) => {
 
 routes.delete("/logout", async (req, res, next) => {
   try {
-    if (req.session.userId) {
-      //@ts-expect-error
+    if (req.session!.userId!) {
       req.session = null;
     }
     return res.sendStatus(200);
