@@ -1,0 +1,7 @@
+node_modules
+client
+pres
+assets
+.git
+**/.env
+npm-debug.log
