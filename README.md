@@ -1,4 +1,4 @@
-# Chwitter (WIP)
+# Chwitter
 
 Twitter, but it's lame.
 
@@ -37,10 +37,6 @@ Express and mongoose/typegoose for the server.
 
 Because school.
 
-### Why is there only French?
-
-I let you guess on this one.
-
 ### Will it work one day?
 
-Probably not for production.
+Not gonna make it for production.
