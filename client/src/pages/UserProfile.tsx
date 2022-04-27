@@ -16,98 +16,98 @@ import { LoadingPlaceholder } from "../components/LoadingPlaceholder";
 import SimpleButton from "../components/SimpleButton";
 
 export interface UserProfileOutletContext {
-  uid: string;
-  isFriend: boolean;
-  isHimself: boolean;
-  friendAction: () => void;
-  user: User;
+	uid: string;
+	isFriend: boolean;
+	isHimself: boolean;
+	friendAction: () => void;
+	user: User;
 }
 
 export default function UserProfile() {
-  const [user, setUser] = useState<User>({} as User);
+	const [user, setUser] = useState<User>({} as User);
 
-  const id = useParams().id!;
-  const { id: mainUid } = useAuth().user!;
-  const isHimself = id === mainUid;
+	const id = useParams().id!;
+	const { id: mainUid } = useAuth().user!;
+	const isHimself = id === mainUid;
 
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(true);
+	const navigate = useNavigate();
 
-  useAsyncEffect(
-    async (stillMounted) => {
-      setIsLoading(true);
+	useAsyncEffect(
+		async (stillMounted) => {
+			setIsLoading(true);
 
-      const user = await getUser(id);
+			const user = await getUser(id);
 
-      if (stillMounted()) {
-        setUser(user);
-        setIsLoading(false);
-      }
-    },
-    [id]
-  );
+			if (stillMounted()) {
+				setUser(user);
+				setIsLoading(false);
+			}
+		},
+		[id]
+	);
 
-  const friendAction = () => {
-    setUser(({ isFriend, ...user }) => ({ ...user, isFriend: !isFriend }));
-    (user.isFriend ? removeFriend : addFriend)(id);
-  };
+	const friendAction = () => {
+		setUser(({ isFriend, ...user }) => ({ ...user, isFriend: !isFriend }));
+		(user.isFriend ? removeFriend : addFriend)(id);
+	};
 
-  const editProfile = () => {
-    navigate("/edit");
-  };
+	const editProfile = () => {
+		navigate("/edit");
+	};
 
-  const outlet: UserProfileOutletContext = {
-    uid: id,
-    isFriend: user.isFriend,
-    isHimself,
-    friendAction,
-    user,
-  };
+	const outlet: UserProfileOutletContext = {
+		uid: id,
+		isFriend: user.isFriend,
+		isHimself,
+		friendAction,
+		user,
+	};
 
-  return (
-    <div className="user-profile">
-      <div className="responsive-container">
-        {isLoading ? (
-          <LoadingPlaceholder />
-        ) : (
-          <>
-            <article className="user-info">
-              <div className="user-name-avatar">
-                <div className="profile-avatar">
-                  <img src={user.avatarLink} alt={user.name} />
-                </div>
-                <div>
-                  <h3 className="user-name">{user.displayName}</h3>
-                  <h4 className="user-pseudo">@{user.name}</h4>
-                </div>
-              </div>
-              <p className="description">{user.description}</p>
-            </article>
+	return (
+		<div className="responsive-container">
+			<div className="user-profile">
+				{isLoading ? (
+					<LoadingPlaceholder />
+				) : (
+					<>
+						<article className="user-info">
+							<div className="user-name-avatar">
+								<div className="profile-avatar">
+									<img src={user.avatarLink} alt={user.name} />
+								</div>
+								<div>
+									<h3 className="user-name">{user.displayName}</h3>
+									<h4 className="user-pseudo">@{user.name}</h4>
+								</div>
+							</div>
+							<p className="description">{user.description}</p>
+						</article>
 
-            <div>
-              {isHimself ? <SimpleButton label="Editer le profil" onClick={editProfile} /> : (
-                <FriendButton
-                  onClick={() => friendAction()}
-                  isFriend={user.isFriend}
-                />
-              )}
-            </div>
+						<div>
+							{isHimself ? <SimpleButton label="Editer le profil" onClick={editProfile} /> : (
+								<FriendButton
+									onClick={() => friendAction()}
+									isFriend={user.isFriend}
+								/>
+							)}
+						</div>
 
-            <nav className="profile-nav">
-              <NavLink className="profile-link" to="messages">
-                <AiFillMessage /> Messages
-              </NavLink>
-              <NavLink className="profile-link" to="friends">
-                <MdPeople /> Amis
-              </NavLink>
-            </nav>
+						<nav className="profile-nav">
+							<NavLink className="profile-link" to="messages">
+								<AiFillMessage /> Messages
+							</NavLink>
+							<NavLink className="profile-link" to="friends">
+								<MdPeople /> Amis
+							</NavLink>
+						</nav>
 
-            <section className="content">
-              <Outlet context={outlet} />
-            </section>
-          </>
-        )}
-      </div>
-    </div>
-  );
+						<section className="content">
+							<Outlet context={outlet} />
+						</section>
+					</>
+				)}
+			</div>
+		</div>
+	);
 }

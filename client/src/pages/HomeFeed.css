@@ -1,3 +1,8 @@
+.home-feed {
+	display: flex;
+	flex-direction: column;
+}
+
 .home-feed .home-message-area {
   margin: 2rem 0;
 }

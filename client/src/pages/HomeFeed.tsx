@@ -32,8 +32,8 @@ export default function HomeFeed() {
   }, []);
 
   return (
-    <div className="home-feed">
       <div className="responsive-container">
+    <div className="home-feed">
         <div className="home-message-area">
           <MessageArea
             refArea={refMessageArea}

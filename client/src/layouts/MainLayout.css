@@ -12,11 +12,6 @@ body,
 
 .main-layout main {
   display: flex;
-  overflow: hidden;
-  flex: auto;
-}
-
-.main-layout main > * {
   overflow: auto;
-  width: 100%;
+  flex: auto;
 }

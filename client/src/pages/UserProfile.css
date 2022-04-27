@@ -1,4 +1,4 @@
-.user-profile .responsive-container {
+.user-profile {
   display: flex;
   flex-direction: column;
   padding-top: 2rem;
