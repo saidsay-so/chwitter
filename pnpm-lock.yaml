@@ -74,7 +74,7 @@ importers:
       '@dicebear/micah': ^4.10.2
       '@faker-js/faker': ^6.1.2
       '@shelf/jest-mongodb': ^2.2.1
-      '@typegoose/typegoose': ^9.7.1
+      '@typegoose/typegoose': ^9.8.1
       '@types/compression': ^1.7.2
       '@types/cookie-session': ^2.0.44
       '@types/cors': ^2.8.12
@@ -95,7 +95,7 @@ importers:
       jest: ^27.5.1
       mime: ^3.0.0
       mongodb: ^4.5.0
-      mongoose: ^6.2.10
+      mongoose: ^6.3.0
       morgan: ^1.10.0
       multer: ^1.4.4
       nodemon: ^2.0.15
@@ -108,7 +108,7 @@ importers:
     dependencies:
       '@dicebear/avatars': 4.10.2
       '@dicebear/micah': 4.10.2_@dicebear+avatars@4.10.2
-      '@typegoose/typegoose': 9.7.1_mongoose@6.3.0
+      '@typegoose/typegoose': 9.8.1_mongoose@6.3.0
       common: link:../common
       compression: 1.7.4
       cookie-session: 2.0.0
@@ -2265,11 +2265,11 @@ packages:
     resolution: {integrity: sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==}
     dev: true
 
-  /@typegoose/typegoose/9.7.1_mongoose@6.3.0:
-    resolution: {integrity: sha512-4KaM/YvoqDTweAlfTryLnHhw608R4a23dZqILbFjskQVZ47hXpo9xAcNdxVBJFwb+nLXg303gQyVMET0ArC5Ng==}
+  /@typegoose/typegoose/9.8.1_mongoose@6.3.0:
+    resolution: {integrity: sha512-7m9ydYlzOSwxgFRWOrUK/wiNb1GBHLaztGQBkWsiGIIy4P2AmiHKKlwB34DaQEtvwWa8MxEDXtUWA04a3KSFjg==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
-      mongoose: ~6.2.3
+      mongoose: ~6.3.0
     dependencies:
       lodash: 4.17.21
       loglevel: 1.8.0
@@ -6658,7 +6658,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.2
+      debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -8602,7 +8602,7 @@ packages:
       '@types/tmp': 0.2.3
       async-mutex: 0.3.2
       camelcase: 6.3.0
-      debug: 4.3.2
+      debug: 4.3.4
       find-cache-dir: 3.3.2
       get-port: 5.1.1
       https-proxy-agent: 5.0.0
@@ -8827,7 +8827,7 @@ packages:
     resolution: {integrity: sha512-KOH3BNZcTKPzEkaJgG2iSUaurxKmefqRKmCOYH+8xqJytNIgjqU4J88BHfK+gy/UlEzlhccLyuJDJAcCgexSwA==}
     engines: {node: '>=12.22.0'}
     dependencies:
-      debug: 4.3.2
+      debug: 4.3.4
       tslib: 2.3.1
     transitivePeerDependencies:
       - supports-color
