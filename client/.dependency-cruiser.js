@@ -1,227 +1,216 @@
 /** @type {import('dependency-cruiser').IConfiguration} */
 module.exports = {
-  options: {
-    /* conditions specifying which files not to follow further when encountered:
-       - path: a regular expression to match
-       - dependencyTypes: see https://github.com/sverweij/dependency-cruiser/blob/master/doc/rules-reference.md#dependencytypes-and-dependencytypesnot
-       for a complete list
-    */
-    doNotFollow: {
-      path: "node_modules",
-      dependencyTypes: [
-        "npm",
-        "npm-dev",
-        "npm-optional",
-        "npm-peer",
-        "npm-bundled",
-        "npm-no-pkg",
-      ],
-    },
+	options: {
+		/* conditions specifying which files not to follow further when encountered:
+			 - path: a regular expression to match
+			 - dependencyTypes: see https://github.com/sverweij/dependency-cruiser/blob/master/doc/rules-reference.md#dependencytypes-and-dependencytypesnot
+			 for a complete list
+		*/
+		doNotFollow: {
+			path: "node_modules",
+			dependencyTypes: [
+				"npm",
+				"npm-dev",
+				"npm-optional",
+				"npm-peer",
+				"npm-bundled",
+				"npm-no-pkg",
+			],
+		},
 
-    /* conditions specifying which dependencies to exclude
-       - path: a regular expression to match
-       - dynamic: a boolean indicating whether to ignore dynamic (true) or static (false) dependencies.
-          leave out if you want to exclude neither (recommended!)
-    */
-    exclude: {
-      path: "(node_modules)|(^src/(stories|utils|providers|services))|(.css$)",
-    },
+		/* conditions specifying which dependencies to exclude
+			 - path: a regular expression to match
+			 - dynamic: a boolean indicating whether to ignore dynamic (true) or static (false) dependencies.
+					leave out if you want to exclude neither (recommended!)
+		*/
+		exclude: {
+			path: "(node_modules)|(^src/(stories|utils|providers|services))|(.css$)",
+		},
 
-    /* pattern specifying which files to include (regular expression)
-       dependency-cruiser will skip everything not matching this pattern
-    */
-    includeOnly: "",
+		/* pattern specifying which files to include (regular expression)
+			 dependency-cruiser will skip everything not matching this pattern
+		*/
+		// includeOnly: "",
 
-    /* dependency-cruiser will include modules matching against the focus
-       regular expression in its output, as well as their neighbours (direct
-       dependencies and dependents)
-    */
-    focus: "^src/(pages|layouts|components)",
+		/* dependency-cruiser will include modules matching against the focus
+			 regular expression in its output, as well as their neighbours (direct
+			 dependencies and dependents)
+		*/
+		focus: "^src/(pages|layouts|components)",
 
-    /* list of module systems to cruise */
-    // moduleSystems: ['amd', 'cjs', 'es6', 'tsd'],
+		/* list of module systems to cruise */
+		// moduleSystems: ['amd', 'cjs', 'es6', 'tsd'],
 
-    /* prefix for links in html and svg output (e.g. 'https://github.com/you/yourrepo/blob/develop/'
-       to open it on your online repo or `vscode://file/${process.cwd()}/` to 
-       open it in visual studio code),
-     */
-    // prefix: '',
+		/* prefix for links in html and svg output (e.g. 'https://github.com/you/yourrepo/blob/develop/'
+			 to open it on your online repo or `vscode://file/${process.cwd()}/` to 
+			 open it in visual studio code),
+		 */
+		prefix: 'https://github.com/musikid/chwitter/blob/main/client/',
 
-    /* false (the default): ignore dependencies that only exist before typescript-to-javascript compilation
-       true: also detect dependencies that only exist before typescript-to-javascript compilation
-       "specify": for each dependency identify whether it only exists before compilation or also after
-     */
-    // tsPreCompilationDeps: false,
+		/* false (the default): ignore dependencies that only exist before typescript-to-javascript compilation
+			 true: also detect dependencies that only exist before typescript-to-javascript compilation
+			 "specify": for each dependency identify whether it only exists before compilation or also after
+		 */
+		// tsPreCompilationDeps: false,
 
-    /* list of extensions (typically non-parseable) to scan. Empty by default. */
-    // extraExtensionsToScan: [".json", ".jpg", ".png", ".svg", ".webp"],
+		/* list of extensions (typically non-parseable) to scan. Empty by default. */
+		// extraExtensionsToScan: [".json", ".jpg", ".png", ".svg", ".webp"],
 
-    /* if true combines the package.jsons found from the module up to the base
-       folder the cruise is initiated from. Useful for how (some) mono-repos
-       manage dependencies & dependency definitions.
-     */
-    // combinedDependencies: false,
+		/* if true combines the package.jsons found from the module up to the base
+			 folder the cruise is initiated from. Useful for how (some) mono-repos
+			 manage dependencies & dependency definitions.
+		 */
+		// combinedDependencies: false,
 
-    /* if true leave symlinks untouched, otherwise use the realpath */
-    // preserveSymlinks: false,
+		/* if true leave symlinks untouched, otherwise use the realpath */
+		// preserveSymlinks: false,
 
-    /* TypeScript project file ('tsconfig.json') to use for
-       (1) compilation and
-       (2) resolution (e.g. with the paths property)
+		/* TypeScript project file ('tsconfig.json') to use for
+			 (1) compilation and
+			 (2) resolution (e.g. with the paths property)
 
-       The (optional) fileName attribute specifies which file to take (relative to
-       dependency-cruiser's current working directory). When not provided
-       defaults to './tsconfig.json'.
-     */
-    // tsConfig: {
-    //  fileName: './tsconfig.json'
-    // },
+			 The (optional) fileName attribute specifies which file to take (relative to
+			 dependency-cruiser's current working directory). When not provided
+			 defaults to './tsconfig.json'.
+		 */
+		tsConfig: {},
 
-    /* Webpack configuration to use to get resolve options from.
+		/* Webpack configuration to use to get resolve options from.
 
-       The (optional) fileName attribute specifies which file to take (relative
-       to dependency-cruiser's current working directory. When not provided defaults
-       to './webpack.conf.js'.
+			 The (optional) fileName attribute specifies which file to take (relative
+			 to dependency-cruiser's current working directory. When not provided defaults
+			 to './webpack.conf.js'.
 
-       The (optional) `env` and `args` attributes contain the parameters to be passed if
-       your webpack config is a function and takes them (see webpack documentation
-       for details)
-     */
-    // webpackConfig: {
-    //  fileName: './webpack.config.js',
-    //  env: {},
-    //  args: {},
-    // },
+			 The (optional) `env` and `args` attributes contain the parameters to be passed if
+			 your webpack config is a function and takes them (see webpack documentation
+			 for details)
+		 */
+		// webpackConfig: {
+		//  fileName: './webpack.config.js',
+		//  env: {},
+		//  args: {},
+		// },
 
-    /* Babel config ('.babelrc', '.babelrc.json', '.babelrc.json5', ...) to use
-      for compilation (and whatever other naughty things babel plugins do to
-      source code). This feature is well tested and usable, but might change
-      behavior a bit over time (e.g. more precise results for used module 
-      systems) without dependency-cruiser getting a major version bump.
-     */
-    // babelConfig: {
-    //   fileName: './.babelrc'
-    // },
+		/* Babel config ('.babelrc', '.babelrc.json', '.babelrc.json5', ...) to use
+			for compilation (and whatever other naughty things babel plugins do to
+			source code). This feature is well tested and usable, but might change
+			behavior a bit over time (e.g. more precise results for used module 
+			systems) without dependency-cruiser getting a major version bump.
+		 */
+		// babelConfig: {
+		//   fileName: './.babelrc'
+		// },
 
-    /* List of strings you have in use in addition to cjs/ es6 requires
-       & imports to declare module dependencies. Use this e.g. if you've
-       redeclared require, use a require-wrapper or use window.require as
-       a hack.
-    */
-    // exoticRequireStrings: [],
-    /* options to pass on to enhanced-resolve, the package dependency-cruiser
-       uses to resolve module references to disk. You can set most of these
-       options in a webpack.conf.js - this section is here for those
-       projects that don't have a separate webpack config file.
+		/* List of strings you have in use in addition to cjs/ es6 requires
+			 & imports to declare module dependencies. Use this e.g. if you've
+			 redeclared require, use a require-wrapper or use window.require as
+			 a hack.
+		*/
+		// exoticRequireStrings: [],
+		/* options to pass on to enhanced-resolve, the package dependency-cruiser
+			 uses to resolve module references to disk. You can set most of these
+			 options in a webpack.conf.js - this section is here for those
+			 projects that don't have a separate webpack config file.
 
-       Note: settings in webpack.conf.js override the ones specified here.
-     */
-    enhancedResolveOptions: {
-      /* List of strings to consider as 'exports' fields in package.json. Use
-         ['exports'] when you use packages that use such a field and your environment
-         supports it (e.g. node ^12.19 || >=14.7 or recent versions of webpack).
+			 Note: settings in webpack.conf.js override the ones specified here.
+		 */
+		enhancedResolveOptions: {
+			/* List of strings to consider as 'exports' fields in package.json. Use
+				 ['exports'] when you use packages that use such a field and your environment
+				 supports it (e.g. node ^12.19 || >=14.7 or recent versions of webpack).
 
-        If you have an `exportsFields` attribute in your webpack config, that one
-         will have precedence over the one specified here.
-      */
-      exportsFields: ["exports"],
-      /* List of conditions to check for in the exports field. e.g. use ['imports']
-         if you're only interested in exposed es6 modules, ['require'] for commonjs,
-         or all conditions at once `(['import', 'require', 'node', 'default']`)
-         if anything goes for you. Only works when the 'exportsFields' array is
-         non-empty.
+				If you have an `exportsFields` attribute in your webpack config, that one
+				 will have precedence over the one specified here.
+			*/
+			exportsFields: ["exports"],
+			/* List of conditions to check for in the exports field. e.g. use ['imports']
+				 if you're only interested in exposed es6 modules, ['require'] for commonjs,
+				 or all conditions at once `(['import', 'require', 'node', 'default']`)
+				 if anything goes for you. Only works when the 'exportsFields' array is
+				 non-empty.
 
-        If you have a 'conditionNames' attribute in your webpack config, that one will
-        have precedence over the one specified here.
-      */
-      conditionNames: ["import", "require", "node", "default"],
-    },
-    reporterOptions: {
-      dot: {
-        /* pattern of modules that can be consolidated in the detailed
-           graphical dependency graph. The default pattern in this configuration
-           collapses everything in node_modules to one folder deep so you see
-           the external modules, but not the innards your app depends upon.
-         */
-        collapsePattern: "node_modules/[^/]+",
+				If you have a 'conditionNames' attribute in your webpack config, that one will
+				have precedence over the one specified here.
+			*/
+			conditionNames: ["import", "require", "node", "default"],
+		},
+		reporterOptions: {
+			dot: {
+				/* pattern of modules that can be consolidated in the detailed
+					 graphical dependency graph. The default pattern in this configuration
+					 collapses everything in node_modules to one folder deep so you see
+					 the external modules, but not the innards your app depends upon.
+				 */
+				collapsePattern: "node_modules/[^/]+",
 
-        /* Options to tweak the appearance of your graph.See
-           https://github.com/sverweij/dependency-cruiser/blob/master/doc/options-reference.md#reporteroptions
-           for details and some examples. If you don't specify a theme
-           don't worry - dependency-cruiser will fall back to the default one.
-        */
-        theme: {
-          graph: {
-            bgcolor: "dodgerblue",
-            color: "white",
-            style: "",
-            fontcolor: "white",
-            fillcolor: "transparent",
-            splines: "ortho",
-            rankdir: "TD",
-          },
-          node: {
-            shape: "record",
-            color: "white",
-            fillcolor: "#ffffff33",
-            fontcolor: "white",
-          },
-          edge: {
-            arrowhead: "vee",
-            arrowsize: "0.5",
-            penwidth: "1.0",
-            color: "white",
-            fontcolor: "white",
-          },
-          modules: [
-            {
-              criteria: { source: "jsx$" },
-              attributes: { fillcolor: "#2258aa" },
-            },
-          ],
-          dependencies: [
-            {
-              criteria: { "rules[0].severity": "error" },
-              attributes: { fontcolor: "red", color: "red" },
-            },
-            {
-              criteria: { "rules[0].severity": "warn" },
-              attributes: { fontcolor: "orange", color: "orange" },
-            },
-            {
-              criteria: { "rules[0].severity": "info" },
-              attributes: { fontcolor: "blue", color: "blue" },
-            },
-            {
-              criteria: { resolved: "^src/model" },
-              attributes: { color: "#0000ff77" },
-            },
-            {
-              criteria: { resolved: "^src/view" },
-              attributes: { color: "#00770077" },
-            },
-          ],
-        },
-      },
-      archi: {
-        /* pattern of modules that can be consolidated in the high level
-          graphical dependency graph. If you use the high level graphical
-          dependency graph reporter (`archi`) you probably want to tweak
-          this collapsePattern to your situation.
-        */
-        collapsePattern:
-          "^(packages|src|lib|app|bin|test(s?)|spec(s?))/[^/]+|node_modules/[^/]+",
+				/* Options to tweak the appearance of your graph.See
+					 https://github.com/sverweij/dependency-cruiser/blob/master/doc/options-reference.md#reporteroptions
+					 for details and some examples. If you don't specify a theme
+					 don't worry - dependency-cruiser will fall back to the default one.
+				*/
+				theme: {
+					graph: {
+						bgcolor: "dodgerblue",
+						color: "white",
+						style: "",
+						fontcolor: "white",
+						fillcolor: "transparent",
+						splines: "ortho",
+					},
+					node: {
+						shape: "record",
+						color: "white",
+						fillcolor: "#ffffff33",
+						fontcolor: "white",
+					},
+					edge: {
+						arrowhead: "vee",
+						arrowsize: "0.5",
+						penwidth: "1.0",
+						color: "white",
+						fontcolor: "white",
+					},
+					modules: [
+						{
+							criteria: { source: "tsx$" },
+							attributes: { fillcolor: "#2258aa" },
+						},
+					],
+					dependencies: [
+						{
+							criteria: { "rules[0].severity": "error" },
+							attributes: { fontcolor: "red", color: "red" },
+						},
+						{
+							criteria: { "rules[0].severity": "warn" },
+							attributes: { fontcolor: "orange", color: "orange" },
+						},
+						{
+							criteria: { "rules[0].severity": "info" },
+							attributes: { fontcolor: "blue", color: "blue" },
+						},
+					],
+				},
+			},
+			archi: {
+				/* pattern of modules that can be consolidated in the high level
+					graphical dependency graph. If you use the high level graphical
+					dependency graph reporter (`archi`) you probably want to tweak
+					this collapsePattern to your situation.
+				*/
+				collapsePattern:
+					"^pages/.*",
 
-        /* Options to tweak the appearance of your graph.See
-           https://github.com/sverweij/dependency-cruiser/blob/master/doc/options-reference.md#reporteroptions
-           for details and some examples. If you don't specify a theme
-           for 'archi' dependency-cruiser will use the one specified in the
-           dot section (see above), if any, and otherwise use the default one.
-         */
-        // theme: {
-        // },
-      },
-    },
-  },
+				/* Options to tweak the appearance of your graph.See
+					 https://github.com/sverweij/dependency-cruiser/blob/master/doc/options-reference.md#reporteroptions
+					 for details and some examples. If you don't specify a theme
+					 for 'archi' dependency-cruiser will use the one specified in the
+					 dot section (see above), if any, and otherwise use the default one.
+				 */
+				// theme: {
+				// },
+			},
+		},
+	},
 };
 // generated: dependency-cruiser@11.4.1 on 2022-03-26T10:05:28.878Z
