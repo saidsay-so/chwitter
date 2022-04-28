@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import "./Avatar.css";
-interface AvatarProps  {
+interface AvatarProps {
   /**
    * Lien vers le profil de l'utilisateur
    */
@@ -14,7 +14,7 @@ interface AvatarProps  {
    * Nom de l'utilisateur
    */
   name: string;
-};
+}
 
 /**
  * Affiche une photo de profil avec une bordure arrondie

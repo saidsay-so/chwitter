@@ -19,7 +19,7 @@ export const getUser = async (uid: string) => {
 
 export const editUser = async (params: UpdateUserParams, uid?: string) => {
   const res = await axios.patch<UserResponse>(`/api/users/${uid ?? ""}`, {
-     ...params,
+    ...params,
   });
   const user = new User(res.data);
 

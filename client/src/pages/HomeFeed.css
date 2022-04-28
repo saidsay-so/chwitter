@@ -1,6 +1,6 @@
 .home-feed {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .home-feed .home-message-area {
