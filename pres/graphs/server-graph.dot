@@ -1,0 +1,44 @@
+digraph server {
+	ordering="out" rankdir="TB" splines="ortho" overlap="false" nodesep="0.16" ranksep="1" fontname="Fira Sans ExtraBold" fontsize="14" fillcolor="transparent" bgcolor="dodgerblue" color="white" fontcolor="white"
+	node [shape="record" style="rounded, filled" height="0.2" color="white" fillcolor="#ffffff33" fontcolor="white" fontname="Fira Sans" fontsize="12" ]
+	edge [arrowhead="vee" arrowsize="0.25" penwidth="1" color="white" fontname="Fira Sans" fontsize="10" fontcolor="white"]
+
+	src [fillcolor=slateblue];
+	"@config" [fillcolor=slateblue];
+	src -> "@config";
+	models [fillcolor=slateblue];
+	src -> models;
+	routes [fillcolor=slateblue];
+	src -> routes;
+	"../server/src/app.ts" [label="app.ts"];
+	src -> "../server/src/app.ts";
+	"../server/src/utils.ts" [label="utils.ts"];
+	src -> "../server/src/utils.ts";
+	"../server/src/index.ts" [label="index.ts"];
+	src -> "../server/src/index.ts";
+	"../server/src/database.ts" [label="database.ts"];
+	src -> "../server/src/database.ts";
+	"../server/src/errors.ts" [label="errors.ts"];
+	src -> "../server/src/errors.ts";
+	"../server/src/@config/index.ts" [label="index.ts"];
+	"@config" -> "../server/src/@config/index.ts";
+	"../server/src/models/base.ts" [label="base.ts"];
+	models -> "../server/src/models/base.ts";
+	"../server/src/models/user.ts" [label="user.ts"];
+	models -> "../server/src/models/user.ts";
+	"../server/src/models/index.ts" [label="index.ts"];
+	models -> "../server/src/models/index.ts";
+	"../server/src/models/message.ts" [label="message.ts"];
+	models -> "../server/src/models/message.ts";
+	"../server/src/routes/user.ts" [label="user.ts"];
+	routes -> "../server/src/routes/user.ts";
+	"../server/src/routes/index.ts" [label="index.ts"];
+	routes -> "../server/src/routes/index.ts";
+	"../server/src/routes/message.ts" [label="message.ts"];
+	routes -> "../server/src/routes/message.ts";
+	"../server/src/routes/auth.ts" [label="auth.ts"];
+	routes -> "../server/src/routes/auth.ts";
+	"../server/src/routes/friend.ts" [label="friend.ts"];
+	routes -> "../server/src/routes/friend.ts";
+}
+
