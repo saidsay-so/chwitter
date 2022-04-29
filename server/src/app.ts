@@ -37,6 +37,7 @@ api.use("/friends", friendRoute);
 
 app.use("/api", api);
 
+app.use("/", express.static("public"));
 app.use(errorHandler);
 
 export default app;
