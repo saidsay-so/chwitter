@@ -1,0 +1,30 @@
+name: Test
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test-server:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: pnpm/action-setup@v2.0.1
+      with:
+        version: 7.0.0-rc.9
+        
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+
+    - run: pnpm install
+    - run: cd server && pnpm test
+    
