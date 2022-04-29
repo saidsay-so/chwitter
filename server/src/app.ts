@@ -9,15 +9,17 @@ import userRoute from "./routes/user";
 import messageRoute from "./routes/message";
 import friendRoute from "./routes/friend";
 import { errorHandler } from "./utils";
+import assert from "assert";
 
 const app = express();
 
-const { SESSION_SECRETS } = process.env;
+const { SESSION_SECRET } = process.env;
+assert(SESSION_SECRET, "Secret is not defined");
 
 app.use(
   session({
     name: "__session__",
-    keys: SESSION_SECRETS!.split("|"),
+    secret: SESSION_SECRET,
   })
 );
 app.use(cors());

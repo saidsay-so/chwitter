@@ -21,6 +21,8 @@ declare global {
   }
 }
 
+process.env.SESSION_SECRET = "__test__";
+
 beforeEach(async () => {
   await connect(global.__MONGO_URI__ ?? process.env["MONGO_URL"], {
     // useNewUrlParser: true,
