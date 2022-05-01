@@ -10,6 +10,8 @@ import { CSSTransition } from "react-transition-group";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { User } from "../services/user";
+import FriendButton from "./FriendButton";
+import { BiMessageRoundedMinus } from "react-icons/bi";
 
 dayjs.extend(relativeTime);
 
@@ -101,18 +103,14 @@ const Message = ({
           {likes}
         </span>
         <span className="date">{dayjs(date).fromNow()}</span>
-        <div className={cx("actions", { isVisible: fromHimself || !isFriend })}>
-          {!(fromHimself || isFriend) && (
-            <SimpleButton
-              label="➕ Ajouter aux amis"
-              className={cx("action")}
-              onClick={() => friendAction()}
-            />
+        <div className={cx("actions")}>
+          {!fromHimself && (
+            <FriendButton isFriend={isFriend} onClick={() => friendAction()} />
           )}
           {fromHimself && (
             <SimpleButton
-              label="Supprimer"
-              className={cx("action")}
+              label={<div><BiMessageRoundedMinus className="icon" /> Supprimer le message</div>}
+              className={cx("delete-action")}
               onClick={() => removeAction()}
             />
           )}

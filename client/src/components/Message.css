@@ -31,6 +31,8 @@
   visibility: hidden;
   opacity: 0;
   position: absolute;
+  z-index: 1;
+  max-width: 50vw;
   transition: top 100ms cubic-bezier(0.01, 0.35, 0.58, 0.95), opacity 100ms ease;
   top: 0%;
 }
@@ -96,16 +98,17 @@
 
 .message-container .metadata .actions {
   flex: 1;
-  display: none;
+  display: flex;
   justify-content: flex-end;
 }
-
-.message-container .metadata .actions.isVisible {
-  display: flex;
+.message-container .metadata .actions .delete-action {
+  --button-color: var(--red);
 }
 
-.message-container .metadata .actions .action {
-  align-self: normal;
+.message-container .metadata .actions .delete-action .icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  vertical-align: middle;
 }
 
 @media screen and (min-width: 768px) {
@@ -123,13 +126,8 @@
   }
 
   .message-container .metadata .actions {
-    visibility: hidden;
     display: flex;
     justify-content: flex-end;
-  }
-
-  .message-container .metadata .actions.isVisible {
-    visibility: visible;
   }
 
   .message-container .metadata .actions .action {
