@@ -8,4 +8,4 @@ npm run build
 
 ## Structure
 
-![Graph](../assets/depgraph.svg)
+![Graph](../pres/graphs/client-graph.html)
