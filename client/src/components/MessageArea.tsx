@@ -1,7 +1,6 @@
 import SimpleButton from "./SimpleButton";
 import "./MessageArea.css";
 import { RiSendPlane2Fill } from "react-icons/ri";
-import { IconContext } from "react-icons";
 import { MutableRefObject, useState } from "react";
 
 interface MessageAreaProps {
@@ -48,18 +47,7 @@ const MessageArea = ({ id, onSubmit, refArea }: MessageAreaProps) => {
           autoFocus
           value={message}
         ></textarea>
-        <SimpleButton
-          round
-          label={
-            <IconContext.Provider
-              value={{
-                style: {},
-              }}
-            >
-              <RiSendPlane2Fill />
-            </IconContext.Provider>
-          }
-        />
+        <SimpleButton round label={<RiSendPlane2Fill />} />
       </form>
     </div>
   );
