@@ -1,9 +1,8 @@
 .login {
   display: flex;
+	margin: auto;
   flex-direction: column;
-	gap: 5rem;
-  align-items: center;
-  padding: 10rem 0 10rem 0;
+  gap: 3rem;
 }
 
 .login .input-container {

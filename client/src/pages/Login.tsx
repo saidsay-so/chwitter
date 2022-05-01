@@ -48,50 +48,48 @@ export default function Login() {
   };
 
   return (
-		<div className="responsive-container">
-			<div className="login">
-				<h1>{text.action}</h1>
-				<form className="input-container" onSubmit={loginAction}>
-					<Input
-						name="username"
-						label="Nom d'utilisateur"
-						required
-						value={name}
-						listener={setName}
-					/>
-					<Input
-						name="password"
-						label="Mot de passe"
-						type="password"
-						required
-						value={password}
-						listener={setPassword}
-					/>
-					{registerView && (
-						<Input
-							name="password"
-							label="Confirmer le mot de passe"
-							type="password"
-							required
-							value={confirmPass}
-							listener={setConfirmPass}
-						/>
-					)}
-					<div className="buttons">
-						<SimpleButton label={text.action} />
-					</div>
-				</form>
-				<div className="invert-container">
-					<p className="text">{text.below}</p>
-					<SimpleButton
-						label={text.invert}
-						onClick={(e) => {
-							e.preventDefault();
-							setRegisterView(!registerView);
-						}}
-					></SimpleButton>
-				</div>
-			</div>
-		</div>
+    <div className="login">
+      <h1>{text.action}</h1>
+      <form className="input-container" onSubmit={loginAction}>
+        <Input
+          name="username"
+          label="Nom d'utilisateur"
+          required
+          value={name}
+          listener={setName}
+        />
+        <Input
+          name="password"
+          label="Mot de passe"
+          type="password"
+          required
+          value={password}
+          listener={setPassword}
+        />
+        {registerView && (
+          <Input
+            name="password"
+            label="Confirmer le mot de passe"
+            type="password"
+            required
+            value={confirmPass}
+            listener={setConfirmPass}
+          />
+        )}
+        <div className="buttons">
+          <SimpleButton label={text.action} />
+        </div>
+      </form>
+      <div className="invert-container">
+        <p className="text">{text.below}</p>
+        <SimpleButton
+          label={text.invert}
+          onClick={(e) => {
+            e.preventDefault();
+            setRegisterView(!registerView);
+          }}
+        ></SimpleButton>
+      </div>
+    </div>
   );
 }
