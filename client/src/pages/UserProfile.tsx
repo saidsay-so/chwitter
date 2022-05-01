@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -19,12 +19,16 @@ export interface UserProfileOutletContext {
   uid: string;
   isFriend: boolean;
   isHimself: boolean;
+	setMsgCount: (c: number | null) => void;
+	setFriendsCount: (c: number | null) => void;
   friendAction: () => void;
   user: User;
 }
 
 export default function UserProfile() {
   const [user, setUser] = useState<User>({} as User);
+	const [msgCount, setMsgCount] = useState<number|null>(null);
+	const [friendsCount, setFriendsCount] = useState<number|null>(null);
 
   const id = useParams().id!;
   const { id: mainUid } = useAuth().user!;
@@ -47,6 +51,11 @@ export default function UserProfile() {
     [id]
   );
 
+	useEffect(() => {
+		setFriendsCount(null);
+		setMsgCount(null);
+	}, [id]);
+
   const friendAction = () => {
     setUser(({ isFriend, ...user }) => ({ ...user, isFriend: !isFriend }));
     (user.isFriend ? removeFriend : addFriend)(id);
@@ -60,6 +69,8 @@ export default function UserProfile() {
     uid: id,
     isFriend: user.isFriend,
     isHimself,
+		setMsgCount,
+		setFriendsCount,
     friendAction,
     user,
   };
@@ -97,10 +108,11 @@ export default function UserProfile() {
 
             <nav className="profile-nav">
               <NavLink className="profile-link" to="messages">
-                <AiFillMessage /> Messages
+              <AiFillMessage /> {msgCount === null ? "&nbsp" : msgCount} Messages
               </NavLink>
               <NavLink className="profile-link" to="friends">
-                <MdPeople /> Amis
+                <MdPeople /> {friendsCount === null ? "&nbsp" : friendsCount} Amis
+              </NavLink>
               </NavLink>
             </nav>
 

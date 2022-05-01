@@ -1,4 +1,4 @@
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useOutletContext } from "react-router-dom";
 import { EmptyPlaceholder } from "../../components/EmptyPlaceholder";
 import { LoadingPlaceholder } from "../../components/LoadingPlaceholder";
@@ -9,8 +9,8 @@ import { useAsyncEffect, useMessagesReducer } from "../../utils/extra-hooks";
 import { UserProfileOutletContext } from "../UserProfile";
 import "./Messages.css";
 
-const UserMessages = () => {
-  const { uid } = useOutletContext<UserProfileOutletContext>();
+export default function UserMessages() {
+  const { uid, setMsgCount } = useOutletContext<UserProfileOutletContext>();
   const { id: mainUid } = useAuth().user!;
   const [isPending, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState(true);
@@ -31,6 +31,10 @@ const UserMessages = () => {
     [uid]
   );
 
+  useEffect(() => {
+    setMsgCount(!isPending && !isLoading ? messages.length : null);
+  }, [messages]);
+
   return (
     <div className="messages-container">
       {isPending || isLoading ? (
@@ -48,6 +52,4 @@ const UserMessages = () => {
       )}
     </div>
   );
-};
-
-export default UserMessages;
+}
