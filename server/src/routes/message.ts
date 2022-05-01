@@ -27,7 +27,12 @@ const messageIsLiked = async (mid: string, uid: string) =>
 const isMessageAuthor: RequestHandler = async (req, res, next) => {
   const { mid } = req.params;
   try {
-    if ((await MessageModel.exists({ _id: mid, author: req.session!.userId! })) === null) {
+    if (
+      (await MessageModel.exists({
+        _id: mid,
+        author: req.session!.userId!,
+      })) === null
+    ) {
       return res.sendStatus(409);
     }
 
@@ -35,7 +40,7 @@ const isMessageAuthor: RequestHandler = async (req, res, next) => {
   } catch (e) {
     return next(e);
   }
-}
+};
 
 const checkMessageExists: RequestHandler = async (req, res, next) => {
   const { mid } = req.params;
@@ -46,7 +51,7 @@ const checkMessageExists: RequestHandler = async (req, res, next) => {
 
     return next();
   } catch (e) {
-    return next(e)
+    return next(e);
   }
 };
 
@@ -58,11 +63,14 @@ routes.get("/", async (req, res, next) => {
       uid = "",
       username = "",
       search = "",
+      liked = "false",
       onlyfollowed = "false",
       page = "0",
     }: MessagesSearchParams = req.query;
 
-    const pageNumber: number = Number.isNaN(parseInt(page, 10)) ? 0 : parseInt(page, 10);
+    const pageNumber: number = Number.isNaN(parseInt(page, 10))
+      ? 0
+      : parseInt(page, 10);
 
     const params: mongoose.FilterQuery<MessageSchema> = {};
 
@@ -79,7 +87,14 @@ routes.get("/", async (req, res, next) => {
         params["author"] = { $in: user.friends };
       }
     } else if (uid) {
-      params["author"] = uid;
+      if (liked !== "false") {
+        const user = await UserModel.findById(uid)
+          .select("likedMessages")
+          .exec();
+        params["_id"] = { $in: user?.likedMessages };
+      } else {
+        params["author"] = uid;
+      }
     } else if (username) {
       params["author"] = (await UserModel.findByName(username).exec())?._id;
     }
@@ -103,8 +118,7 @@ routes.get("/", async (req, res, next) => {
               avatarLink: getAvatarLink(
                 (msg.author as DocumentType<UserSchema>).id!
               ),
-              isLiked:
-                await messageIsLiked(msg.id, req.session!.userId!),
+              isLiked: await messageIsLiked(msg.id, req.session!.userId!),
             },
           }) as unknown as MessageResponse
       )
@@ -121,8 +135,7 @@ routes.post("/", async (req, res, next) => {
   try {
     const { content } = req.body;
 
-    if (!await UserModel.exists({ _id: author }))
-      return res.sendStatus(409);
+    if (!(await UserModel.exists({ _id: author }))) return res.sendStatus(409);
 
     const msg = await (
       await MessageModel.create({ author, content })
@@ -237,55 +250,65 @@ routes.get("/:mid", checkMessageExists, async (req, res, next) => {
   }
 });
 
-routes.patch("/:mid", checkMessageExists, isMessageAuthor, async (req, res, next) => {
-  const { mid } = req.params;
+routes.patch(
+  "/:mid",
+  checkMessageExists,
+  isMessageAuthor,
+  async (req, res, next) => {
+    const { mid } = req.params;
 
-  try {
-    const { content } = req.body;
-    const msg = await MessageModel.findByIdAndUpdate(
-      { _id: mid },
-      { $set: { content } }
-    )
-      .populate("author")
-      .exec();
-    return res.status(200).json(
-      msg!.toJSON({
-        custom: {
-          isLiked: await messageIsLiked(mid!, req.session!.userId!),
-          isFriend: await getFriendState(
-            req.session!.userId!,
-            (msg!.author as DocumentType<UserSchema>).id!
-          ),
-          avatarLink: getAvatarLink(
-            (msg!.author as DocumentType<UserSchema>).id!
-          ),
-        },
-      })
-    );
-  } catch (e) {
-    return next(e);
+    try {
+      const { content } = req.body;
+      const msg = await MessageModel.findByIdAndUpdate(
+        { _id: mid },
+        { $set: { content } }
+      )
+        .populate("author")
+        .exec();
+      return res.status(200).json(
+        msg!.toJSON({
+          custom: {
+            isLiked: await messageIsLiked(mid!, req.session!.userId!),
+            isFriend: await getFriendState(
+              req.session!.userId!,
+              (msg!.author as DocumentType<UserSchema>).id!
+            ),
+            avatarLink: getAvatarLink(
+              (msg!.author as DocumentType<UserSchema>).id!
+            ),
+          },
+        })
+      );
+    } catch (e) {
+      return next(e);
+    }
   }
-});
+);
 
-routes.delete("/:mid", checkMessageExists, isMessageAuthor, async (req, res, next) => {
-  const { mid } = req.params;
-  const session = await mongoose.startSession();
-  try {
-    await session.withTransaction(async () => {
-      await UserModel.updateMany(
-        { likedMessages: mid },
-        { $pull: { likedMessages: mid } },
-        { session }
-      ).exec();
-      await MessageModel.findByIdAndDelete(mid, { session }).exec();
-    });
+routes.delete(
+  "/:mid",
+  checkMessageExists,
+  isMessageAuthor,
+  async (req, res, next) => {
+    const { mid } = req.params;
+    const session = await mongoose.startSession();
+    try {
+      await session.withTransaction(async () => {
+        await UserModel.updateMany(
+          { likedMessages: mid },
+          { $pull: { likedMessages: mid } },
+          { session }
+        ).exec();
+        await MessageModel.findByIdAndDelete(mid, { session }).exec();
+      });
 
-    return res.sendStatus(200);
-  } catch (e) {
-    return next(e);
-  } finally {
-    session.endSession();
+      return res.sendStatus(200);
+    } catch (e) {
+      return next(e);
+    } finally {
+      session.endSession();
+    }
   }
-});
+);
 
 export default routes;

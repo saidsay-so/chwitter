@@ -1,5 +1,5 @@
 import { CreateMessageParams } from "common";
-import { useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import { Severity } from "../components/Toast";
 import { useToast } from "../providers/ToastProvider";
 import { addFriend, removeFriend } from "../services/friend";
@@ -70,7 +70,11 @@ type MessagesEvent =
   | AddFriendEvent
   | RemoveFriendEvent;
 
-function reducer(messages: Message[], action: MessagesEvent) {
+function reducer(
+  likesMainAuthorPage: boolean,
+  messages: Message[],
+  action: MessagesEvent
+) {
   switch (action.type) {
     case MessagesEventType.LOAD:
       return action.messages;
@@ -87,33 +91,40 @@ function reducer(messages: Message[], action: MessagesEvent) {
     case MessagesEventType.UNLIKE:
       const { index } = action;
 
-      const [before, after] = [
-        messages.slice(0, index),
-        messages.slice(index + 1),
-      ];
-
+      const before = messages.slice(0, index),
+        after = messages.slice(index + 1);
       const { isLiked, likes, ...msg } = messages[index];
 
-      return [
-        ...before,
-        {
-          ...msg,
-          isLiked: !isLiked,
-          likes: action.type === MessagesEventType.LIKE ? likes + 1 : likes - 1,
-        },
-        ...after,
-      ];
+      return MessagesEventType.UNLIKE && likesMainAuthorPage
+        ? [...before, ...after]
+        : [
+            ...before,
+            {
+              ...msg,
+              isLiked: !isLiked,
+              likes:
+                action.type === MessagesEventType.LIKE ? likes + 1 : likes - 1,
+            },
+            ...after,
+          ];
 
     case MessagesEventType.ADD_FRIEND:
     case MessagesEventType.REMOVE_FRIEND:
+      const { uid } = action;
+
       return messages.map(({ author: { isFriend, ...author }, ...msg }) => ({
         ...msg,
-        author: { ...author, isFriend: !isFriend },
+        author: {
+          ...author,
+          isFriend: author.id == uid ? !isFriend : isFriend,
+        },
       }));
   }
 }
 
-export const useMessagesReducer = (): [
+export const useMessagesReducer = (
+  likesMainAuthorPage: boolean = false
+): [
   Message[],
   {
     load: (messages: Message[]) => void;
@@ -125,7 +136,8 @@ export const useMessagesReducer = (): [
     removeFriend: (uid: string) => void;
   }
 ] => {
-  const [messages, dispatch] = useReducer(reducer, []);
+  const memoReducer = useCallback(reducer.bind(null, likesMainAuthorPage), [likesMainAuthorPage]);
+  const [messages, dispatch] = useReducer(memoReducer, []);
   const { report } = useToast();
 
   return [

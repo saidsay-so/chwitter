@@ -14,21 +14,24 @@ import FriendButton from "../components/FriendButton";
 import { User } from "../services/user";
 import { LoadingPlaceholder } from "../components/LoadingPlaceholder";
 import SimpleButton from "../components/SimpleButton";
+import { BsHeartFill } from "react-icons/bs";
 
 export interface UserProfileOutletContext {
   uid: string;
   isFriend: boolean;
   isHimself: boolean;
-	setMsgCount: (c: number | null) => void;
-	setFriendsCount: (c: number | null) => void;
+  setMsgCount: (c: number | null) => void;
+  setLikedMsgCount: (c: number | null) => void;
+  setFriendsCount: (c: number | null) => void;
   friendAction: () => void;
   user: User;
 }
 
 export default function UserProfile() {
   const [user, setUser] = useState<User>({} as User);
-	const [msgCount, setMsgCount] = useState<number|null>(null);
-	const [friendsCount, setFriendsCount] = useState<number|null>(null);
+  const [msgCount, setMsgCount] = useState<number | null>(null);
+  const [friendsCount, setFriendsCount] = useState<number | null>(null);
+  const [likedmsgCount, setLikedMsgCount] = useState<number | null>(null);
 
   const id = useParams().id!;
   const { id: mainUid } = useAuth().user!;
@@ -51,10 +54,11 @@ export default function UserProfile() {
     [id]
   );
 
-	useEffect(() => {
-		setFriendsCount(null);
-		setMsgCount(null);
-	}, [id]);
+  useEffect(() => {
+    setFriendsCount(null);
+    setMsgCount(null);
+    setLikedMsgCount(null);
+  }, [id]);
 
   const friendAction = () => {
     setUser(({ isFriend, ...user }) => ({ ...user, isFriend: !isFriend }));
@@ -69,8 +73,9 @@ export default function UserProfile() {
     uid: id,
     isFriend: user.isFriend,
     isHimself,
-		setMsgCount,
-		setFriendsCount,
+    setMsgCount,
+    setFriendsCount,
+    setLikedMsgCount,
     friendAction,
     user,
   };
@@ -108,11 +113,17 @@ export default function UserProfile() {
 
             <nav className="profile-nav">
               <NavLink className="profile-link" to="messages">
-              <AiFillMessage /> {msgCount === null ? "&nbsp" : msgCount} Messages
+                <AiFillMessage /> {msgCount === null ? "&nbsp" : msgCount}{" "}
+                Messages
               </NavLink>
               <NavLink className="profile-link" to="friends">
-                <MdPeople /> {friendsCount === null ? "&nbsp" : friendsCount} Amis
+                <MdPeople /> {friendsCount === null ? "&nbsp" : friendsCount}{" "}
+                Amis
               </NavLink>
+              <NavLink className="profile-link" to="likedMessages">
+                <BsHeartFill />{" "}
+                {likedmsgCount === null ? "&nbsp" : likedmsgCount} Messages
+                likés
               </NavLink>
             </nav>
 

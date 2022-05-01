@@ -17,6 +17,7 @@ import "dayjs/locale/fr";
 import dayjs from "dayjs";
 import EditProfile from "./pages/EditProfile";
 import HomeFeed from "./pages/HomeFeed";
+import UserLikedMessages from "./pages/user/LikedMessages";
 dayjs.locale("fr");
 
 const root = createRoot(document.getElementById("root")!);
@@ -74,6 +75,14 @@ root.render(
                   element={
                     <RequireAuthProvider>
                       <UserFriends />
+                    </RequireAuthProvider>
+                  }
+                />
+                <Route
+                  path="likedMessages"
+                  element={
+                    <RequireAuthProvider>
+                      <UserLikedMessages />
                     </RequireAuthProvider>
                   }
                 />
