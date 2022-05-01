@@ -50,14 +50,13 @@ const User = ({
         <Avatar profileLink={profileLink} picture={avatarLink} name={name} />
       )}
       <div className="text">
-        <h4>{displayName}</h4>
         <Link to={profileLink} className="name">
-          {name}
+          <h4>{displayName}</h4>@{name}
         </Link>
         <p className="description">{description}</p>
       </div>
       {isFriend !== undefined && (
-        <FriendButton onClick={() => friendAction()} isFriend={isFriend} />
+          <FriendButton className="action" onClick={() => friendAction()} isFriend={isFriend} />
       )}
     </div>
   );

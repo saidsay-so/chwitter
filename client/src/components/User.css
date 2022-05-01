@@ -44,7 +44,6 @@
   }
 
   .user .action {
-    align-self: flex-end;
     flex: 1;
   }
 }
