@@ -1,7 +1,15 @@
 .friend-button {
   --button-color: var(--primary);
+	padding: 0 .5rem;
+}
+
+.friend-button .friend-icon {
+	height: 1.5rem;
+	width: 1.5rem;
+	margin: .25rem;
+	vertical-align: middle;
 }
 
 .friend-button.is-friend {
-  --button-color: var(--red);
+  --button-color: var(--secondary);
 }
