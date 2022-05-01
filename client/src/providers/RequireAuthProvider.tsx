@@ -20,7 +20,7 @@ const RequireAuthProvider = ({ children }: { children: JSX.Element }) => {
   if (!isLogged()) {
     if (isPending) {
       return (
-        <div>
+        <div style={{ margin: "auto" }}>
           <LoadingPlaceholder />
         </div>
       );
