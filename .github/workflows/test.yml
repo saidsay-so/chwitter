@@ -27,4 +27,6 @@ jobs:
 
     - run: pnpm install
     - run: cd server && pnpm test
+      env:
+        SESSION_SECRET: __tests__
     
