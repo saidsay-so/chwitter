@@ -113,17 +113,15 @@ export default function UserProfile() {
 
             <nav className="profile-nav">
               <NavLink className="profile-link" to="messages">
-                <AiFillMessage /> {msgCount === null ? "&nbsp" : msgCount}{" "}
+                <AiFillMessage /> {msgCount === null ? "\u00A0" : msgCount}{" "}
                 Messages
               </NavLink>
               <NavLink className="profile-link" to="friends">
-                <MdPeople /> {friendsCount === null ? "&nbsp" : friendsCount}{" "}
+                <MdPeople /> {friendsCount === null ? "\u00A0" : friendsCount}{" "}
                 Amis
               </NavLink>
               <NavLink className="profile-link" to="likedMessages">
-                <BsHeartFill />{" "}
-                {likedmsgCount === null ? "&nbsp" : likedmsgCount} Messages
-                likés
+                <BsHeartFill /> {likedmsgCount === null ? "\u00A0" : likedmsgCount} Likes
               </NavLink>
             </nav>
 
