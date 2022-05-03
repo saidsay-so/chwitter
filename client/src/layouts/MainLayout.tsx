@@ -4,7 +4,13 @@ import NavigationPanel from "../components/NavigationPanel";
 import "./MainLayout.css";
 import { useAuth } from "../providers/AuthProvider";
 import { IconContext } from "react-icons";
-import { MutableRefObject, useRef } from "react";
+import {
+  FormEvent,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 export interface MainLayoutOutlet {
   refMessageArea: MutableRefObject<HTMLTextAreaElement>;
@@ -18,7 +24,8 @@ const MainLayout = () => {
 
   const refMessageArea = useRef<HTMLTextAreaElement>(null);
 
-  const [searchParams, _] = useSearchParams();
+  const [search, setSearch] = useState("");
+	const [searchParams, _] = useSearchParams();
 
   const scrollToArea = () => {
     if (refMessageArea.current === null) requestAnimationFrame(scrollToArea);
@@ -31,12 +38,20 @@ const MainLayout = () => {
     });
   };
 
+	useEffect(() => {
+		const query = searchParams.get("search");
+	if(query) {
+			setSearch(query)
+		}
+		}, [searchParams]);
+
   const createMessage = () => {
     navigate("/");
     requestAnimationFrame(scrollToArea);
   };
 
-  const search = (search: string) => {
+  const searchSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const params = new URLSearchParams({ search });
     navigate({ pathname: "/search", search: params.toString() });
   };
@@ -52,7 +67,11 @@ const MainLayout = () => {
           <NavigationPanel
             {...user}
             search={search}
-            initialSearch={searchParams.get("search") ?? undefined}
+            onSearchInput={(e) => {
+              e.preventDefault();
+              setSearch((e.target as HTMLInputElement).value);
+            }}
+            onSearchSubmit={searchSubmit}
             profileLink={user.profileLink}
             homePage="/"
             signOut={authAction}
