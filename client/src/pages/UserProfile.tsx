@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUser } from "../services/user";
 import { useAuth } from "../providers/AuthProvider";
 import { addFriend, removeFriend } from "../services/friend";
-import { useAsyncEffect } from "../utils/extra-hooks";
+import { ServiceStatus, useService } from "../utils/extra-hooks";
 import { AiFillMessage } from "react-icons/ai";
 import { MdPeople } from "react-icons/md";
 import { Outlet } from "react-router-dom";
@@ -37,22 +37,9 @@ export default function UserProfile() {
   const { id: mainUid } = useAuth().user!;
   const isHimself = id === mainUid;
 
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  useAsyncEffect(
-    async (stillMounted) => {
-      setIsLoading(true);
-
-      const user = await getUser(id);
-
-      if (stillMounted()) {
-        setUser(user);
-        setIsLoading(false);
-      }
-    },
-    [id]
-  );
+  const { status } = useService(getUser.bind(null, id), setUser, [id]);
 
   useEffect(() => {
     setFriendsCount(null);
@@ -62,7 +49,7 @@ export default function UserProfile() {
 
   const friendAction = () => {
     setUser(({ isFriend, ...user }) => ({ ...user, isFriend: !isFriend }));
-    (user.isFriend ? removeFriend : addFriend)(id);
+    useService((user.isFriend ? removeFriend : addFriend).bind(null, id));
   };
 
   const editProfile = () => {
@@ -83,7 +70,7 @@ export default function UserProfile() {
   return (
     <div className="responsive-container">
       <div className="user-profile">
-        {isLoading ? (
+        {status === ServiceStatus.LOADING ? (
           <LoadingPlaceholder />
         ) : (
           <>
@@ -121,7 +108,8 @@ export default function UserProfile() {
                 Amis
               </NavLink>
               <NavLink className="profile-link" to="likedMessages">
-                <BsHeartFill /> {likedmsgCount === null ? "\u00A0" : likedmsgCount} Likes
+                <BsHeartFill />{" "}
+                {likedmsgCount === null ? "\u00A0" : likedmsgCount} Likes
               </NavLink>
             </nav>
 

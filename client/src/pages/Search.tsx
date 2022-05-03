@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import MessagesList from "../components/MessagesList";
 import { useAuth } from "../providers/AuthProvider";
 import { getMessages } from "../services/message";
-import { useAsyncEffect, useMessagesReducer } from "../utils/extra-hooks";
+import { useService, useMessagesReducer } from "../utils/extra-hooks";
 import "./Search.css";
 
 export default function Search() {
@@ -23,26 +23,21 @@ export default function Search() {
     }));
   }, [pageParams]);
 
-  useAsyncEffect(
-    async (stillMounted) => {
-      const searchParams = {
-        ...customParams,
-      };
-      setSearchParams(
-        new URLSearchParams(
-          Object.entries(searchParams).filter(
-            ([, val]) => typeof val === "string"
-          )
-        )
-      );
-      const messages = await getMessages(searchParams as MessagesSearchParams);
+  useEffect(() => {
+    const searchParams = {
+      ...customParams,
+    };
 
-      if (stillMounted()) {
-        load(messages);
-      }
-    },
-    [customParams]
-  );
+    setSearchParams(
+      new URLSearchParams(
+        Object.entries(searchParams).filter(
+          ([, val]) => typeof val === "string"
+        )
+      )
+    );
+  }, [customParams]);
+
+  useService(getMessages.bind(null, { ...customParams }), load, [customParams]);
 
   return (
     <div className="responsive-container">

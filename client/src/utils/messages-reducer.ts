@@ -136,45 +136,48 @@ export const useMessagesReducer = (
     removeFriend: (uid: string) => void;
   }
 ] => {
-  const memoReducer = useCallback(reducer.bind(null, likesMainAuthorPage), [likesMainAuthorPage]);
+  const memoReducer = useCallback(reducer.bind(null, likesMainAuthorPage), [
+    likesMainAuthorPage,
+  ]);
   const [messages, dispatch] = useReducer(memoReducer, []);
   const { report } = useToast();
+  const controller = new AbortController();
 
   return [
     messages,
     {
       load: (messages) => dispatch({ type: MessagesEventType.LOAD, messages }),
       create: (message) => {
-        createMessage(message)
+        createMessage(message, controller.signal)
           .then((msg) =>
             dispatch({ type: MessagesEventType.CREATE, message: msg })
           )
           .catch((error) => report({ severity: Severity.ERROR, error }));
       },
       removeMessage: (mid, index) => {
-        deleteMessage(mid)
+        deleteMessage(mid, controller.signal)
           .then(() =>
             dispatch({ type: MessagesEventType.REMOVE_MSG, mid, index })
           )
           .catch((error) => report({ severity: Severity.WARNING, error }));
       },
       like: (mid, index) => {
-        likeMessage(mid)
+        likeMessage(mid, controller.signal)
           .then(() => dispatch({ type: MessagesEventType.LIKE, mid, index }))
           .catch((error) => report({ severity: Severity.WARNING, error }));
       },
       unlike: (mid, index) => {
-        unlikeMessage(mid)
+        unlikeMessage(mid, controller.signal)
           .then(() => dispatch({ type: MessagesEventType.UNLIKE, mid, index }))
           .catch((error) => report({ severity: Severity.WARNING, error }));
       },
       addFriend: (uid) => {
-        addFriend(uid)
+        addFriend(uid, controller.signal)
           .then(() => dispatch({ type: MessagesEventType.ADD_FRIEND, uid }))
           .catch((error) => report({ severity: Severity.WARNING, error }));
       },
       removeFriend: (uid) => {
-        removeFriend(uid)
+        removeFriend(uid, controller.signal)
           .then(() => dispatch({ type: MessagesEventType.REMOVE_FRIEND, uid }))
           .catch((error) => report({ severity: Severity.WARNING, error }));
       },

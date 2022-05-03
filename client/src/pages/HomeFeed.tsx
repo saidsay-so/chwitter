@@ -2,12 +2,15 @@ import { getMessages } from "../services/message";
 import MessagesList from "../components/MessagesList";
 import "./HomeFeed.css";
 import MessageArea from "../components/MessageArea";
-import { useAsyncEffect, useMessagesReducer } from "../utils/extra-hooks";
+import {
+  ServiceStatus,
+  useMessagesReducer,
+  useService,
+} from "../utils/extra-hooks";
 import { useAuth } from "../providers/AuthProvider";
 import { useOutletContext } from "react-router-dom";
 import { MainLayoutOutlet } from "../layouts/MainLayout";
 import { LoadingPlaceholder } from "../components/LoadingPlaceholder";
-import { useState, useTransition } from "react";
 import { EmptyPlaceholder } from "../components/EmptyPlaceholder";
 
 export default function HomeFeed() {
@@ -17,19 +20,8 @@ export default function HomeFeed() {
   ] = useMessagesReducer();
   const { id: uid } = useAuth().user!;
   const { refMessageArea } = useOutletContext<MainLayoutOutlet>();
-  const [isPending, startTransition] = useTransition();
-  const [isLoading, setIsLoading] = useState(true);
 
-  useAsyncEffect(async (stillMounted) => {
-    const messages = await getMessages();
-    setIsLoading(false);
-
-    if (stillMounted()) {
-      startTransition(() => {
-        load(messages);
-      });
-    }
-  }, []);
+  const { status } = useService(getMessages.bind(null, undefined), load, []);
 
   return (
     <div className="responsive-container">
@@ -39,11 +31,11 @@ export default function HomeFeed() {
             refArea={refMessageArea}
             id="search"
             onSubmit={(content) => create({ content })}
-						minLength={8}
-						maxLength={320}
+            minLength={8}
+            maxLength={320}
           />
         </div>
-        {isPending || isLoading ? (
+        {status === ServiceStatus.LOADING ? (
           <LoadingPlaceholder />
         ) : messages.length > 0 ? (
           <>

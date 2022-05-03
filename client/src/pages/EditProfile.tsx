@@ -2,10 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import SimpleButton from "../components/SimpleButton";
-import { Severity } from "../components/Toast";
 import { useAuth } from "../providers/AuthProvider";
-import { useToast } from "../providers/ToastProvider";
 import { editUser } from "../services/user";
+import { useService } from "../utils/extra-hooks";
 import "./EditProfile.css";
 
 export default function EditProfile() {
@@ -13,15 +12,14 @@ export default function EditProfile() {
   const user = rawUser!;
 
   const navigate = useNavigate();
-  const { report } = useToast();
 
   const [displayName, setDisplayName] = useState(user.displayName);
   const [description, setDescription] = useState(user.description);
 
   const submit = () => {
-    editUser({ displayName, description })
-      .then(() => signIn(null, () => navigate(user.profileLink)))
-      .catch((err) => report({ severity: Severity.ERROR, error: err }));
+    useService(editUser.bind(null, { displayName, description }), () => {
+      signIn(null, () => navigate(user.profileLink));
+    });
   };
 
   return (
