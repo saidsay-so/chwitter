@@ -27,65 +27,22 @@ root.render(
       <ToastProvider>
         <AuthProvider>
           <Routes>
-            <Route element={<MainLayout />}>
-              <Route
-                path="/"
-                element={
-                  <RequireAuthProvider>
-                    <HomeFeed />
-                  </RequireAuthProvider>
-                }
-              />
-              <Route path="/login" element={<Login />} />
-              <Route
-                path="/search"
-                element={
-                  <RequireAuthProvider>
-                    <Search />
-                  </RequireAuthProvider>
-                }
-              />
-              <Route
-                path="/edit"
-                element={
-                  <RequireAuthProvider>
-                    <EditProfile />
-                  </RequireAuthProvider>
-                }
-              />
-              <Route
-                path="/users/:id"
-                element={
-                  <RequireAuthProvider>
-                    <UserProfile />
-                  </RequireAuthProvider>
-                }
-              >
+            <Route path="/login" element={<Login />} />
+            <Route
+              element={
+                <RequireAuthProvider>
+                  <MainLayout />
+                </RequireAuthProvider>
+              }
+            >
+              <Route path="/" element={<HomeFeed />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/edit" element={<EditProfile />} />
+              <Route path="/users/:id" element={<UserProfile />}>
                 <Route index element={<Navigate to="messages" replace />} />
-                <Route
-                  path="messages"
-                  element={
-                    <RequireAuthProvider>
-                      <UserMessages />
-                    </RequireAuthProvider>
-                  }
-                />
-                <Route
-                  path="friends"
-                  element={
-                    <RequireAuthProvider>
-                      <UserFriends />
-                    </RequireAuthProvider>
-                  }
-                />
-                <Route
-                  path="likedMessages"
-                  element={
-                    <RequireAuthProvider>
-                      <UserLikedMessages />
-                    </RequireAuthProvider>
-                  }
-                />
+                <Route path="messages" element={<UserMessages />} />
+                <Route path="friends" element={<UserFriends />} />
+                <Route path="likedMessages" element={<UserLikedMessages />} />
               </Route>
             </Route>
           </Routes>
