@@ -20,12 +20,12 @@ const MainLayout = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const isConnected = user !== null;
-  const authAction = signOut.bind(null, () => navigate("/login"));
+  const logout = signOut.bind(null, () => navigate("/login"));
 
   const refMessageArea = useRef<HTMLTextAreaElement>(null);
 
   const [search, setSearch] = useState("");
-	const [searchParams, _] = useSearchParams();
+  const [searchParams, _] = useSearchParams();
 
   const scrollToArea = () => {
     if (refMessageArea.current === null) requestAnimationFrame(scrollToArea);
@@ -38,12 +38,12 @@ const MainLayout = () => {
     });
   };
 
-	useEffect(() => {
-		const query = searchParams.get("search");
-	if(query) {
-			setSearch(query)
-		}
-		}, [searchParams]);
+  useEffect(() => {
+    const query = searchParams.get("search");
+    if (query) {
+      setSearch(query);
+    }
+  }, [searchParams]);
 
   const createMessage = () => {
     navigate("/");
@@ -74,7 +74,7 @@ const MainLayout = () => {
             onSearchSubmit={searchSubmit}
             profileLink={user.profileLink}
             homePage="/"
-            signOut={authAction}
+            signOut={logout}
             createMessage={createMessage}
           />
         )}
