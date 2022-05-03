@@ -19,10 +19,10 @@ Nous avons ajouté de nombreuses fonctionnalités, notamment :
 - thème clair/sombre,
 - génération d'avatars,
 - likes pour les messages,
-- statistiques pour les amis/messages,
+- statistiques pour les amis/messages/likes,
 - documentation automatique pour l'API,
 - édition du profil.
 
 ## Choix de modélisation
 
-Les documents utilisateurs et messages sont séparés, pour que la recherche de messages par mot-clé soit plus aisée.
+Les documents utilisateurs et messages sont séparés, pour que la recherche de messages par mot-clé soit plus aisée, et qu'il pour qu'il soit possible de référencer les tweets likés.
