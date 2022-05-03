@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import NavigationPanel from "../components/NavigationPanel";
 import "./MainLayout.css";
@@ -17,6 +17,8 @@ const MainLayout = () => {
   const authAction = signOut.bind(null, () => navigate("/login"));
 
   const refMessageArea = useRef<HTMLTextAreaElement>(null);
+
+  const [searchParams, _] = useSearchParams();
 
   const scrollToArea = () => {
     if (refMessageArea.current === null) requestAnimationFrame(scrollToArea);
@@ -50,6 +52,7 @@ const MainLayout = () => {
           <NavigationPanel
             {...user}
             search={search}
+            initialSearch={searchParams.get("search") ?? undefined}
             profileLink={user.profileLink}
             homePage="/"
             signOut={authAction}

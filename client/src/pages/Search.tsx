@@ -16,10 +16,16 @@ export default function Search() {
   ] = useMessagesReducer();
   const [customParams, setCustomParams] = useState<MessagesSearchParams>({});
 
+  useEffect(() => {
+    setCustomParams((params) => ({
+      ...params,
+      ...Object.fromEntries(pageParams),
+    }));
+  }, [pageParams]);
+
   useAsyncEffect(
     async (stillMounted) => {
       const searchParams = {
-        ...Object.fromEntries(pageParams),
         ...customParams,
       };
       setSearchParams(
@@ -35,7 +41,7 @@ export default function Search() {
         load(messages);
       }
     },
-    [pageParams, customParams]
+    [customParams]
   );
 
   return (
