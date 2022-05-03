@@ -1,10 +1,17 @@
 # Chwitter
 
-Twitter, but it's lame.
+## Twitter, but it's lame.
+
+[![Test](https://github.com/musikid/chwitter/actions/workflows/test.yml/badge.svg)](https://github.com/musikid/chwitter/actions/workflows/test.yml)
+
+
+![Logo](./assets/logo.svg?raw=true)
+
+----
 
 ## Status
 
-This project is complete.
+The project is complete.
 
 ## Features
 
@@ -28,7 +35,7 @@ This project is complete.
 
 ### Minimal
 
-React.js and dayjs are the only dependencies for the client,
+React, dayjs and classnames are the only dependencies for the client,
 Express and mongoose/typegoose for the server.
 
 ## FAQ
