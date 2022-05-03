@@ -1,9 +1,9 @@
 import SimpleButton from "./SimpleButton";
 import "./MessageArea.css";
 import { RiSendPlane2Fill } from "react-icons/ri";
-import { MutableRefObject, useState } from "react";
+import { ComponentPropsWithoutRef, MutableRefObject, useState } from "react";
 
-interface MessageAreaProps {
+interface MessageAreaProps  {
   /**
    * ID pour l'ancre
    */
@@ -17,12 +17,14 @@ interface MessageAreaProps {
    * Objet ref pour accéder directement à l'élément sous-jacent
    */
   refArea: MutableRefObject<HTMLTextAreaElement>;
+	minLength?: number;
+	maxLength?: number;
 }
 
 /**
  * Champ de saisie du message
  */
-const MessageArea = ({ id, onSubmit, refArea }: MessageAreaProps) => {
+const MessageArea = ({ id, onSubmit, refArea, minLength, maxLength }: MessageAreaProps) => {
   const [message, setMessage] = useState("");
 
   return (
@@ -36,9 +38,10 @@ const MessageArea = ({ id, onSubmit, refArea }: MessageAreaProps) => {
         }}
       >
         <textarea
+					minLength={minLength}
+					maxLength={maxLength}
           id={id}
           ref={refArea}
-          minLength={8}
           name="message"
           className="message-area"
           placeholder="Écrire un message..."

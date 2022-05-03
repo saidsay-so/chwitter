@@ -39,6 +39,8 @@ export default function HomeFeed() {
             refArea={refMessageArea}
             id="search"
             onSubmit={(content) => create({ content })}
+						minLength={8}
+						maxLength={320}
           />
         </div>
         {isPending || isLoading ? (
