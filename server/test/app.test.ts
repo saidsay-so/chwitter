@@ -21,8 +21,6 @@ declare global {
   }
 }
 
-process.env.SESSION_SECRET = "__test__";
-
 beforeEach(async () => {
   await connect(global.__MONGO_URI__ ?? process.env["MONGO_URL"], {
     // useNewUrlParser: true,
@@ -171,7 +169,7 @@ describe("/messages", () => {
       const fakeMessages = Array.from(
         { length: faker.datatype.number(10) },
         () => ({
-          content: faker.lorem.paragraph(),
+          content: faker.lorem.sentence(),
           author: user.id,
         })
       );
