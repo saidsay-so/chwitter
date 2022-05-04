@@ -12,12 +12,13 @@ import UserMessages from "./pages/user/Messages";
 import UserFriends from "./pages/user/Friends";
 import Search from "./pages/Search";
 import { Navigate } from "react-router-dom";
-
-import "dayjs/locale/fr";
-import dayjs from "dayjs";
 import EditProfile from "./pages/EditProfile";
 import HomeFeed from "./pages/HomeFeed";
 import UserLikedMessages from "./pages/user/LikedMessages";
+import NotFound from "./pages/NotFound";
+
+import "dayjs/locale/fr";
+import dayjs from "dayjs";
 dayjs.locale("fr");
 
 const root = createRoot(document.getElementById("root")!);
@@ -45,6 +46,7 @@ root.render(
                 <Route path="likedMessages" element={<UserLikedMessages />} />
               </Route>
             </Route>
+            <Route path="/*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
       </ToastProvider>
