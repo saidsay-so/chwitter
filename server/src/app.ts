@@ -38,6 +38,7 @@ api.use("/friends", friendRoute);
 app.use("/api", api);
 
 app.use("/", express.static("public"));
+app.use("/*", (_, res) => res.sendFile("public/index.html"));
 app.use(errorHandler);
 
 export default app;
