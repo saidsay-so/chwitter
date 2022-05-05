@@ -6,8 +6,7 @@
 
 .message-container .message {
   font-family: "Open Sans";
-  white-space: pre-line;
-  word-wrap: break-word;
+  word-break: break-all;
   font-size: 0.9rem;
 }
 
