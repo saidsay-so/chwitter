@@ -138,7 +138,6 @@ routes.get("/:uid/avatar", async (req, res, next) => {
   }
 });
 
-///TODO: add delete
-routes.delete("/:uid");
+// TODO: add delete route
 
 export default routes;

@@ -250,41 +250,6 @@ routes.get("/:mid", checkMessageExists, async (req, res, next) => {
   }
 });
 
-routes.patch(
-  "/:mid",
-  checkMessageExists,
-  isMessageAuthor,
-  async (req, res, next) => {
-    const { mid } = req.params;
-
-    try {
-      const { content } = req.body;
-      const msg = await MessageModel.findByIdAndUpdate(
-        { _id: mid },
-        { $set: { content } }
-      )
-        .populate("author")
-        .exec();
-      return res.status(200).json(
-        msg!.toJSON({
-          custom: {
-            isLiked: await messageIsLiked(mid!, req.session!.userId!),
-            isFriend: await getFriendState(
-              req.session!.userId!,
-              (msg!.author as DocumentType<UserSchema>).id!
-            ),
-            avatarLink: getAvatarLink(
-              (msg!.author as DocumentType<UserSchema>).id!
-            ),
-          },
-        })
-      );
-    } catch (e) {
-      return next(e);
-    }
-  }
-);
-
 routes.delete(
   "/:mid",
   checkMessageExists,
