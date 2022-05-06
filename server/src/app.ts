@@ -10,8 +10,34 @@ import messageRoute from "./routes/message";
 import friendRoute from "./routes/friend";
 import { errorHandler } from "./utils";
 import assert from "assert";
+import expressJSDocSwagger from "express-jsdoc-swagger";
 
 const app = express();
+
+const swaggerOptions = {
+  info: {
+    version: "0.1.0",
+    title: "Chwitter API",
+    license: {
+      name: "MPL-2.0",
+    },
+  },
+  security: {
+    cookieAuth: {
+      type: "apiKey",
+      scheme: "cookie",
+      name: "__session__",
+    },
+  },
+  baseDir: __dirname,
+  filesPattern: "../**/*.ts",
+  swaggerUIPath: "/api/docs/html",
+  exposeSwaggerUI: true,
+  exposeApiDocs: true,
+  apiDocsPath: "/api/docs/json",
+  notRequiredAsNullable: false,
+  swaggerUiOptions: {},
+};
 
 const { SESSION_SECRET } = process.env;
 assert(SESSION_SECRET, "Secret is not defined");
@@ -27,6 +53,9 @@ app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
+
+
+expressJSDocSwagger(app)(swaggerOptions);
 
 const api = Router();
 

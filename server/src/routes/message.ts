@@ -3,6 +3,7 @@ import {
   MessagesSearchParams,
   MessagesResponse,
   MessageResponse,
+  CreateMessageParams,
 } from "common";
 import { RequestHandler, Router } from "express";
 import mongoose from "mongoose";
@@ -57,11 +58,43 @@ const checkMessageExists: RequestHandler = async (req, res, next) => {
 
 routes.all("*", requireAuth);
 
+/**
+ * @typedef {object} MessageResponse
+ * @property {string} id - message id
+ * @property {UserResponse} author
+ * @property {string} content
+ * @property {number} date
+ * @property {number} likes
+ * @property {boolean} isLiked - if is liked by the current user
+ */
+
+/** 
+ * @typedef {object} MessagesResponse
+ * @property {array<MessageResponse>} messages
+ */
+
+/**
+ * @typedef {object} MessagesSearchParams
+ * @property {string} uid - get messages only from this user
+ * @property {string} search - filter according to the keywords
+ * @property {string} liked - get only liked messages
+ * @property {string} onlyfollowed - get messages only from users followed by the current one
+ */
+
+/**
+ * GET /api/messages/
+ * @tags Messages - Message related services
+ * @summary Get messages
+ * @param {string} uid.query - user id
+ * @param {string} search.query.required - search filter with keywords
+ * @param {string} onlyfollowed.query.required - filter with messages only from friends
+ * @param {string} onlyfollowed.query.required - filter with only liked messages
+ * @returns {MessagesResponse} 200 - Messages
+ */
 routes.get("/", async (req, res, next) => {
   try {
     const {
       uid = "",
-      username = "",
       search = "",
       liked = "false",
       onlyfollowed = "false",
@@ -95,8 +128,6 @@ routes.get("/", async (req, res, next) => {
       } else {
         params["author"] = uid;
       }
-    } else if (username) {
-      params["author"] = (await UserModel.findByName(username).exec())?._id;
     }
 
     const rawMessages = await MessageModel.find(params)
@@ -130,10 +161,22 @@ routes.get("/", async (req, res, next) => {
   }
 });
 
+/**
+ * @typedef {object} CreateMessageParams
+ *  @property {string} content
+ */
+
+/**
+ * POST /api/messages/
+ * @tags Messages - Message related services
+ * @summary Add new message
+ * @param {CreateMessageParams} request.body.required - message content
+ * @return {MessageResponse} 201 - Message
+ */
 routes.post("/", async (req, res, next) => {
   const { userId: author } = req.session!;
   try {
-    const { content } = req.body;
+    const { content }: CreateMessageParams = req.body;
 
     if (!(await UserModel.exists({ _id: author }))) return res.sendStatus(409);
 
@@ -155,6 +198,13 @@ routes.post("/", async (req, res, next) => {
   }
 });
 
+/**
+ * PUT /api/messages/{mid}/like
+ * @tags Messages - Message related services
+ * @summary Like message
+ * @param {string} mid.path.required - message id
+ * @return {string} 200 - Liked message
+ */
 routes.put(
   "/:mid/like",
   checkRights,
@@ -191,6 +241,13 @@ routes.put(
   }
 );
 
+/**
+ * DELETE /api/messages/{mid}/like
+ * @tags Messages - Message related services
+ * @summary Unlike message
+ * @param {string} mid.path.required - message id
+ * @return {string} 200 - Status
+ */
 routes.delete(
   "/:mid/like",
   checkRights,
@@ -223,6 +280,13 @@ routes.delete(
   }
 );
 
+/**
+ * GET /api/messages/{mid}
+ * @tags Messages - Message related services
+ * @summary Get message
+ * @param {string} mid.path.required - message id
+ * @returns {MessageResponse} 200 - Message
+ */
 routes.get("/:mid", checkMessageExists, async (req, res, next) => {
   let { mid } = req.params;
 
@@ -250,6 +314,13 @@ routes.get("/:mid", checkMessageExists, async (req, res, next) => {
   }
 });
 
+/**
+ * DELETE /api/messages/{mid}
+ * @tags Messages - Message related services
+ * @summary Delete message
+ * @param {string} mid.path.required - message id
+ * @returns {string} 200 - Status
+ */
 routes.delete(
   "/:mid",
   checkMessageExists,

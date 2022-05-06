@@ -5,7 +5,13 @@ The REST API documentation will be generated with `swagger` (soon!).
 ## Build
 
 ```sh
-npm run build
+pnpm run build
+```
+
+## Test
+
+```sh
+pnpm test
 ```
 
 ## Tech stack

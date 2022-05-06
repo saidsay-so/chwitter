@@ -31,6 +31,34 @@ const renderAvatar = (buffer: Buffer, res: Response) => {
   return res.format(render);
 };
 
+/**
+ * @typedef {object} UserResponse
+ * @property {string} id - user id
+ * @property {string} name - username
+ * @property {string} displayName - display name
+ * @property {string} avatarLink - link to avatar
+ * @property {boolean} isFriend - if is friend with current user
+ * @property {string} description - description
+ */
+
+/**
+ * @typedef {object} UsersResponse
+ * @property {array<UserResponse>} users - users
+ */
+
+/**
+ * @typedef {object} RegisterParams
+ * @property {string} name
+ * @property {string} password
+ */
+
+/**
+ * POST /api/users/
+ * @tags User - User related services
+ * @summary Create user
+ * @param {RegisterParams} request.body.required - user params
+ * @return {UserResponse} 201 - Created user
+ */
 routes.post("/", async (req, res, next) => {
   try {
     const { name, password }: RegisterParams = req.body;
@@ -63,6 +91,13 @@ routes.post("/", async (req, res, next) => {
 
 routes.all("/:uid/*", requireAuth);
 
+/**
+ * GET /api/users/{uid}
+ * @tags User - User related services
+ * @summary Get user
+ * @param {string} uid.path - user id
+ * @return {UserResponse} 200 - User
+ */
 routes.get("/:uid", async (req, res, next) => {
   const { uid } = req.params;
 
@@ -84,47 +119,61 @@ routes.get("/:uid", async (req, res, next) => {
   }
 });
 
-routes.patch(
-  "/:uid?",
-  checkRights,
-  async (req, res, next) => {
-    let { uid } = req.params;
-    if (!uid) {
-      uid = req.session!.userId!;
-    }
+/**
+ * @typedef {object} UpdateUserParams
+ * @property {string} password
+ * @property {string} displayName
+ * @property {string} description
+ */
 
-    try {
-      const {
+/**
+ * PATCH /api/users/{uid}
+ * @tags User - User related services
+ * @summary Modify user
+ * @param {string} uid.path - user id
+ * @param {UpdateUserParams} request.body.required - user params
+ * @return {UserResponse} 203 - User
+ */
+routes.patch("/:uid?", checkRights, async (req, res, next) => {
+  let { uid } = req.params;
+  if (!uid) {
+    uid = req.session!.userId!;
+  }
+
+  try {
+    const { password, displayName, description }: UpdateUserParams = req.body;
+
+    console.log(req.body);
+
+    const user = await UserModel.findByIdAndUpdate(
+      uid,
+      {
         password,
         displayName,
         description,
-      }: UpdateUserParams = req.body;
+      },
+      { new: true, runValidators: true }
+    )
+      .orFail(new AuthError(AuthErrorType.UNKNOWN_USER))
+      .exec();
 
-      console.log(req.body);
-
-      const user = await UserModel.findByIdAndUpdate(
-        uid,
-        {
-          password,
-          displayName,
-          description,
-        },
-        { new: true, runValidators: true }
-      )
-        .orFail(new AuthError(AuthErrorType.UNKNOWN_USER))
-        .exec();
-
-      return res.status(203).json(
-        user.toJSON({
-          custom: { isFriend: false, avatarLink: `${req.path}/avatar` },
-        })
-      );
-    } catch (e) {
-      return next(e);
-    }
+    return res.status(203).json(
+      user.toJSON({
+        custom: { isFriend: false, avatarLink: `${req.path}/avatar` },
+      })
+    );
+  } catch (e) {
+    return next(e);
   }
-);
+});
 
+/**
+ * GET /api/users/{uid}/avatar
+ * @tags User - User related services
+ * @summary Get user avatar
+ * @param {string} uid.path - user id
+ * @return {string} 200 - Avatar - binary
+ */
 routes.get("/:uid/avatar", async (req, res, next) => {
   const { uid } = req.params;
 

@@ -14,6 +14,21 @@ const routes = Router();
 
 routes.all("*", requireAuth);
 
+// TODO: Import directly from "common" package
+//
+
+/**
+ * @typedef {object} GetFriendStateResponse
+ * @property {boolean} isFriend
+ */
+
+/**
+ * GET /api/friends/{uid}/all
+ * @tags Friends - Friend related services
+ * @summary Get all friends for a user
+ * @param {string} uid.path - user id
+ * @return {UsersResponse} 200 - Friends
+ */
 routes.get("/:uid?/all", async (req, res, next) => {
   let { uid } = req.params;
   try {
@@ -55,6 +70,14 @@ routes.get("/:uid?/all", async (req, res, next) => {
   }
 });
 
+/**
+ * GET /api/friends/{uid}/{friendUid}
+ * @tags Friends - Friend related services
+ * @summary Get if the user `uid` has added `friendUid` as friend
+ * @param {string} uid.path - user id
+ * @param {string} friendUid.path.required - user id
+ * @return {GetFriendStateResponse} 200 - Friend state
+ */
 routes.get("/:uid?/:friendUid", checkRights, async (req, res, next) => {
   let { uid, friendUid } = req.params;
   if (!uid) {
@@ -71,6 +94,14 @@ routes.get("/:uid?/:friendUid", checkRights, async (req, res, next) => {
   }
 });
 
+/**
+ * PUT /api/friends/{uid}/{friendUid}
+ * @tags Friends - Friend related services
+ * @summary Add `friendUid` as friend of user `uid`
+ * @param {string} uid.path - user id
+ * @param {string} friendUid.path.required - friend id
+ * @return {string} 201 - Status
+ */
 routes.put("/:uid?/:friendUid", checkRights, async (req, res, next) => {
   let { uid, friendUid } = req.params;
   if (!uid) {
@@ -89,6 +120,14 @@ routes.put("/:uid?/:friendUid", checkRights, async (req, res, next) => {
   }
 });
 
+/**
+ * DELETE /api/friends/{uid}/{friendUid}
+ * @tags Friends - Friend related services
+ * @summary Delete `friendUid` from friends of user `uid`
+ * @param {string} uid.path - user id
+ * @param {string} friendUid.path.required - friend id
+ * @return {string} 200 - success
+ */
 routes.delete("/:uid?/:friendUid", checkRights, async (req, res, next) => {
   let { uid, friendUid } = req.params;
   if (!uid) {
