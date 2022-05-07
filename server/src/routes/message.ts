@@ -6,8 +6,8 @@ import {
   CreateMessageParams,
 } from "common";
 import { RequestHandler, Router } from "express";
-import mongoose from "mongoose";
-import { AuthError, AuthErrorType } from "../errors";
+import mongoose, { ClientSession } from "mongoose";
+import { AuthError, AuthErrorType, ChwitterError } from "../errors";
 import { MessageModel, UserModel } from "../models";
 import { MessageSchema } from "../models/message";
 import { UserSchema } from "../models/user";
@@ -22,8 +22,25 @@ const routes = Router();
 
 // const PAGE_LIMIT = 50;
 
-const messageIsLiked = async (mid: string, uid: string) =>
-  (await UserModel.exists({ _id: uid, likedMessages: mid })) !== null;
+class LikeError extends ChwitterError {
+  constructor() {
+    super("Message is already (un)liked!");
+  }
+}
+
+const messageIsLiked = async (
+  mid: string,
+  uid: string,
+  session?: ClientSession
+) => {
+  const doc = session
+    ? await UserModel.findOne({ _id: uid, likedMessages: mid }, null, {
+        session,
+      }).exec()
+    : await UserModel.exists({ _id: uid, likedMessages: mid });
+
+  return doc !== null;
+};
 
 const isMessageAuthor: RequestHandler = async (req, res, next) => {
   const { mid } = req.params;
@@ -98,8 +115,8 @@ routes.get("/", async (req, res, next) => {
       search = "",
       liked = "false",
       onlyfollowed = "false",
-      // page = "0",
-    }: MessagesSearchParams = req.query;
+    }: // page = "0",
+    MessagesSearchParams = req.query;
 
     // const pageNumber: number = Number.isNaN(parseInt(page, 10))
     //   ? 0
@@ -203,7 +220,8 @@ routes.post("/", async (req, res, next) => {
  * @tags Messages - Message related services
  * @summary Like message
  * @param {string} mid.path.required - message id
- * @return {string} 200 - Liked message
+ * @return {string} 200 - Status
+ * @return {string} 403 - Status when message is already liked
  */
 routes.put(
   "/:mid/like",
@@ -213,11 +231,11 @@ routes.put(
     const { mid } = req.params;
     const session = await mongoose.startSession();
     try {
-      if (await messageIsLiked(mid!, req.session!.userId!)) {
-        return res.sendStatus(409);
-      }
-
       await session.withTransaction(async () => {
+        if (await messageIsLiked(mid!, req.session!.userId!, session)) {
+          throw new LikeError();
+        }
+
         await MessageModel.findByIdAndUpdate(
           mid,
           { $inc: { likes: 1 } },
@@ -234,6 +252,10 @@ routes.put(
 
       return res.sendStatus(200);
     } catch (e) {
+      if (e instanceof LikeError) {
+        return res.sendStatus(403);
+      }
+
       return next(e);
     } finally {
       session.endSession();
@@ -247,6 +269,7 @@ routes.put(
  * @summary Unlike message
  * @param {string} mid.path.required - message id
  * @return {string} 200 - Status
+ * @return {string} 403 - Status when message is not liked
  */
 routes.delete(
   "/:mid/like",
@@ -256,11 +279,11 @@ routes.delete(
     const { mid } = req.params;
     const session = await mongoose.startSession();
     try {
-      if (!(await messageIsLiked(mid!, req.session!.userId!))) {
-        return res.sendStatus(409);
-      }
-
       await session.withTransaction(async () => {
+        if (!(await messageIsLiked(mid!, req.session!.userId!, session))) {
+          throw new LikeError();
+        }
+
         await MessageModel.findByIdAndUpdate(
           mid,
           { $inc: { likes: -1 } },
@@ -273,6 +296,10 @@ routes.delete(
 
       return res.sendStatus(200);
     } catch (e) {
+      if (e instanceof LikeError) {
+        return res.sendStatus(403);
+      }
+
       return next(e);
     } finally {
       session.endSession();
