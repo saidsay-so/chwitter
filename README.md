@@ -15,6 +15,12 @@ Build instructions are available for each package.
 
 ### NOTE: All `pnpm` commands can be replaced with npm.
 
+### Docker
+
+```sh
+docker build . -t musikid/chwitter
+```
+
 ## Status
 
 The project is complete.
