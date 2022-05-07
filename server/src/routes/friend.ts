@@ -28,6 +28,7 @@ routes.all("*", requireAuth);
  * @summary Get all friends for a user
  * @param {string} uid.path - user id
  * @return {UsersResponse} 200 - Friends
+ * @return {string} 404 - Status when user does not exists
  */
 routes.get("/:uid?/all", async (req, res, next) => {
   let { uid } = req.params;
@@ -64,7 +65,7 @@ routes.get("/:uid?/all", async (req, res, next) => {
       return res.status(200).json(new UsersResponse({ users }));
     }
 
-    return res.sendStatus(500);
+    return res.sendStatus(404);
   } catch (e) {
     return next(e);
   }
