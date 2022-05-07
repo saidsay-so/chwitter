@@ -30,7 +30,7 @@ const swaggerOptions = {
     },
   },
   baseDir: __dirname,
-  filesPattern: "../**/*.ts",
+  filesPattern: "./**/*.js",
   swaggerUIPath: "/api/docs/html",
   exposeSwaggerUI: true,
   exposeApiDocs: true,
