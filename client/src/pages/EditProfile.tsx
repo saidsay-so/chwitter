@@ -35,7 +35,7 @@ export default function EditProfile() {
           <div className="edit-field edit-name">
             <h3>Nom</h3>
             <Input
-              label="Nom d'utilisateur"
+              label="Nom d'affichage"
               value={displayName}
               listener={setDisplayName}
               maxLength={16}
