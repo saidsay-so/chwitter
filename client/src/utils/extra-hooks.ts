@@ -12,7 +12,7 @@ export const enum ServiceStatus {
 /**
  * Hook permettant l'utilisation d'un service asynchrone.
  *
-*/
+ */
 export const useService = <R>(
   service: (signal: AbortSignal) => Promise<R>,
   callback?: (res: R) => unknown,

@@ -25,7 +25,6 @@ const messages = [
     date: "12 Jun 2021",
     isFriend: true,
     action: (...args) => console.log(args),
-
   },
 ];
 

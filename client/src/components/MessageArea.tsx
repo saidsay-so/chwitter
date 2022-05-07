@@ -3,7 +3,7 @@ import "./MessageArea.css";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import { ComponentPropsWithoutRef, MutableRefObject, useState } from "react";
 
-interface MessageAreaProps  {
+interface MessageAreaProps {
   /**
    * ID pour l'ancre
    */
@@ -17,14 +17,20 @@ interface MessageAreaProps  {
    * Objet ref pour accéder directement à l'élément sous-jacent
    */
   refArea: MutableRefObject<HTMLTextAreaElement>;
-	minLength?: number;
-	maxLength?: number;
+  minLength?: number;
+  maxLength?: number;
 }
 
 /**
  * Champ de saisie du message
  */
-const MessageArea = ({ id, onSubmit, refArea, minLength, maxLength }: MessageAreaProps) => {
+const MessageArea = ({
+  id,
+  onSubmit,
+  refArea,
+  minLength,
+  maxLength,
+}: MessageAreaProps) => {
   const [message, setMessage] = useState("");
 
   return (
@@ -38,8 +44,8 @@ const MessageArea = ({ id, onSubmit, refArea, minLength, maxLength }: MessageAre
         }}
       >
         <textarea
-					minLength={minLength}
-					maxLength={maxLength}
+          minLength={minLength}
+          maxLength={maxLength}
           id={id}
           ref={refArea}
           name="message"

@@ -51,7 +51,7 @@ export class MessagesSearchParams {
   uid?: string;
   username?: string;
   search?: string;
-	liked?: string;
+  liked?: string;
   onlyfollowed?: "false" | "true" | string;
   page?: string;
 }

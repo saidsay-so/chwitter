@@ -56,7 +56,11 @@ const User = ({
         <p className="description">{description}</p>
       </div>
       {isFriend !== undefined && (
-          <FriendButton className="action" onClick={() => friendAction()} isFriend={isFriend} />
+        <FriendButton
+          className="action"
+          onClick={() => friendAction()}
+          isFriend={isFriend}
+        />
       )}
     </div>
   );

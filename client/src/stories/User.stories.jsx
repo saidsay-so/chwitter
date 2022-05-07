@@ -20,7 +20,6 @@ Normal.args = {
   description: "A cute doggo",
 };
 
-
 export const Friend = Template.bind({});
 Friend.args = {
   name: "John",

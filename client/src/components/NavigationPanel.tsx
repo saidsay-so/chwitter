@@ -4,7 +4,7 @@ import { Link, NavLink, NavLinkProps } from "react-router-dom";
 import { MdAdd, MdLogout } from "react-icons/md";
 import { ImSearch } from "react-icons/im";
 import Avatar from "./Avatar";
-import { FormEventHandler,  MouseEventHandler } from "react";
+import { FormEventHandler, MouseEventHandler } from "react";
 import { ReactNode } from "react";
 
 interface PanelProps {
@@ -16,9 +16,9 @@ interface PanelProps {
    * Fontion pour afficher le champ d'envoi de message
    */
   createMessage: () => void;
-	search: string;
-	onSearchSubmit: FormEventHandler<HTMLFormElement>;
-	onSearchInput: FormEventHandler<HTMLInputElement>;
+  search: string;
+  onSearchSubmit: FormEventHandler<HTMLFormElement>;
+  onSearchInput: FormEventHandler<HTMLInputElement>;
   /**
    * Lien vers la page d'accueil
    */
@@ -43,9 +43,9 @@ interface PanelProps {
 const NavigationPanel = ({
   signOut,
   createMessage,
-	onSearchSubmit,
-	onSearchInput,
-	search,
+  onSearchSubmit,
+  onSearchInput,
+  search,
   homePage,
   avatarLink,
   name,
@@ -59,9 +59,7 @@ const NavigationPanel = ({
         </Link>
       </div>
       <div className="search-input">
-        <form
-          onSubmit={onSearchSubmit}
-        >
+        <form onSubmit={onSearchSubmit}>
           <input
             value={search}
             onInput={onSearchInput}

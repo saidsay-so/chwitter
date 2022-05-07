@@ -109,7 +109,12 @@ const Message = ({
           )}
           {fromHimself && (
             <SimpleButton
-              label={<div><BiMessageRoundedMinus className="icon" /> Supprimer le message</div>}
+              label={
+                <div>
+                  <BiMessageRoundedMinus className="icon" /> Supprimer le
+                  message
+                </div>
+              }
               className={cx("delete-action")}
               onClick={() => removeAction()}
             />

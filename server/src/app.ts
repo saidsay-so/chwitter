@@ -54,7 +54,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 
-
 expressJSDocSwagger(app)(swaggerOptions);
 
 const api = Router();
