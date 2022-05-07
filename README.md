@@ -9,6 +9,12 @@
 
 ----
 
+## Build
+
+Build instructions are available for each package.
+
+### NOTE: All `pnpm` commands can be replaced with npm.
+
 ## Status
 
 The project is complete.

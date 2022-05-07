@@ -68,7 +68,7 @@ routes.all("*", requireAuth);
  * @property {boolean} isLiked - if is liked by the current user
  */
 
-/** 
+/**
  * @typedef {object} MessagesResponse
  * @property {array<MessageResponse>} messages
  */
@@ -86,9 +86,9 @@ routes.all("*", requireAuth);
  * @tags Messages - Message related services
  * @summary Get messages
  * @param {string} uid.query - user id
- * @param {string} search.query.required - search filter with keywords
- * @param {string} onlyfollowed.query.required - filter with messages only from friends
- * @param {string} onlyfollowed.query.required - filter with only liked messages
+ * @param {string} search.query - search filter with keywords
+ * @param {string} onlyfollowed.query - filter with messages only from friends
+ * @param {string} liked.query - filter with only liked messages
  * @returns {MessagesResponse} 200 - Messages
  */
 routes.get("/", async (req, res, next) => {
@@ -163,7 +163,7 @@ routes.get("/", async (req, res, next) => {
 
 /**
  * @typedef {object} CreateMessageParams
- *  @property {string} content
+ * @property {string} content
  */
 
 /**

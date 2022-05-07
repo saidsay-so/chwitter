@@ -122,6 +122,10 @@ function reducer(
   }
 }
 
+/**
+ * Hook permettant de gérer l'état des messages
+ * @param {boolean} likesMainAuthorPage - Active la gestion de la page des likes pour le lecteur
+ */
 export const useMessagesReducer = (
   likesMainAuthorPage: boolean = false
 ): [

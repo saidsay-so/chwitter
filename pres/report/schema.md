@@ -1,59 +1,65 @@
 # Structure de la base de données
 
-## Messages
+## MessageSchema (Message)
 
-```ts
-export class MessageSchema extends BaseDocument {
-  @prop({ required: true, ref: () => UserSchema })
-  author!: Ref<UserSchema>;
+### author
 
-  @prop({ required: true, minlength: 8, maxlength: 320 })
-  content!: string;
+#### `UserSchema`
 
-  @prop({ default: 0, min: 0 })
-  likes!: number;
-}
-```
+L'auteur du message.
 
-## Utilisateurs
+### content
 
-```ts
-export class UserSchema {
-  @prop({
-    required: true,
-    minlength: 1,
-    maxlength: 32,
-    match: /^[a-z_0-9]+$/,
-    trim: true,
-    index: true,
-    unique: true,
-  })
-  name!: string;
+#### `string`
 
-  @prop({ required: true })
-  password!: string;
+Contenu du message.
 
-  @prop({
-    default: "Sans Titre",
-    trim: true,
-    minlength: 1,
-    maxlength: 16,
-    match: /^[^@]+$/
-  })
-  displayName!: string;
+### likes
 
-  @prop()
-  avatar?: Buffer;
+#### `number`
 
-  @prop({ default: "Bienvenue sur ma page !", maxlength: 64 })
-  description!: string;
+Nombre de likes pour ce message.
 
-  // @prop({ localField: "_id", foreignField: "author", ref: () => MessageSchema })
-  // messages?: Ref<MessageSchema>[];
+## UserSchema (Utilisateur)
 
-  @prop({ ref: () => MessageSchema })
-  likedMessages?: Ref<MessageSchema>[];
+### name
 
-  @prop({ ref: () => UserSchema })
-  friends?: Ref<UserSchema>[];
-```
+#### `string`
+
+Nom d'utilisateur.
+
+### password
+
+#### `string`
+
+Hash du mot de passe.
+
+### displayName
+
+#### `string`
+
+Nom d'affichage.
+
+### avatar
+
+#### `Buffer`
+
+Image de profil (format AVIF).
+
+### description
+
+#### `string`
+
+Description.
+
+### likedMessages
+
+#### `Ref<MessageSchema>[]`
+
+Messages likés par l'utilisateur.
+
+### friends
+
+#### `Ref<UserSchema>[]`
+
+Utilisateurs amis.

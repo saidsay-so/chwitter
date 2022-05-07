@@ -1,9 +1,16 @@
 # Client
 
+## Tech stack
+
+- React
+- dayjs
+- axios
+- classnames
+
 ## Build
 
 ```sh
-npm run build
+pnpm run build
 ```
 
 ## Structure

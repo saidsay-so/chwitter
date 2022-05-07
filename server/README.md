@@ -1,6 +1,8 @@
 # Server
 
-The REST API documentation will be generated with `swagger` (soon!).
+The REST API documentation is generated with `express-swagger-jsdoc`.
+
+### NOTE: All `pnpm` commands can be replaced with npm.
 
 ## Build
 

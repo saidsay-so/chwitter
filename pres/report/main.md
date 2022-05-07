@@ -4,6 +4,9 @@ Projet disponible sur : [https://github.com/musikid/chwitter](https://github.com
 
 ## Répartition
 
+$BINOME_1$ - Client, Serveur
+$BINOME_2$ - Tests
+
 ## Problèmes rencontrés
 
 Le problème le plus gênant est le manque d'espace disque dans les sessions utilisateurs de l'université.
