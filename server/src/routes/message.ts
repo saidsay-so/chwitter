@@ -20,7 +20,7 @@ import {
 
 const routes = Router();
 
-const PAGE_LIMIT = 50;
+// const PAGE_LIMIT = 50;
 
 const messageIsLiked = async (mid: string, uid: string) =>
   (await UserModel.exists({ _id: uid, likedMessages: mid })) !== null;
@@ -98,12 +98,12 @@ routes.get("/", async (req, res, next) => {
       search = "",
       liked = "false",
       onlyfollowed = "false",
-      page = "0",
+      // page = "0",
     }: MessagesSearchParams = req.query;
 
-    const pageNumber: number = Number.isNaN(parseInt(page, 10))
-      ? 0
-      : parseInt(page, 10);
+    // const pageNumber: number = Number.isNaN(parseInt(page, 10))
+    //   ? 0
+    //   : parseInt(page, 10);
 
     const params: mongoose.FilterQuery<MessageSchema> = {};
 
@@ -132,8 +132,8 @@ routes.get("/", async (req, res, next) => {
 
     const rawMessages = await MessageModel.find(params)
       .sort({ date: -1 })
-      .skip(pageNumber * PAGE_LIMIT)
-      .limit(PAGE_LIMIT)
+      // .skip(pageNumber * PAGE_LIMIT)
+      // .limit(PAGE_LIMIT)
       .populate("author")
       .exec();
 
