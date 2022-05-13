@@ -22,13 +22,6 @@ const swaggerOptions = {
       name: "MPL-2.0",
     },
   },
-  security: {
-    cookieAuth: {
-      type: "apiKey",
-      scheme: "cookie",
-      name: "__session__",
-    },
-  },
   baseDir: __dirname,
   filesPattern: "./**/*.js",
   swaggerUIPath: "/api/docs/html",
