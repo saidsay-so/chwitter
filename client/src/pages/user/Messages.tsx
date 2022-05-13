@@ -27,8 +27,6 @@ export default function UserMessages() {
     setMsgCount(status === ServiceStatus.LOADING ? null : messages.length);
   }, [messages]);
 
-  console.log(status === ServiceStatus.LOADING);
-
   return (
     <div className="messages-container">
       {status === ServiceStatus.LOADING ? (

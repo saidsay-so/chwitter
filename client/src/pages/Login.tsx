@@ -8,6 +8,8 @@ import { useAuth } from "../providers/AuthProvider";
 import { useToast } from "../providers/ToastProvider";
 import "./Login.css";
 
+//TODO: I18n?
+
 const loginStrings = {
   below: "Vous n'avez pas de compte ?",
   action: "Se connecter",

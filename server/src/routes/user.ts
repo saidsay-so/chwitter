@@ -143,8 +143,6 @@ routes.patch("/:uid?", checkRights, async (req, res, next) => {
   try {
     const { password, displayName, description }: UpdateUserParams = req.body;
 
-    console.log(req.body);
-
     const user = await UserModel.findByIdAndUpdate(
       uid,
       {
