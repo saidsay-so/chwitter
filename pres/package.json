@@ -7,10 +7,12 @@
     "@types/node": "^17.0.23",
     "playwright": "^1.21.0",
     "ts-node": "^10.7.0",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "pandoc": "*"
   },
   "scripts": {
-    "screen": "ts-node take-screenshots.ts"
+    "screen": "ts-node take-screenshots.ts",
+    "build:html": "mkdir -p build && cd slides && pandoc main.md --slide-level=2 -o ../build/slides.html -t revealjs -L revealjs-codeblock.lua --template template.html -V highlightjs -V highlightjs-theme:github-dark"
   },
   "repository": {
     "type": "git",

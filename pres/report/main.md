@@ -28,4 +28,4 @@ Nous avons ajouté de nombreuses fonctionnalités, notamment :
 
 ## Choix de modélisation
 
-Les documents utilisateurs et messages sont séparés, pour que la recherche de messages par mot-clé soit plus aisée, et qu'il pour qu'il soit possible de référencer les tweets likés.
+Les documents utilisateurs et messages sont séparés, pour que la recherche de messages par mot-clé soit plus aisée, et qu'il pour qu'il soit possible de référencer les messages likés.

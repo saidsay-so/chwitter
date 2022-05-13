@@ -1,54 +1,63 @@
-strict digraph "client-graph" {
-    ordering="out" rankdir="TB" splines="ortho" overlap="false" nodesep="0.16" ranksep="1" fontname="Fira Sans ExtraBold" fontsize="14" fillcolor="transparent" bgcolor="dodgerblue" color="white" fontcolor="white"
-    node [shape="record" style="rounded, filled" height="0.2" color="white" fillcolor="#ffffff33" fontcolor="white" fontname="Fira Sans" fontsize="12" ]
-    edge [arrowhead="vee" arrowsize="0.25" penwidth="1" color="white" fontname="Fira Sans" fontsize="10" fontcolor="white"]
+strict digraph "dependency-cruiser output"{
+    ordering="out" rankdir="TB" splines="ortho" overlap="false" nodesep="0.16" ranksep="3" fontname="Fira Sans" fontsize="10" style="" fillcolor="transparent" compound="true" bgcolor="dodgerblue" color="white" fontcolor="white"
+    node [shape="record" style="rounded, filled" height="0.2" color="white" fillcolor="#ff66cc" fontcolor="white" fontname="Fira Sans" fontsize="10"]
+    edge [arrowhead="vee" arrowsize="0.5" penwidth="1.0" color="white" fontname="Helvetica" fontsize="9" fontcolor="white"]
 
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/Avatar.tsx" [label=<Avatar.tsx> tooltip="Avatar.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/Avatar.tsx" fillcolor="#2258aa"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/EmptyPlaceholder.tsx" [label=<EmptyPlaceholder.tsx> tooltip="EmptyPlaceholder.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/EmptyPlaceholder.tsx" fillcolor="#2258aa"] } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/FriendButton.tsx" [label=<FriendButton.tsx> tooltip="FriendButton.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/FriendButton.tsx" fillcolor="#2258aa"] } }
-    "src/components/FriendButton.tsx" -> "src/components/SimpleButton.tsx"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/Input.tsx" [label=<Input.tsx> tooltip="Input.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/Input.tsx" fillcolor="#2258aa"] } }
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/Message.tsx" [label=<Message.tsx> tooltip="Message.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/Message.tsx" fillcolor="#2258aa"] } }
-    "src/components/Message.tsx" -> "src/components/Avatar.tsx"
-    "src/components/Message.tsx" -> "src/components/SimpleButton.tsx"
-    "src/components/Message.tsx" -> "src/components/User.tsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/LoadingPlaceholder.tsx" [label=<LoadingPlaceholder.tsx> tooltip="LoadingPlaceholder.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/LoadingPlaceholder.tsx" fillcolor="#2258aa"] } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/MessageArea.tsx" [label=<MessageArea.tsx> tooltip="MessageArea.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/MessageArea.tsx" fillcolor="#2258aa"] } }
-    "src/components/MessageArea.tsx" -> "src/components/SimpleButton.tsx"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/MessagesList.tsx" [label=<MessagesList.tsx> tooltip="MessagesList.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/MessagesList.tsx" fillcolor="#2258aa"] } }
-    "src/components/MessagesList.tsx" -> "src/components/Message.tsx"
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/NavigationPanel.tsx" [label=<NavigationPanel.tsx> tooltip="NavigationPanel.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/NavigationPanel.tsx" fillcolor="#2258aa"] } }
-    "src/components/NavigationPanel.tsx" -> "src/components/Avatar.tsx"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/SimpleButton.tsx" [label=<SimpleButton.tsx> tooltip="SimpleButton.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/SimpleButton.tsx" fillcolor="#2258aa"] } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/Toast.tsx" [label=<Toast.tsx> tooltip="Toast.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/Toast.tsx" fillcolor="#2258aa"] } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/components" {label="components" "src/components/User.tsx" [label=<User.tsx> tooltip="User.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/components/User.tsx" fillcolor="#2258aa"] } }
-    "src/components/User.tsx" -> "src/components/Avatar.tsx"
-    "src/components/User.tsx" -> "src/components/FriendButton.tsx"
-    subgraph "cluster_src" {label="src" subgraph "cluster_src/layouts" {label="layouts" "src/layouts/MainLayout.tsx" [label=<MainLayout.tsx> tooltip="MainLayout.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/layouts/MainLayout.tsx" fillcolor="#2258aa"] } }
-    "src/layouts/MainLayout.tsx" -> "src/components/NavigationPanel.tsx"
-    "src/layouts/MainLayout.tsx" -> "src/pages/EditProfile.tsx"
-    "src/layouts/MainLayout.tsx" -> "src/pages/HomeFeed.tsx"
-    "src/layouts/MainLayout.tsx" -> "src/pages/Login.tsx"
-    "src/layouts/MainLayout.tsx" -> "src/pages/Search.tsx"
-    "src/layouts/MainLayout.tsx" -> "src/pages/UserProfile.tsx"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/EditProfile.tsx" [label=<EditProfile.tsx> tooltip="EditProfile.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/pages/EditProfile.tsx" fillcolor="#2258aa"] } }
     "src/pages/EditProfile.tsx" -> "src/components/Input.tsx"
     "src/pages/EditProfile.tsx" -> "src/components/SimpleButton.tsx"
-    "src/pages/EditProfile.tsx" -> "src/components/Toast.tsx"
+    "src/pages/EditProfile.tsx" -> "src/services/user.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/HomeFeed.tsx" [label=<HomeFeed.tsx> tooltip="HomeFeed.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/pages/HomeFeed.tsx" fillcolor="#2258aa"] } }
+    "src/pages/HomeFeed.tsx" -> "src/components/EmptyPlaceholder.tsx"
+    "src/pages/HomeFeed.tsx" -> "src/components/LoadingPlaceholder.tsx"
     "src/pages/HomeFeed.tsx" -> "src/components/MessageArea.tsx"
     "src/pages/HomeFeed.tsx" -> "src/components/MessagesList.tsx"
+    "src/pages/HomeFeed.tsx" -> "src/services/message.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/Login.tsx" [label=<Login.tsx> tooltip="Login.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/pages/Login.tsx" fillcolor="#2258aa"] } }
     "src/pages/Login.tsx" -> "src/components/Input.tsx"
     "src/pages/Login.tsx" -> "src/components/SimpleButton.tsx"
     "src/pages/Login.tsx" -> "src/components/Toast.tsx"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/NotFound.tsx" [label=<NotFound.tsx> tooltip="NotFound.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/pages/NotFound.tsx" fillcolor="#2258aa"] } }
     subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/Search.tsx" [label=<Search.tsx> tooltip="Search.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/pages/Search.tsx" fillcolor="#2258aa"] } }
     "src/pages/Search.tsx" -> "src/components/MessagesList.tsx"
+    "src/pages/Search.tsx" -> "src/services/message.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" "src/pages/UserProfile.tsx" [label=<UserProfile.tsx> tooltip="UserProfile.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/pages/UserProfile.tsx" fillcolor="#2258aa"] } }
     "src/pages/UserProfile.tsx" -> "src/components/FriendButton.tsx"
+    "src/pages/UserProfile.tsx" -> "src/components/LoadingPlaceholder.tsx"
     "src/pages/UserProfile.tsx" -> "src/components/SimpleButton.tsx"
+    "src/pages/UserProfile.tsx" -> "src/services/friend.ts"
+    "src/pages/UserProfile.tsx" -> "src/services/user.ts"
     "src/pages/UserProfile.tsx" -> "src/pages/user/Friends.tsx"
     "src/pages/UserProfile.tsx" -> "src/pages/user/Messages.tsx"
+    "src/pages/UserProfile.tsx" -> "src/pages/user/LikedMessages.tsx"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/user" {label="user" "src/pages/user/Friends.tsx" [label=<Friends.tsx> tooltip="Friends.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/pages/user/Friends.tsx" fillcolor="#2258aa"] } } }
+    "src/pages/user/Friends.tsx" -> "src/components/EmptyPlaceholder.tsx"
+    "src/pages/user/Friends.tsx" -> "src/components/LoadingPlaceholder.tsx"
     "src/pages/user/Friends.tsx" -> "src/components/User.tsx"
+    "src/pages/user/Friends.tsx" -> "src/services/friend.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/user" {label="user" "src/pages/user/LikedMessages.tsx" [label=<LikedMessages.tsx> tooltip="LikedMessages.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/pages/user/LikedMessages.tsx" fillcolor="#2258aa"] } } }
+    "src/pages/user/LikedMessages.tsx" -> "src/components/EmptyPlaceholder.tsx"
+    "src/pages/user/LikedMessages.tsx" -> "src/components/LoadingPlaceholder.tsx"
+    "src/pages/user/LikedMessages.tsx" -> "src/components/MessagesList.tsx"
+    "src/pages/user/LikedMessages.tsx" -> "src/services/message.ts"
     subgraph "cluster_src" {label="src" subgraph "cluster_src/pages" {label="pages" subgraph "cluster_src/pages/user" {label="user" "src/pages/user/Messages.tsx" [label=<Messages.tsx> tooltip="Messages.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/pages/user/Messages.tsx" fillcolor="#2258aa"] } } }
+    "src/pages/user/Messages.tsx" -> "src/components/EmptyPlaceholder.tsx"
+    "src/pages/user/Messages.tsx" -> "src/components/LoadingPlaceholder.tsx"
     "src/pages/user/Messages.tsx" -> "src/components/MessagesList.tsx"
+    "src/pages/user/Messages.tsx" -> "src/services/message.ts"
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/providers" {label="providers" "src/providers/AuthProvider.tsx" [label=<AuthProvider.tsx> tooltip="AuthProvider.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/providers/AuthProvider.tsx" fillcolor="#2258aa"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/providers" {label="providers" "src/providers/ToastProvider.tsx" [label=<ToastProvider.tsx> tooltip="ToastProvider.tsx" URL="https://github.com/musikid/chwitter/blob/main/client/src/providers/ToastProvider.tsx" fillcolor="#2258aa"] } }
+    "src/providers/ToastProvider.tsx" -> "src/pages/Login.tsx" [ltail="cluster_src/providers" lhead="cluster_src/pages" ]
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/services" {label="services" "src/services/friend.ts" [label=<friend.ts> tooltip="friend.ts" URL="https://github.com/musikid/chwitter/blob/main/client/src/services/friend.ts" fillcolor="#8300ee"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/services" {label="services" "src/services/message.ts" [label=<message.ts> tooltip="message.ts" URL="https://github.com/musikid/chwitter/blob/main/client/src/services/message.ts" fillcolor="#8300ee"] } }
+    subgraph "cluster_src" {label="src" subgraph "cluster_src/services" {label="services" "src/services/user.ts" [label=<user.ts> tooltip="user.ts" URL="https://github.com/musikid/chwitter/blob/main/client/src/services/user.ts" fillcolor="#8300ee"] } }
 }

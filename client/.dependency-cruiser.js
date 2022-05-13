@@ -24,7 +24,7 @@ module.exports = {
 					leave out if you want to exclude neither (recommended!)
 		*/
     exclude: {
-      path: "(node_modules)|(^src/(stories|utils|providers|services))|(.css$)",
+      path: "(node_modules)|(^src/(stories|utils|index))|(.css$)",
     },
 
     /* pattern specifying which files to include (regular expression)
@@ -36,7 +36,7 @@ module.exports = {
 			 regular expression in its output, as well as their neighbours (direct
 			 dependencies and dependents)
 		*/
-    focus: "^src/(pages|layouts|components)",
+    focus: "^src/(pages)",
 
     /* list of module systems to cruise */
     // moduleSystems: ['amd', 'cjs', 'es6', 'tsd'],
@@ -155,12 +155,14 @@ module.exports = {
             style: "",
             fontcolor: "white",
             fillcolor: "transparent",
+            rankdir: "TB",
+            ranksep: "3",
             splines: "ortho",
           },
           node: {
             shape: "record",
             color: "white",
-            fillcolor: "#ffffff33",
+            fillcolor: "#ff66cc",
             fontcolor: "white",
           },
           edge: {
@@ -174,6 +176,10 @@ module.exports = {
             {
               criteria: { source: "tsx$" },
               attributes: { fillcolor: "#2258aa" },
+            },
+            {
+              criteria: { source: "ts$" },
+              attributes: { fillcolor: "#8300ee" },
             },
           ],
           dependencies: [
