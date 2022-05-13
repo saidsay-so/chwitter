@@ -2,8 +2,10 @@ import { useEffect, useReducer } from "react";
 import { useOutletContext } from "react-router-dom";
 import { EmptyPlaceholder } from "../../components/EmptyPlaceholder";
 import { LoadingPlaceholder } from "../../components/LoadingPlaceholder";
+import { Severity } from "../../components/Toast";
 import UserElement from "../../components/User";
 import { useAuth } from "../../providers/AuthProvider";
+import { useToast } from "../../providers/ToastProvider";
 import { addFriend, getFriends, removeFriend } from "../../services/friend";
 import { User } from "../../services/user";
 import { ServiceStatus, useService } from "../../utils/extra-hooks";
@@ -43,6 +45,8 @@ export default function UserFriends() {
   const { id: mainUid } = useAuth().user!;
   const { uid, isHimself, setFriendsCount } =
     useOutletContext<UserProfileOutletContext>();
+
+  const { report } = useToast();
 
   function reducer(users: User[], event: FriendEvent) {
     switch (event.type) {
@@ -84,15 +88,17 @@ export default function UserFriends() {
   }, [friends, uid]);
 
   const remove = (id: User["id"], index: number) => {
-    useService(removeFriend.bind(null, id), () =>
-      dispatch({ type: FriendEventType.REMOVE, id, index })
-    );
+    const controller = new AbortController();
+    removeFriend(id, controller.signal)
+      .then(() => dispatch({ type: FriendEventType.REMOVE, id, index }))
+      .catch((error) => report({ severity: Severity.ERROR, error }));
   };
 
   const add = (id: User["id"], index: number) => {
-    useService(addFriend.bind(null, id), () =>
-      dispatch({ type: FriendEventType.ADD, id, index })
-    );
+    const controller = new AbortController();
+    addFriend(id, controller.signal)
+      .then(() => dispatch({ type: FriendEventType.ADD, id, index }))
+      .catch((error) => report({ severity: Severity.ERROR, error }));
   };
 
   return (

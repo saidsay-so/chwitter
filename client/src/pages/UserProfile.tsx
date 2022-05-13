@@ -48,8 +48,9 @@ export default function UserProfile() {
   }, [id]);
 
   const friendAction = () => {
+    const controller = new AbortController();
     setUser(({ isFriend, ...user }) => ({ ...user, isFriend: !isFriend }));
-    useService((user.isFriend ? removeFriend : addFriend).bind(null, id));
+    (user.isFriend ? removeFriend : addFriend)(id, controller.signal);
   };
 
   const editProfile = () => {

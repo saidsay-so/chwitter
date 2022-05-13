@@ -1,5 +1,6 @@
 import { ComponentPropsWithoutRef, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import cx from "classnames";
 import "./Input.css";
 
 /**
@@ -13,13 +14,14 @@ const Input = ({
   type,
   required,
   listener,
+  className
 }: InputProps) => {
   const [reveal, setReveal] = useState(false);
 
   const RevealIcon = reveal ? AiFillEyeInvisible : AiFillEye;
 
   return (
-    <div className="input">
+    <div className={cx("input", className)}>
       {type === "password" && (
         <div className="pass-reveal" onClick={() => setReveal(!reveal)}>
           <RevealIcon className="icon" />
