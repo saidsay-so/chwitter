@@ -6,6 +6,14 @@ import { getAvatarLink } from "../utils";
 
 const routes = Router();
 
+declare global {
+  export namespace CookieSessionInterfaces {
+    export interface CookieSessionObject {
+      userId: string;
+    }
+  }
+}
+
 /**
  * Login parameters
  * @typedef {object} LoginParams
