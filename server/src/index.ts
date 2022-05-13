@@ -15,5 +15,5 @@ app.listen(parseInt(PORT), async () => {
     throw e;
   }
 
-  console.log(`Server listening on port ${PORT}`);
+  console.info(`Server listening on port ${PORT}`);
 });
