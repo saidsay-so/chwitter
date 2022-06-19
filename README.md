@@ -4,7 +4,7 @@
 
 [![Test](https://github.com/musikid/chwitter/actions/workflows/test.yml/badge.svg)](https://github.com/musikid/chwitter/actions/workflows/test.yml)
 
-![Logo](./assets/logo.svg?raw=true)
+![Logo](./assets/logo.svg?h=96)
 
 ---
 
