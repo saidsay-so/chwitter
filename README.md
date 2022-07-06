@@ -8,6 +8,10 @@
 
 ---
 
+## API documentation
+
+https://musikid.github.io/chwitter/api/docs/html
+
 ## Build
 
 Build instructions are available for each package.
