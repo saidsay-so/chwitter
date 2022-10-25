@@ -3,9 +3,9 @@ import assert from "assert";
 import app from "./app";
 import { connect } from "./database";
 
-const { PORT, MONGO_URL, CERT } = process.env;
+const { MONGO_URL, CERT } = process.env;
+const PORT = process.env.PORT ?? "80";
 
-assert(PORT, "Port is not defined");
 assert(MONGO_URL, "Database URL is not defined");
 
 app.listen(parseInt(PORT), async () => {
