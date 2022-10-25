@@ -1,4 +1,4 @@
-FROM node:16 as builder
+FROM node:18 as builder
 WORKDIR /app
 RUN npm install -g pnpm@7
 COPY . .
@@ -6,9 +6,10 @@ RUN pnpm install --frozen-lockfile
 WORKDIR /app/server
 RUN npm run build
 WORKDIR /app/client
+RUN chown -R node:node node_modules
 RUN npm run build
 
-FROM node:16-alpine
+FROM node:18-alpine
 WORKDIR /app
 RUN npm install -g pnpm@7
 COPY --from=builder /app/pnpm*.yaml ./
