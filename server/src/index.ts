@@ -4,7 +4,7 @@ import app from "./app";
 import { connect } from "./database";
 
 const { MONGO_URL, CERT } = process.env;
-const PORT = process.env.PORT ?? "80";
+const PORT = process.env.PORT ?? "8080";
 
 assert(MONGO_URL, "Database URL is not defined");
 
