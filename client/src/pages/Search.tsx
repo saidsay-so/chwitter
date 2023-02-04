@@ -1,6 +1,8 @@
 import { MessagesSearchParams } from "common";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Trans } from "@lingui/macro";
+
 import MessagesList from "../components/MessagesList";
 import { useAuth } from "../providers/AuthProvider";
 import { getMessages } from "../services/message";
@@ -43,9 +45,13 @@ export default function Search() {
     <div className="responsive-container">
       <div className="search-page">
         <aside className="search-params-container">
-          <h2 className="search-params-title">Paramètres de recherche</h2>
+          <h2 className="search-params-title">
+            <Trans>Paramètres de recherche</Trans>
+          </h2>
           <div>
-            <label htmlFor="followed">Seulement les amis</label>
+            <label htmlFor="followed">
+              <Trans>Seulement les amis</Trans>
+            </label>
             <input
               name="followed"
               type="checkbox"

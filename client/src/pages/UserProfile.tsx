@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { t, Trans } from "@lingui/macro";
 
 import { getUser } from "../services/user";
 import { useAuth } from "../providers/AuthProvider";
@@ -68,6 +69,11 @@ export default function UserProfile() {
     user,
   };
 
+  const formattedMsgCount = msgCount === null ? "\u00A0" : msgCount;
+  const formattedLikedMsgCount =
+    likedmsgCount === null ? "\u00A0" : likedmsgCount;
+  const formattedFriendsCount = friendsCount === null ? "\u00A0" : friendsCount;
+
   return (
     <div className="responsive-container">
       <div className="user-profile">
@@ -90,7 +96,10 @@ export default function UserProfile() {
 
             <div>
               {isHimself ? (
-                <SimpleButton label="Editer le profil" onClick={editProfile} />
+                <SimpleButton
+                  label={t`Editer le profil`}
+                  onClick={editProfile}
+                />
               ) : (
                 <FriendButton
                   onClick={() => friendAction()}
@@ -101,16 +110,13 @@ export default function UserProfile() {
 
             <nav className="profile-nav">
               <NavLink className="profile-link" to="messages">
-                <AiFillMessage /> {msgCount === null ? "\u00A0" : msgCount}{" "}
-                Messages
+                <AiFillMessage /> <Trans>{formattedMsgCount} Messages</Trans>
               </NavLink>
               <NavLink className="profile-link" to="friends">
-                <MdPeople /> {friendsCount === null ? "\u00A0" : friendsCount}{" "}
-                Amis
+                <MdPeople /> <Trans>{formattedFriendsCount} Amis</Trans>
               </NavLink>
               <NavLink className="profile-link" to="likedMessages">
-                <BsHeartFill />{" "}
-                {likedmsgCount === null ? "\u00A0" : likedmsgCount} Likes
+                <BsHeartFill /> <Trans>{formattedLikedMsgCount} Likes</Trans>
               </NavLink>
             </nav>
 

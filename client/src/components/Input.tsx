@@ -14,7 +14,7 @@ const Input = ({
   type,
   required,
   listener,
-  className
+  className,
 }: InputProps) => {
   const [reveal, setReveal] = useState(false);
 

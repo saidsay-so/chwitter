@@ -12,6 +12,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { User } from "../services/user";
 import FriendButton from "./FriendButton";
 import { BiMessageRoundedMinus } from "react-icons/bi";
+import { Trans } from "@lingui/macro";
 
 dayjs.extend(relativeTime);
 
@@ -111,8 +112,8 @@ const Message = ({
             <SimpleButton
               label={
                 <div>
-                  <BiMessageRoundedMinus className="icon" /> Supprimer le
-                  message
+                  <BiMessageRoundedMinus className="icon" />
+                  <Trans>Supprimer le message</Trans>
                 </div>
               }
               className={cx("delete-action")}

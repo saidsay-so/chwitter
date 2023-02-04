@@ -6,6 +6,7 @@ import { ImSearch } from "react-icons/im";
 import Avatar from "./Avatar";
 import { FormEventHandler, MouseEventHandler } from "react";
 import { ReactNode } from "react";
+import { t } from "@lingui/macro";
 
 interface PanelProps {
   /**
@@ -77,12 +78,12 @@ const NavigationPanel = ({
         </div>
         <NavigationPanel.Action
           icon={<MdAdd />}
-          text="Créer un message"
+          text={t`Créer un message`}
           action={createMessage}
         />
         <NavigationPanel.Action
           icon={<MdLogout />}
-          text="Se déconnecter"
+          text={t`Se déconnecter`}
           action={signOut}
         />
       </div>

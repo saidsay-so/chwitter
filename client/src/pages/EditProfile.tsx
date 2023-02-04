@@ -1,5 +1,7 @@
+import { t, Trans } from "@lingui/macro";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import Input from "../components/Input";
 import SimpleButton from "../components/SimpleButton";
 import { Severity } from "../components/Toast";
@@ -38,9 +40,11 @@ export default function EditProfile() {
           }}
         >
           <div className="edit-field edit-name">
-            <h3>Nom</h3>
+            <h3>
+              <Trans>Nom</Trans>
+            </h3>
             <Input
-              label="Nom d'affichage"
+              label={t`Nom d'affichage`}
               value={displayName}
               listener={setDisplayName}
               maxLength={16}
@@ -49,7 +53,7 @@ export default function EditProfile() {
           <div className="edit-field edit-description">
             <h3>Description</h3>
             <Input
-              label="Description"
+              label={t`Description`}
               value={description}
               listener={setDescription}
               maxLength={64}
@@ -57,14 +61,14 @@ export default function EditProfile() {
           </div>
           <div className="edit-buttons">
             <SimpleButton
-              label="Annuler"
+              label={t`Annuler`}
               onClick={(e) => {
                 e.preventDefault();
                 navigate(user.profileLink);
               }}
               className="abort-button"
             />
-            <SimpleButton label="Confirmer" className="confirm-button" />
+            <SimpleButton label={t`Confirmer`} className="confirm-button" />
           </div>
         </form>
       </div>
