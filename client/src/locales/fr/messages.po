@@ -1,0 +1,124 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2023-02-04 22:16+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: fr\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/components/FriendButton.tsx:13
+msgid "Ajouter aux amis"
+msgstr "Ajouter aux amis"
+
+#: src/pages/EditProfile.tsx:64
+msgid "Annuler"
+msgstr "Annuler"
+
+#: src/components/EmptyPlaceholder.tsx:9
+msgid "C'est vide !"
+msgstr "C'est vide !"
+
+#: src/pages/EditProfile.tsx:71
+msgid "Confirmer"
+msgstr "Confirmer"
+
+#: src/pages/Login.tsx:66
+msgid "Confirmer le mot de passe"
+msgstr "Confirmer le mot de passe"
+
+#: src/pages/Login.tsx:29
+#: src/pages/Login.tsx:30
+msgid "Créer un compte"
+msgstr "Créer un compte"
+
+#: src/components/NavigationPanel.tsx:81
+msgid "Créer un message"
+msgstr "Créer un message"
+
+#: src/pages/EditProfile.tsx:56
+msgid "Description"
+msgstr "Description"
+
+#: src/pages/UserProfile.tsx:100
+msgid "Editer le profil"
+msgstr "Editer le profil"
+
+#: src/pages/NotFound.tsx:10
+msgid "La page demandée n'a pas été trouvée"
+msgstr "La page demandée n'a pas été trouvée"
+
+#: src/pages/Login.tsx:57
+msgid "Mot de passe"
+msgstr "Mot de passe"
+
+#: src/pages/EditProfile.tsx:44
+msgid "Nom"
+msgstr "Nom"
+
+#: src/pages/EditProfile.tsx:47
+msgid "Nom d'affichage"
+msgstr "Nom d'affichage"
+
+#: src/pages/Login.tsx:50
+msgid "Nom d'utilisateur"
+msgstr "Nom d'utilisateur"
+
+#: src/pages/Search.tsx:49
+msgid "Paramètres de recherche"
+msgstr "Paramètres de recherche"
+
+#: src/pages/Login.tsx:29
+#: src/pages/Login.tsx:30
+msgid "Se connecter"
+msgstr "Se connecter"
+
+#: src/components/NavigationPanel.tsx:86
+msgid "Se déconnecter"
+msgstr "Se déconnecter"
+
+#: src/pages/Search.tsx:53
+msgid "Seulement les amis"
+msgstr "Seulement les amis"
+
+#: src/components/FriendButton.tsx:13
+msgid "Supprimer des amis"
+msgstr "Supprimer des amis"
+
+#: src/components/Message.tsx:116
+msgid "Supprimer le message"
+msgstr "Supprimer le message"
+
+#: src/pages/Login.tsx:27
+msgid "Vous avez déjà un compte ?"
+msgstr "Vous avez déjà un compte ?"
+
+#: src/pages/Login.tsx:28
+msgid "Vous n'avez pas de compte ?"
+msgstr "Vous n'avez pas de compte ?"
+
+#: src/pages/NotFound.tsx:7
+msgid "Vous êtes dans une zone de non-droit !"
+msgstr "Vous êtes dans une zone de non-droit !"
+
+#: src/pages/UserProfile.tsx:116
+msgid "{formattedFriendsCount} Amis"
+msgstr "{formattedFriendsCount} Amis"
+
+#: src/pages/UserProfile.tsx:119
+msgid "{formattedLikedMsgCount} Likes"
+msgstr "{formattedLikedMsgCount} Likes"
+
+#: src/pages/UserProfile.tsx:113
+msgid "{formattedMsgCount} Messages"
+msgstr "{formattedMsgCount} Messages"
+
+#: src/components/MessageArea.tsx:54
+msgid "Écrire un message..."
+msgstr "Écrire un message..."

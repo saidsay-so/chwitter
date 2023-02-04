@@ -1,0 +1,124 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2023-02-04 22:16+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/components/FriendButton.tsx:13
+msgid "Ajouter aux amis"
+msgstr "Add to friends"
+
+#: src/pages/EditProfile.tsx:64
+msgid "Annuler"
+msgstr "Cancel"
+
+#: src/components/EmptyPlaceholder.tsx:9
+msgid "C'est vide !"
+msgstr "It's empty!"
+
+#: src/pages/EditProfile.tsx:71
+msgid "Confirmer"
+msgstr "Confirm"
+
+#: src/pages/Login.tsx:66
+msgid "Confirmer le mot de passe"
+msgstr "Confirm password"
+
+#: src/pages/Login.tsx:29
+#: src/pages/Login.tsx:30
+msgid "Créer un compte"
+msgstr "Create an account"
+
+#: src/components/NavigationPanel.tsx:81
+msgid "Créer un message"
+msgstr "Write a message"
+
+#: src/pages/EditProfile.tsx:56
+msgid "Description"
+msgstr "Description"
+
+#: src/pages/UserProfile.tsx:100
+msgid "Editer le profil"
+msgstr "Edit profile"
+
+#: src/pages/NotFound.tsx:10
+msgid "La page demandée n'a pas été trouvée"
+msgstr "Requested page not found"
+
+#: src/pages/Login.tsx:57
+msgid "Mot de passe"
+msgstr "Password"
+
+#: src/pages/EditProfile.tsx:44
+msgid "Nom"
+msgstr "Name"
+
+#: src/pages/EditProfile.tsx:47
+msgid "Nom d'affichage"
+msgstr "Display name"
+
+#: src/pages/Login.tsx:50
+msgid "Nom d'utilisateur"
+msgstr "Username"
+
+#: src/pages/Search.tsx:49
+msgid "Paramètres de recherche"
+msgstr "Search settings"
+
+#: src/pages/Login.tsx:29
+#: src/pages/Login.tsx:30
+msgid "Se connecter"
+msgstr "Login"
+
+#: src/components/NavigationPanel.tsx:86
+msgid "Se déconnecter"
+msgstr "Logout"
+
+#: src/pages/Search.tsx:53
+msgid "Seulement les amis"
+msgstr "Only friends"
+
+#: src/components/FriendButton.tsx:13
+msgid "Supprimer des amis"
+msgstr "Delete from friends"
+
+#: src/components/Message.tsx:116
+msgid "Supprimer le message"
+msgstr "Delete message"
+
+#: src/pages/Login.tsx:27
+msgid "Vous avez déjà un compte ?"
+msgstr "Already have an account?"
+
+#: src/pages/Login.tsx:28
+msgid "Vous n'avez pas de compte ?"
+msgstr "Don't have an account?"
+
+#: src/pages/NotFound.tsx:7
+msgid "Vous êtes dans une zone de non-droit !"
+msgstr "This is a restricted area!"
+
+#: src/pages/UserProfile.tsx:116
+msgid "{formattedFriendsCount} Amis"
+msgstr "{formattedFriendsCount} Friends"
+
+#: src/pages/UserProfile.tsx:119
+msgid "{formattedLikedMsgCount} Likes"
+msgstr "{formattedLikedMsgCount} Likes"
+
+#: src/pages/UserProfile.tsx:113
+msgid "{formattedMsgCount} Messages"
+msgstr "{formattedMsgCount} Messages"
+
+#: src/components/MessageArea.tsx:54
+msgid "Écrire un message..."
+msgstr "Write a message..."

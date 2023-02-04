@@ -3,13 +3,14 @@ import "./FriendButton.css";
 import cx from "classnames";
 import { ComponentPropsWithoutRef } from "react";
 import { BiUserMinus, BiUserPlus } from "react-icons/bi";
+import { t } from "@lingui/macro";
 
 /**
  * Spécialisation de [SimpleButton](#simplebutton) avec une étiquette pour l'ajout/suppression d'amis
  */
 const FriendButton = ({ isFriend, className, ...props }: FriendButtonProps) => {
   const Icon = isFriend ? BiUserMinus : BiUserPlus;
-  const label = isFriend ? "Supprimer des amis" : "Ajouter aux amis";
+  const label = isFriend ? t`Supprimer des amis` : t`Ajouter aux amis`;
 
   return (
     <SimpleButton

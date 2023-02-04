@@ -2,6 +2,7 @@ import SimpleButton from "./SimpleButton";
 import "./MessageArea.css";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import { ComponentPropsWithoutRef, MutableRefObject, useState } from "react";
+import { t } from "@lingui/macro";
 
 interface MessageAreaProps {
   /**
@@ -50,7 +51,7 @@ const MessageArea = ({
           ref={refArea}
           name="message"
           className="message-area"
-          placeholder="Écrire un message..."
+          placeholder={t`Écrire un message...`}
           onInput={(e) => setMessage((e.target as HTMLTextAreaElement).value)}
           required
           autoFocus
