@@ -16,7 +16,12 @@ https://musikid.github.io/chwitter/api/docs/html
 
 Build instructions are available for each package.
 
-### NOTE: All `pnpm` commands can be replaced with npm.
+### Due to [#10695](https://github.com/facebook/create-react-app/issues/10695), the `common` package needs to be built manually.
+
+```sh
+cd common
+pnpm build
+```
 
 ### Docker
 
