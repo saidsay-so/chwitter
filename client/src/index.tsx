@@ -19,8 +19,8 @@ import UserLikedMessages from "./pages/user/LikedMessages";
 import NotFound from "./pages/NotFound";
 
 import "dayjs/locale/fr";
+import "dayjs/locale/en";
 import dayjs from "dayjs";
-dayjs.locale("fr");
 
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
@@ -34,9 +34,11 @@ const languages = {
 
 i18n.load(languages);
 
-const locale = navigator.language.split("-")[0];
+const rawLocale = navigator.language.split("-")[0];
+const locale = rawLocale in languages ? rawLocale : "en";
 
-i18n.activate(locale in languages ? locale : "en");
+i18n.activate(locale);
+dayjs.locale(locale);
 
 const root = createRoot(document.getElementById("root")!);
 root.render(
