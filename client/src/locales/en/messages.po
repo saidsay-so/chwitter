@@ -46,7 +46,7 @@ msgstr "Write a message"
 msgid "Description"
 msgstr "Description"
 
-#: src/pages/UserProfile.tsx:100
+#: src/pages/UserProfile.tsx:99
 msgid "Editer le profil"
 msgstr "Edit profile"
 
@@ -107,17 +107,29 @@ msgstr "Don't have an account?"
 msgid "Vous êtes dans une zone de non-droit !"
 msgstr "This is a restricted area!"
 
+#: src/pages/UserProfile.tsx:125
+msgid "{formattedFriendsCount, plural, =0 {Aucun ami ajouté} one {1 Ami} other {{formattedFriendsCount} Amis}}"
+msgstr "{formattedFriendsCount, plural, =0 {No friends added} one {1 Friend} other {{formattedFriendsCount} Friends}}"
+
 #: src/pages/UserProfile.tsx:116
-msgid "{formattedFriendsCount} Amis"
-msgstr "{formattedFriendsCount} Friends"
+#~ msgid "{formattedFriendsCount} Amis"
+#~ msgstr "{formattedFriendsCount} Friends"
+
+#: src/pages/UserProfile.tsx:136
+msgid "{formattedLikedMsgCount, plural, =0 {Aucun like} one {1 Like} other {{formattedLikedMsgCount} Likes}}"
+msgstr "{formattedLikedMsgCount, plural, =0 {No likes} one {1 Like} other {{formattedLikedMsgCount} Likes}}"
 
 #: src/pages/UserProfile.tsx:119
-msgid "{formattedLikedMsgCount} Likes"
-msgstr "{formattedLikedMsgCount} Likes"
+#~ msgid "{formattedLikedMsgCount} Likes"
+#~ msgstr "{formattedLikedMsgCount} Likes"
+
+#: src/pages/UserProfile.tsx:114
+msgid "{formattedMsgCount, plural, =0 {Aucun message} one {1 Message} other {{formattedMsgCount} Messages}}"
+msgstr "{formattedMsgCount, plural, =0 {No messages} one {1 Message} other {{formattedMsgCount} Messages}}"
 
 #: src/pages/UserProfile.tsx:113
-msgid "{formattedMsgCount} Messages"
-msgstr "{formattedMsgCount} Messages"
+#~ msgid "{formattedMsgCount} Messages"
+#~ msgstr "{formattedMsgCount} Messages"
 
 #: src/components/MessageArea.tsx:54
 msgid "Écrire un message..."

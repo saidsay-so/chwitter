@@ -24,6 +24,7 @@ import dayjs from "dayjs";
 
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
+import { fr as frPlural, en as enPlural } from "make-plural/plurals";
 import { messages as fr } from "./locales/fr/messages";
 import { messages as en } from "./locales/en/messages";
 
@@ -36,7 +37,10 @@ i18n.load(languages);
 
 const rawLocale = navigator.language.split("-")[0];
 const locale = rawLocale in languages ? rawLocale : "en";
-
+i18n.loadLocaleData({
+  en: { plurals: enPlural },
+  fr: { plurals: frPlural },
+});
 i18n.activate(locale);
 dayjs.locale(locale);
 

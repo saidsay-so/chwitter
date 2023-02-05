@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { t, Trans } from "@lingui/macro";
+import { t, Plural, Trans } from "@lingui/macro";
 
 import { getUser } from "../services/user";
 import { useAuth } from "../providers/AuthProvider";
@@ -32,7 +32,7 @@ export default function UserProfile() {
   const [user, setUser] = useState<User>({} as User);
   const [msgCount, setMsgCount] = useState<number | null>(null);
   const [friendsCount, setFriendsCount] = useState<number | null>(null);
-  const [likedmsgCount, setLikedMsgCount] = useState<number | null>(null);
+  const [likedMsgCount, setLikedMsgCount] = useState<number | null>(null);
 
   const id = useParams().id!;
   const { id: mainUid } = useAuth().user!;
@@ -69,10 +69,9 @@ export default function UserProfile() {
     user,
   };
 
-  const formattedMsgCount = msgCount === null ? "\u00A0" : msgCount;
-  const formattedLikedMsgCount =
-    likedmsgCount === null ? "\u00A0" : likedmsgCount;
-  const formattedFriendsCount = friendsCount === null ? "\u00A0" : friendsCount;
+  const formattedMsgCount = msgCount === null ? 0 : msgCount;
+  const formattedLikedMsgCount = likedMsgCount === null ? 0 : likedMsgCount;
+  const formattedFriendsCount = friendsCount === null ? 0 : friendsCount;
 
   return (
     <div className="responsive-container">
@@ -110,13 +109,37 @@ export default function UserProfile() {
 
             <nav className="profile-nav">
               <NavLink className="profile-link" to="messages">
-                <AiFillMessage /> <Trans>{formattedMsgCount} Messages</Trans>
+                <AiFillMessage />{" "}
+                <EmptyPlaceholderWrapper wraps={msgCount === null}>
+                  <Plural
+                    value={formattedMsgCount}
+                    _0="Aucun message"
+                    one="1 Message"
+                    other={`${formattedMsgCount} Messages`}
+                  ></Plural>
+                </EmptyPlaceholderWrapper>
               </NavLink>
               <NavLink className="profile-link" to="friends">
-                <MdPeople /> <Trans>{formattedFriendsCount} Amis</Trans>
+                <MdPeople />{" "}
+                <EmptyPlaceholderWrapper wraps={friendsCount === null}>
+                  <Plural
+                    value={formattedFriendsCount}
+                    _0="Aucun ami ajouté"
+                    one="1 Ami"
+                    other={`${formattedFriendsCount} Amis`}
+                  ></Plural>
+                </EmptyPlaceholderWrapper>
               </NavLink>
               <NavLink className="profile-link" to="likedMessages">
-                <BsHeartFill /> <Trans>{formattedLikedMsgCount} Likes</Trans>
+                <BsHeartFill />{" "}
+                <EmptyPlaceholderWrapper wraps={likedMsgCount === null}>
+                  <Plural
+                    value={formattedLikedMsgCount}
+                    _0="Aucun like"
+                    one="1 Like"
+                    other={`${formattedLikedMsgCount} Likes`}
+                  ></Plural>
+                </EmptyPlaceholderWrapper>
               </NavLink>
             </nav>
 
@@ -129,3 +152,17 @@ export default function UserProfile() {
     </div>
   );
 }
+
+const EmptyPlaceholderWrapper = ({
+  wraps,
+  children,
+}: {
+  children: React.ReactNode;
+  wraps: boolean;
+}) => {
+  if (wraps) {
+    return <div style={{ width: "2ch" }}> </div>;
+  }
+
+  return <>{children}</>;
+};
