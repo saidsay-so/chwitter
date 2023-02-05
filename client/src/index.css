@@ -14,16 +14,16 @@ input,
 :root {
   --bg: #ffffff;
 
-  --primary: #2e9ae2;
-  --secondary: #165b94;
+  --primary: #1584ce;
+  --secondary: #1c54a8;
   --warning: #fa8f20;
 
   --grey: #8d8d8d;
-  --grey-light: #f5f5f5;
+  --grey-light: #ebebeb;
   --text: #000;
   --text-invert: #fff;
 
-  --link: #063f74;
+  --link: var(--primary);
   --icon: #003c66;
 
   --pink: #f52a6e;
@@ -50,7 +50,7 @@ input {
   :root {
     --bg: #111111;
 
-    --primary: #2e9ae2;
+    --primary: #1580c7;
     --secondary: #8f70ee;
     --warning: #fa8f20;
 
@@ -64,7 +64,7 @@ input {
 
     --pink: #f52a6e;
 
-    --red: #e73030;
+    --red: #e21c1c;
   }
 }
 

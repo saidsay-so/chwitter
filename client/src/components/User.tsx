@@ -2,7 +2,6 @@ import "./User.css";
 import Avatar from "./Avatar";
 import { Link } from "react-router-dom";
 import FriendButton from "./FriendButton";
-import { MouseEventHandler } from "react";
 
 interface UserProps {
   /**
