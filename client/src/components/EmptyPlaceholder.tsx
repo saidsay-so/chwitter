@@ -6,7 +6,7 @@ export const EmptyPlaceholder = () => (
   <div className="empty-placeholder">
     <RiCheckboxBlankCircleLine />
     <h2>
-      <Trans>C'est vide !</Trans>
+      <Trans>Circulez, y'a rien à voir!</Trans>
     </h2>
   </div>
 );

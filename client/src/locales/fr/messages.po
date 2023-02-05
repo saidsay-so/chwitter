@@ -22,8 +22,12 @@ msgid "Annuler"
 msgstr "Annuler"
 
 #: src/components/EmptyPlaceholder.tsx:9
-msgid "C'est vide !"
-msgstr "C'est vide !"
+#~ msgid "C'est vide !"
+#~ msgstr "C'est vide !"
+
+#: src/components/EmptyPlaceholder.tsx:9
+msgid "Circulez, y'a rien à voir!"
+msgstr "Circulez, y'a rien à voir!"
 
 #: src/pages/EditProfile.tsx:71
 msgid "Confirmer"
