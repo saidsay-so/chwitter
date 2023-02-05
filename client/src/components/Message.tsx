@@ -112,7 +112,7 @@ const Message = ({
             <SimpleButton
               label={
                 <div>
-                  <BiMessageRoundedMinus className="icon" />
+                  <BiMessageRoundedMinus className="icon" />{" "}
                   <Trans>Supprimer le message</Trans>
                 </div>
               }

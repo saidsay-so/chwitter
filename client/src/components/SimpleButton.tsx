@@ -1,6 +1,7 @@
 import React, { ComponentPropsWithoutRef, ReactNode } from "react";
 import "./SimpleButton.css";
 import cx from "classnames";
+
 interface SimpleButtonProps extends ComponentPropsWithoutRef<"button"> {
   label?: ReactNode;
   /**
