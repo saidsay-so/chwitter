@@ -35,7 +35,7 @@ routes.put("/login", async (req, res, next) => {
     const { name, password }: LoginParams = req.body;
     const user = req.session!.userId!
       ? await UserModel.findById(req.session!.userId!).exec()
-      : await UserModel.findUserLogin(name, password);
+      : await UserModel.findUserAndCheckPassword(name, password);
 
     if (!user) {
       throw new AuthError(AuthErrorType.UNKNOWN_USER);
@@ -74,7 +74,7 @@ routes.put("/login", async (req, res, next) => {
  */
 routes.delete("/logout", async (req, res, next) => {
   try {
-    if (req.session!.userId!) {
+    if (req.session) {
       req.session = null;
     }
     return res.sendStatus(200);

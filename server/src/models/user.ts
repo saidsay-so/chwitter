@@ -54,7 +54,13 @@ export class UserSchema {
   @prop({ ref: () => UserSchema })
   friends?: Ref<UserSchema>[];
 
-  static async findUserLogin(
+  /**
+   * Find a user by name and check if the password is correct
+   * @param {string} name - Username
+   * @param {string} password - Password
+   * @returns {Promise<UserSchema>} User
+   */
+  static async findUserAndCheckPassword(
     this: ReturnModelType<typeof UserSchema>,
     name: string,
     password: string
@@ -65,8 +71,9 @@ export class UserSchema {
     const user = await this.findByName(name).exec();
     if (user === null) throw new AuthError(AuthErrorType.UNKNOWN_USER);
 
-    if (!user.verifyPassword(password))
-      throw new AuthError(AuthErrorType.INVALID_PASSWORD);
+    const isPasswordCorrect = await user.verifyPassword(password);
+
+    if (!isPasswordCorrect) throw new AuthError(AuthErrorType.INVALID_PASSWORD);
 
     return user;
   }
