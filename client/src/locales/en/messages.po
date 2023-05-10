@@ -17,7 +17,7 @@ msgstr ""
 msgid "Ajouter aux amis"
 msgstr "Add to friends"
 
-#: src/pages/EditProfile.tsx:64
+#: src/pages/EditProfile.tsx:87
 msgid "Annuler"
 msgstr "Cancel"
 
@@ -29,16 +29,16 @@ msgstr "Cancel"
 msgid "Circulez, y'a rien à voir!"
 msgstr "Nothing to see here!"
 
-#: src/pages/EditProfile.tsx:71
+#: src/pages/EditProfile.tsx:94
 msgid "Confirmer"
 msgstr "Confirm"
 
-#: src/pages/Login.tsx:66
+#: src/pages/Login.tsx:103
 msgid "Confirmer le mot de passe"
 msgstr "Confirm password"
 
-#: src/pages/Login.tsx:29
-#: src/pages/Login.tsx:30
+#: src/pages/Login.tsx:58
+#: src/pages/Login.tsx:59
 msgid "Créer un compte"
 msgstr "Create an account"
 
@@ -46,7 +46,7 @@ msgstr "Create an account"
 msgid "Créer un message"
 msgstr "Write a message"
 
-#: src/pages/EditProfile.tsx:56
+#: src/pages/EditProfile.tsx:79
 msgid "Description"
 msgstr "Description"
 
@@ -54,23 +54,69 @@ msgstr "Description"
 msgid "Editer le profil"
 msgstr "Edit profile"
 
+#: src/pages/Login.tsx:24
+msgid "La confirmation du mot de passe est requise"
+msgstr "Password confirmation is required"
+
+#: src/pages/EditProfile.tsx:19
+msgid "La description est requise"
+msgstr "Description is required"
+
+#: src/utils/form-schemas.ts:23
+msgid "La description est trop longue, 64 caractères maximum"
+msgstr "Description is too long, 64 characters max"
+
 #: src/pages/NotFound.tsx:10
 msgid "La page demandée n'a pas été trouvée"
 msgstr "Requested page not found"
 
-#: src/pages/Login.tsx:57
+#: src/pages/Login.tsx:19
+#: src/pages/Login.tsx:98
+msgid "Le mot de passe est requis"
+msgstr "Password is required"
+
+#: src/pages/Login.tsx:18
+#: src/pages/Login.tsx:88
+msgid "Le nom d'utilisateur est requis"
+msgstr "Username is required"
+
+#: src/utils/form-schemas.ts:7
+msgid "Le nom d'utilisateur est trop long, 32 caractères maximum"
+msgstr "Username is too long, 32 characters max"
+
+#: src/utils/form-schemas.ts:10
+msgid "Le nom d'utilisateur ne peut contenir que des lettres minuscules, des chiffres et des tirets bas"
+msgstr "Username can only contain lowercase letters, numbers and underscores"
+
+#: src/pages/EditProfile.tsx:18
+msgid "Le pseudo est requis"
+msgstr "Display name is required"
+
+#: src/utils/form-schemas.ts:15
+msgid "Le pseudo est trop long, 16 caractères maximum"
+msgstr "Display name is too long, 16 characters max"
+
+#: src/utils/form-schemas.ts:18
+msgid "Le pseudo ne peut pas être vide ou contenir d'arobase (@)"
+msgstr "Display name can't be empty or contain an @"
+
+#: src/pages/Login.tsx:25
+msgid "Les mots de passe ne correspondent pas"
+msgstr "Passwords don't match"
+
+#: src/pages/Login.tsx:92
 msgid "Mot de passe"
 msgstr "Password"
 
-#: src/pages/EditProfile.tsx:44
+#: src/pages/EditProfile.tsx:67
 msgid "Nom"
 msgstr "Name"
 
-#: src/pages/EditProfile.tsx:47
+#: src/pages/EditProfile.tsx:70
 msgid "Nom d'affichage"
 msgstr "Display name"
 
-#: src/pages/Login.tsx:50
+#: src/pages/Login.tsx:83
 msgid "Nom d'utilisateur"
 msgstr "Username"
 
@@ -78,8 +124,8 @@ msgstr "Username"
 msgid "Paramètres de recherche"
 msgstr "Search settings"
 
-#: src/pages/Login.tsx:29
-#: src/pages/Login.tsx:30
+#: src/pages/Login.tsx:58
+#: src/pages/Login.tsx:59
 msgid "Se connecter"
 msgstr "Login"
 
@@ -99,11 +145,11 @@ msgstr "Delete from friends"
 msgid "Supprimer le message"
 msgstr "Delete message"
 
-#: src/pages/Login.tsx:27
+#: src/pages/Login.tsx:56
 msgid "Vous avez déjà un compte ?"
 msgstr "Already have an account?"
 
-#: src/pages/Login.tsx:28
+#: src/pages/Login.tsx:57
 msgid "Vous n'avez pas de compte ?"
 msgstr "Don't have an account?"
 
