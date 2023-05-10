@@ -1,47 +1,56 @@
-import { ComponentPropsWithoutRef, useState } from "react";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { ComponentPropsWithoutRef, useState, forwardRef } from "react";
 import cx from "classnames";
 import "./Input.css";
 
 /**
  * Champ de saisie de texte
  */
-const Input = ({
-  name,
-  label,
-  value,
-  placeholder,
-  type,
-  required,
-  listener,
-  className,
-}: InputProps) => {
-  const [reveal, setReveal] = useState(false);
-
-  const RevealIcon = reveal ? AiFillEyeInvisible : AiFillEye;
-
-  return (
-    <div className={cx("input", className)}>
-      {type === "password" && (
-        <div className="pass-reveal" onClick={() => setReveal(!reveal)}>
-          <RevealIcon className="icon" />
-        </div>
-      )}
-      <input
-        name={name}
-        type={type === "password" ? (reveal ? "text" : "password") : type}
-        placeholder={placeholder}
-        value={value}
-        onChange={(ev) => listener((ev.target as HTMLInputElement).value)}
-        required={required}
-      />
-      <label htmlFor={name}>
-        {label}
-        {required && <span className="required"> *</span>}
-      </label>
-    </div>
-  );
-};
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      name,
+      label,
+      required,
+      className,
+      children,
+      message,
+      state,
+      ...props
+    }: InputProps,
+    ref
+  ) => {
+    const [focused, setFocused] = useState(false);
+    return (
+      <div
+        className={cx(
+          "input",
+          className,
+          { "input-focused": focused },
+          { error: state === "error" }
+        )}
+      >
+        <label htmlFor={name} className="input-label">
+          {label}
+          {required && <span className="required"> *</span>}
+        </label>
+        <input
+          name={name}
+          {...props}
+          onFocus={(ev) => {
+            setFocused(true);
+            props.onFocus?.(ev);
+          }}
+          onBlur={(ev) => {
+            setFocused(false);
+            props.onBlur?.(ev);
+          }}
+          ref={ref}
+        />
+        <p className="input-message">{message}</p>
+      </div>
+    );
+  }
+);
 
 export default Input;
 
@@ -49,10 +58,18 @@ interface InputProps extends ComponentPropsWithoutRef<"input"> {
   /**
    * Label
    */
-  label: string;
+  label?: string;
+  /**
+   * Message à afficher en dessous du champ
+   */
+  message?: string;
+  /**
+   * Etat du champ
+   */
+  state?: "error";
   /**
    * Appelé lors d'une modification
    * @param {string} input Valeur
    */
-  listener: (msg: string) => void;
+  listener?: (msg: string) => void;
 }

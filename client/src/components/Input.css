@@ -1,6 +1,5 @@
 .input {
   --label-font-size: 0.9rem;
-  --margin-top: calc(var(--label-font-size) + (var(--label-font-size) / 2));
   --input-padding: 0.35rem;
   --input-border: 0.2rem;
   --reveal-width: 2rem;
@@ -8,11 +7,50 @@
 
   position: relative;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input .input-label {
+  font-size: var(--label-font-size);
+  color: var(--grey);
+  transition: color 150ms ease-in;
+  padding-bottom: 0.2rem;
+}
+
+.input .input-message {
+  --font-size: 0.8rem;
+  --top-padding: 0.25rem;
+
+  font-size: var(--font-size);
+  color: var(--grey);
+  min-height: calc(var(--font-size) + var(--top-padding) + .2rem);
+  padding-top: var(--top-padding);
+  margin: 0;
+}
+
+.input.input.input-focused input {
+  border: var(--input-border) solid var(--primary);
+}
+
+.input.input-focused .input-label {
+  color: var(--primary);
+}
+
+.input.error input {
+  border: var(--input-border) solid var(--red);
+}
+
+.input.error .input-label {
+  color: var(--red);
+}
+
+.input.error .input-message {
+  color: var(--red);
 }
 
 .input input {
   position: relative;
-  margin-top: var(--margin-top);
   border: var(--input-border) solid var(--grey-light);
   padding: var(--input-padding);
   align-items: center;
@@ -30,10 +68,6 @@
 
 .pass-reveal ~ input {
   padding-right: var(--reveal-width);
-}
-
-.input input:focus {
-  border: var(--input-border) solid var(--primary);
 }
 
 .input .pass-reveal {
@@ -56,18 +90,6 @@
 
 .input .pass-reveal:hover {
   cursor: pointer;
-}
-
-.input label {
-  position: absolute;
-  left: 0;
-  font-size: var(--label-font-size);
-  color: var(--grey);
-  transition: color 150ms ease-in;
-}
-
-.input input:focus + label {
-  color: var(--primary);
 }
 
 .input::placeholder {
