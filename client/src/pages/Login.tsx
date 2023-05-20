@@ -15,7 +15,7 @@ import "./Login.css";
 
 const LoginInput = y.object({
   register: y.boolean().required(),
-  username: usernameSchema.required(t`Le nom d'utilisateur est requis`),
+  username: usernameSchema,
   password: y.string().required(t`Le mot de passe est requis`),
   passwordConfirm: y.string().when("register", {
     is: true,
@@ -73,54 +73,56 @@ export default function Login() {
   };
 
   return (
-    <div className="login">
-      <h1>{action}</h1>
-      <form
-        className="input-container"
-        onSubmit={handleSubmit(formHandler, console.log)}
-      >
-        <Input
-          label={t`Nom d'utilisateur`}
-          message={errors.username?.message}
-          state={errors.username ? "error" : undefined}
-          required
-          {...registerInput("username", {
-            required: t`Le nom d'utilisateur est requis`,
-          })}
-        />
-        <Input
-          label={t`Mot de passe`}
-          type="password"
-          message={errors.password?.message}
-          state={errors.password ? "error" : undefined}
-          required
-          {...registerInput("password", {
-            required: t`Le mot de passe est requis`,
-          })}
-        />
-        {registerView && (
+    <div id="login">
+      <div id="logo">
+        <img src="/logo.svg" />
+      </div>
+      <div className="form">
+        <h1>{action}</h1>
+        <form className="input-container" onSubmit={handleSubmit(formHandler)}>
           <Input
-            label={t`Confirmer le mot de passe`}
-            type="password"
-            message={errors.passwordConfirm?.message}
-            state={errors.passwordConfirm ? "error" : undefined}
+            label={t`Nom d'utilisateur`}
+            message={errors.username?.message}
+            state={errors.username ? "error" : undefined}
             required
-            {...registerInput("passwordConfirm")}
+            {...registerInput("username", {
+              required: t`Le nom d'utilisateur est requis`,
+            })}
           />
-        )}
-        <div className="buttons">
-          <SimpleButton label={action} />
+          <Input
+            label={t`Mot de passe`}
+            type="password"
+            message={errors.password?.message}
+            state={errors.password ? "error" : undefined}
+            required
+            {...registerInput("password", {
+              required: t`Le mot de passe est requis`,
+            })}
+          />
+          {registerView && (
+            <Input
+              label={t`Confirmer le mot de passe`}
+              type="password"
+              message={errors.passwordConfirm?.message}
+              state={errors.passwordConfirm ? "error" : undefined}
+              required
+              {...registerInput("passwordConfirm")}
+            />
+          )}
+          <div className="buttons">
+            <SimpleButton label={action} />
+          </div>
+        </form>
+        <div className="invert-container">
+          <p className="text">{below}</p>
+          <SimpleButton
+            label={invert}
+            onClick={(e) => {
+              e.preventDefault();
+              setRegisterView(!registerView);
+            }}
+          ></SimpleButton>
         </div>
-      </form>
-      <div className="invert-container">
-        <p className="text">{below}</p>
-        <SimpleButton
-          label={invert}
-          onClick={(e) => {
-            e.preventDefault();
-            setRegisterView(!registerView);
-          }}
-        ></SimpleButton>
       </div>
     </div>
   );
