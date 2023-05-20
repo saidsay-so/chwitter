@@ -1,9 +1,3 @@
-html,
-body,
-#root {
-  overflow: hidden;
-}
-
 .main-layout {
   display: flex;
   flex-direction: column;
