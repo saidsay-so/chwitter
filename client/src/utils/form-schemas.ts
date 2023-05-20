@@ -3,6 +3,7 @@ import { t } from "@lingui/macro";
 
 export const usernameSchema = y
   .string()
+  .required(t`Le nom d'utilisateur est requis`)
   .max(32, {
     message: t`Le nom d'utilisateur est trop long, 32 caractères maximum`,
   })
