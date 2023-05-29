@@ -1,7 +1,7 @@
 import "./NavigationPanel.css";
 import "./NavigationPanelAction.css";
 import { Link, NavLink, NavLinkProps } from "react-router-dom";
-import { MdAdd, MdLogout } from "react-icons/md";
+import { MdAdd, MdDarkMode, MdLightMode, MdLogout } from "react-icons/md";
 import { ImSearch } from "react-icons/im";
 import Avatar from "./Avatar";
 import { FormEventHandler, MouseEventHandler } from "react";
@@ -17,6 +17,8 @@ interface PanelProps {
    * Fontion pour afficher le champ d'envoi de message
    */
   createMessage: () => void;
+  switchColorScheme: () => void;
+  colorScheme: "light" | "dark";
   search: string;
   onSearchSubmit: FormEventHandler<HTMLFormElement>;
   onSearchInput: FormEventHandler<HTMLInputElement>;
@@ -44,6 +46,8 @@ interface PanelProps {
 const NavigationPanel = ({
   signOut,
   createMessage,
+  switchColorScheme,
+  colorScheme,
   onSearchSubmit,
   onSearchInput,
   search,
@@ -80,6 +84,11 @@ const NavigationPanel = ({
           icon={<MdAdd />}
           text={t`Créer un message`}
           action={createMessage}
+        />
+        <NavigationPanel.Action
+          icon={colorScheme === "dark" ? <MdLightMode /> : <MdDarkMode />}
+          text={t`Changer le thème`}
+          action={switchColorScheme}
         />
         <NavigationPanel.Action
           icon={<MdLogout />}

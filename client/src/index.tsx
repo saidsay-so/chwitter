@@ -27,6 +27,7 @@ import { I18nProvider } from "@lingui/react";
 import { fr as frPlural, en as enPlural } from "make-plural/plurals";
 import { messages as fr } from "./locales/fr/messages";
 import { messages as en } from "./locales/en/messages";
+import ColorSchemeProvider from "./providers/ColorSchemeProvider";
 
 const languages = {
   fr,
@@ -50,29 +51,34 @@ root.render(
     <BrowserRouter>
       <I18nProvider i18n={i18n}>
         <ToastProvider>
-          <AuthProvider>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route
-                element={
-                  <RequireAuthProvider>
-                    <MainLayout />
-                  </RequireAuthProvider>
-                }
-              >
-                <Route path="/" element={<HomeFeed />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/edit" element={<EditProfile />} />
-                <Route path="/users/:id" element={<UserProfile />}>
-                  <Route index element={<Navigate to="messages" replace />} />
-                  <Route path="messages" element={<UserMessages />} />
-                  <Route path="friends" element={<UserFriends />} />
-                  <Route path="likedMessages" element={<UserLikedMessages />} />
+          <ColorSchemeProvider>
+            <AuthProvider>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route
+                  element={
+                    <RequireAuthProvider>
+                      <MainLayout />
+                    </RequireAuthProvider>
+                  }
+                >
+                  <Route path="/" element={<HomeFeed />} />
+                  <Route path="/search" element={<Search />} />
+                  <Route path="/edit" element={<EditProfile />} />
+                  <Route path="/users/:id" element={<UserProfile />}>
+                    <Route index element={<Navigate to="messages" replace />} />
+                    <Route path="messages" element={<UserMessages />} />
+                    <Route path="friends" element={<UserFriends />} />
+                    <Route
+                      path="likedMessages"
+                      element={<UserLikedMessages />}
+                    />
+                  </Route>
                 </Route>
-              </Route>
-              <Route path="/*" element={<NotFound />} />
-            </Routes>
-          </AuthProvider>
+                <Route path="/*" element={<NotFound />} />
+              </Routes>
+            </AuthProvider>
+          </ColorSchemeProvider>
         </ToastProvider>
       </I18nProvider>
     </BrowserRouter>
