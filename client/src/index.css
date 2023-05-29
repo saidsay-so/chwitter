@@ -9,12 +9,15 @@ input,
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: color 75ms cubic-bezier(0.39, 0.575, 0.565, 1),
+    background-color 75ms cubic-bezier(0.47, 0, 0.745, 0.715),
+    border 75ms ease-in;
 }
 
 :root {
   --bg: #ffffff;
 
-  --primary: #1584ce;
+  --primary: #107ac0;
   --secondary: #1c54a8;
   --warning: #fa8f20;
 
@@ -46,26 +49,24 @@ input {
   color: var(--text);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111111;
+.dark {
+  --bg: #111111;
 
-    --primary: #1580c7;
-    --secondary: #8f70ee;
-    --warning: #fa8f20;
+  --primary: #0f77bd;
+  --secondary: #8f70ee;
+  --warning: #fa8f20;
 
-    --grey: #555;
-    --grey-light: #222;
-    --text: #fff;
-    --text-invert: #fff;
+  --grey: #555;
+  --grey-light: #222;
+  --text: #fff;
+  --text-invert: #fff;
 
-    --link: #aaa;
-    --icon: #eee;
+  --link: #aaa;
+  --icon: #eee;
 
-    --pink: #f52a6e;
+  --pink: #f52a6e;
 
-    --red: #e21c1c;
-  }
+  --red: #e21c1c;
 }
 
 a {

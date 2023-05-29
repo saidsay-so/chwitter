@@ -52,7 +52,7 @@
 }
 
 .panel .search-input input:focus {
-  border: 3px solid var(--primary);
+  border: 2px solid var(--primary);
   outline: none;
 }
 

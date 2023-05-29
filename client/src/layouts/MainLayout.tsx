@@ -11,6 +11,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useColorScheme } from "../providers/ColorSchemeProvider";
 
 export interface MainLayoutOutlet {
   refMessageArea: MutableRefObject<HTMLTextAreaElement>;
@@ -26,6 +27,8 @@ const MainLayout = () => {
 
   const [search, setSearch] = useState("");
   const [searchParams, _] = useSearchParams();
+
+  const { colorScheme, toggleColorScheme } = useColorScheme();
 
   const scrollToArea = () => {
     if (refMessageArea.current === null) requestAnimationFrame(scrollToArea);
@@ -67,6 +70,8 @@ const MainLayout = () => {
           <NavigationPanel
             {...user}
             search={search}
+            switchColorScheme={toggleColorScheme}
+            colorScheme={colorScheme}
             onSearchInput={(e) => {
               e.preventDefault();
               setSearch((e.target as HTMLInputElement).value);
