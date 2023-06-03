@@ -4,12 +4,11 @@ import { t } from "@lingui/macro";
 export const usernameSchema = y
   .string()
   .required(t`Le nom d'utilisateur est requis`)
-  .max(32, {
-    message: t`Le nom d'utilisateur est trop long, 32 caractères maximum`,
-  })
-  .matches(/^[a-z_0-9]+$/, {
-    message: t`Le nom d'utilisateur ne peut contenir que des lettres minuscules, des chiffres et des tirets bas`,
-  });
+  .max(32, t`Le nom d'utilisateur est trop long, 32 caractères maximum`)
+  .matches(
+    /^[a-z_0-9]+$/,
+    t`Le nom d'utilisateur ne peut contenir que des lettres minuscules, des chiffres et des tirets bas`
+  );
 
 export const displayNameSchema = y
   .string()
