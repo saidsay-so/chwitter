@@ -9,6 +9,7 @@ It needs the following environment variables (can be in a .env at the root):
 - `PORT`: Server port
 - `SESSION_SECRET`: Secret to use with `cookie-session`
 - `MONGO_URL`: Link to MongoDB database
+- `CERT`: Path/string for MongoDB certificate
 
 ## Development
 
