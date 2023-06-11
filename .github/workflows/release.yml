@@ -6,6 +6,18 @@ on:
       - "v*"
 
 jobs:
+  push_image:
+    name: Push image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and push image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: musikid/chwitter:latest,musikid/chwitter:${{ github.sha }},musikid/chwitter:${{ github.ref_name }}
+
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest
