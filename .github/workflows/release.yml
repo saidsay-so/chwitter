@@ -7,8 +7,24 @@ on:
 
 jobs:
   push_image:
-    name: Push image
+    name: Push ${{ matrix.type }} image
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - type: unified
+            images: |
+              ghcr.io/musikid/chwitter
+            dockerfile: Dockerfile
+          - type: frontend
+            images: |
+              ghcr.io/musikid/chwitter-frontend
+            dockerfile: client/Dockerfile
+          - type: backend
+            images: |
+              ghcr.io/musikid/chwitter-backend
+            dockerfile: server/Dockerfile
 
     steps:
       - name: Checkout
@@ -22,8 +38,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
-          images: |
-            ghcr.io/musikid/chwitter
+          images: ${{ matrix.images }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=tag
@@ -40,6 +55,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          file: ${{ matrix.dockerfile }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
