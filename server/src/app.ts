@@ -11,6 +11,7 @@ import friendRoute from "./routes/friend";
 import { errorHandler } from "./utils";
 import assert from "assert";
 import expressJSDocSwagger from "express-jsdoc-swagger";
+import { existsSync } from "fs";
 
 const app = express();
 
@@ -59,9 +60,13 @@ api.use("/friends", friendRoute);
 app.use("/api", api);
 
 app.use("/", express.static("public"));
-app.use("/*", (_, res) =>
-  res.sendFile("public/index.html", { root: process.cwd() })
-);
+
+if (existsSync("public/index.html")) {
+  app.use("/*", (_, res) =>
+    res.sendFile("public/index.html", { root: process.cwd() })
+  );
+}
+
 app.use(errorHandler);
 
 export default app;
