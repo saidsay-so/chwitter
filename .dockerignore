@@ -4,3 +4,4 @@ assets
 .git
 **/.env
 *.log
+Dockerfile

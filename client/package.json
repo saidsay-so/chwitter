@@ -1,5 +1,5 @@
 {
-  "name": "chwitter",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8080",
@@ -92,6 +92,7 @@
     "prettier": "^2.6.2",
     "react-styleguidist": "^11.2.0",
     "source-map-explorer": "^2.5.2",
+    "ts-node": "^10.7.0",
     "typescript": "^4.6.4",
     "webpack-merge": "^5.8.0"
   }
