@@ -51,6 +51,7 @@ importers:
       '@lingui/react': 3.17.0_react@18.1.0
       axios: 0.27.2
       classnames: 2.3.1
+      common: link:../common
       dayjs: 1.11.1
       husky: 7.0.4
       make-plural: 7.2.0
@@ -74,7 +75,6 @@ importers:
       '@types/react': 18.0.8
       '@types/react-dom': 18.0.3
       '@types/react-transition-group': 4.4.4
-      common: link:../common
       dependency-cruiser: 11.6.0
       eslint: 8.14.0
       eslint-config-prettier: 8.5.0_eslint@8.14.0

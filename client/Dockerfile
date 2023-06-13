@@ -2,7 +2,9 @@ FROM node:18 as builder
 WORKDIR /app
 RUN npm install -g pnpm@7
 COPY . .
-RUN pnpm --filter client install --frozen-lockfile
+RUN pnpm --filter client... --filter common... install --frozen-lockfile
+WORKDIR /app/common
+RUN npm run build
 WORKDIR /app/client
 RUN chown -R node:node node_modules
 RUN npm run build
