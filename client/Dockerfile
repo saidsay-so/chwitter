@@ -9,5 +9,5 @@ WORKDIR /app/client
 RUN chown -R node:node node_modules
 RUN npm run build
 
-FROM docker.io/nginx:1.25-alpine
+FROM docker.io/nginxinc/nginx-unprivileged:1.25-alpine
 COPY --from=builder /app/client/build /usr/share/nginx/html
