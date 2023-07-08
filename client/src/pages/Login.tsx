@@ -39,7 +39,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<LoginInput>({ resolver: yupResolver(LoginInput) });
+  } = useForm({ resolver: yupResolver(LoginInput) });
 
   useEffect(() => {
     registerInput("register", { value: registerView });
