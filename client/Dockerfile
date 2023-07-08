@@ -1,6 +1,6 @@
 FROM node:18 as builder
 WORKDIR /app
-RUN npm install -g pnpm@7
+RUN npm install -g pnpm@8
 COPY . .
 RUN pnpm --filter client... --filter common... install --frozen-lockfile
 WORKDIR /app/common
