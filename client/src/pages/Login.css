@@ -7,7 +7,7 @@
 
 #login #logo {
   height: 10vh;
-  width: 100%;
+  max-width: 20vw;
   margin: auto;
 }
 
