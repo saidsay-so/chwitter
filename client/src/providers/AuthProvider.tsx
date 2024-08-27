@@ -1,5 +1,11 @@
 import { LoginParams, RegisterParams } from "common";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 import { login, logout, register as registerService } from "../services/auth";
 import { User } from "../services/user";
 
@@ -45,6 +51,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const isLogged = () => user !== null;
+
+  useEffect(() => {
+    if (!isLogged()) {
+      signIn(null, () => {});
+    }
+  }, []);
 
   const value = { user, isLogged, signIn, signOut, register };
 

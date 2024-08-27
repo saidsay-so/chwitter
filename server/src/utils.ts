@@ -7,7 +7,7 @@ import { UserModel } from "./models";
 export const hash = promisify<BinaryLike, BinaryLike, number, Buffer>(scrypt);
 
 export const requireAuth: RequestHandler = (req, res, next) => {
-  if (!req.session!.userId) {
+  if (!req.session?.userId) {
     return res.sendStatus(401);
   }
 
@@ -17,7 +17,7 @@ export const requireAuth: RequestHandler = (req, res, next) => {
 export const checkRights: RequestHandler = (req, res, next) => {
   const { uid } = req.params;
 
-  if (uid && uid !== req.session!.userId!) {
+  if (uid && uid !== req.session?.userId) {
     return res.sendStatus(403);
   }
 
@@ -34,8 +34,8 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     console.error(err.errors);
     return res.status(400).json({ error: err.errors });
   } else if (!err) {
-		return res.sendStatus(404);
-	}
+    return res.sendStatus(404);
+  }
 
   console.error(err);
   return res.sendStatus(500);

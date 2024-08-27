@@ -42,7 +42,7 @@ interface AddFriendEvent extends BaseFriendEvent {
 type FriendEvent = LoadFriendsEvent | RemoveFriendEvent | AddFriendEvent;
 
 export default function UserFriends() {
-  const { id: mainUid } = useAuth().user!;
+  const mainUid = useAuth().user?.id;
   const { uid, isHimself, setFriendsCount } =
     useOutletContext<UserProfileOutletContext>();
 

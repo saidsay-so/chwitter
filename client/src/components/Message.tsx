@@ -51,6 +51,8 @@ interface MessageProps {
   likeAction: VoidFunction;
 
   removeAction: VoidFunction;
+
+  connected: boolean;
 }
 
 /**
@@ -66,6 +68,7 @@ const Message = ({
   likeAction,
   fromHimself,
   removeAction,
+  connected = true,
 }: MessageProps) => {
   return (
     <article className={cx("message-container", { isLiked })}>
@@ -88,13 +91,18 @@ const Message = ({
             avatarLink={avatarLink}
             displayName={displayName}
             profileLink={profileLink}
+            connected={connected}
           />
         </div>
       </div>
       <p className="message">{content}</p>
       <div className="metadata">
         <span className="likes">
-          <button onClick={() => likeAction()} className="like-button">
+          <button
+            disabled={!connected}
+            onClick={() => likeAction()}
+            className="like-button"
+          >
             <CSSTransition in={isLiked} timeout={100}>
               <div className="like-icon">
                 {isLiked ? <BsHeartFill /> : <BsHeart />}
@@ -105,10 +113,10 @@ const Message = ({
         </span>
         <span className="date">{dayjs(date).fromNow()}</span>
         <div className={cx("actions")}>
-          {!fromHimself && (
+          {connected && !fromHimself && (
             <FriendButton isFriend={isFriend} onClick={() => friendAction()} />
           )}
-          {fromHimself && (
+          {connected && fromHimself && (
             <SimpleButton
               label={
                 <div>

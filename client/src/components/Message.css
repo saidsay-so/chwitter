@@ -67,7 +67,7 @@
   border: none;
 }
 
-.message-container .metadata .likes .like-button:hover {
+.message-container .metadata .likes .like-button:not(:disabled):hover {
   cursor: pointer;
   color: var(--pink);
 }

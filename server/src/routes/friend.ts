@@ -3,16 +3,9 @@ import { GetFriendStateResponse, UserResponse, UsersResponse } from "common";
 import { Router } from "express";
 import { UserModel } from "../models";
 import { UserSchema } from "../models/user";
-import {
-  checkRights,
-  getAvatarLink,
-  getFriendState,
-  requireAuth,
-} from "../utils";
+import { checkRights, getAvatarLink, getFriendState } from "../utils";
 
 const routes = Router();
-
-routes.all("*", requireAuth);
 
 // TODO: Import directly from "common" package
 //
@@ -30,13 +23,9 @@ routes.all("*", requireAuth);
  * @return {UsersResponse} 200 - Friends
  * @return {string} 404 - Status when user does not exists
  */
-routes.get("/:uid?/all", async (req, res, next) => {
+routes.get("/:uid/all", async (req, res, next) => {
   let { uid } = req.params;
   try {
-    if (!uid) {
-      uid = req.session!.userId!;
-    }
-
     const user = await UserModel.findById(uid)
       .select("friends")
       .populate("friends")
@@ -49,10 +38,12 @@ routes.get("/:uid?/all", async (req, res, next) => {
               async (friend) =>
                 (friend as DocumentType<UserSchema>).toJSON({
                   custom: {
-                    isFriend: await getFriendState(
-                      req.session!.userId!,
-                      (friend as typeof friend & { _id: any })._id
-                    ),
+                    isFriend: req.session?.userId
+                      ? await getFriendState(
+                          req.session.userId,
+                          (friend as typeof friend & { _id: any })._id
+                        )
+                      : false,
                     avatarLink: getAvatarLink(
                       (friend as DocumentType<UserSchema>)!.id!
                     ),

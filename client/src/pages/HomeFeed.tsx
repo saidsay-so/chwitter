@@ -18,7 +18,7 @@ export default function HomeFeed() {
     messages,
     { load, create, removeMessage, addFriend, removeFriend, like, unlike },
   ] = useMessagesReducer();
-  const { id: uid } = useAuth().user!;
+  const uid = useAuth().user?.id;
   const { refMessageArea } = useOutletContext<MainLayoutOutlet>();
 
   const { status } = useService(getMessages.bind(null, undefined), load, []);
@@ -27,13 +27,15 @@ export default function HomeFeed() {
     <div className="responsive-container">
       <div className="home-feed">
         <div className="home-message-area">
-          <MessageArea
-            refArea={refMessageArea}
-            id="search"
-            onSubmit={(content) => create({ content })}
-            minLength={8}
-            maxLength={320}
-          />
+          {uid && (
+            <MessageArea
+              refArea={refMessageArea}
+              id="search"
+              onSubmit={(content) => create({ content })}
+              minLength={8}
+              maxLength={320}
+            />
+          )}
         </div>
         {status === ServiceStatus.LOADING ? (
           <LoadingPlaceholder />

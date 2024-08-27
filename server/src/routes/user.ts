@@ -89,8 +89,6 @@ routes.post("/", async (req, res, next) => {
   }
 });
 
-routes.all("/:uid/*", requireAuth);
-
 /**
  * GET /api/users/{uid}
  * @tags User - User related services
@@ -108,7 +106,9 @@ routes.get("/:uid", async (req, res, next) => {
 
     const user = rawUser.toJSON({
       custom: {
-        isFriend: await getFriendState(req.session!.userId!, uid),
+        isFriend: req.session?.userId
+          ? await getFriendState(req.session!.userId!, uid)
+          : false,
         avatarLink: getAvatarLink(uid),
       },
     });
@@ -134,7 +134,7 @@ routes.get("/:uid", async (req, res, next) => {
  * @param {UpdateUserParams} request.body.required - user params
  * @return {UserResponse} 203 - User
  */
-routes.patch("/:uid?", checkRights, async (req, res, next) => {
+routes.patch("/:uid?", requireAuth, checkRights, async (req, res, next) => {
   let { uid } = req.params;
   if (!uid) {
     uid = req.session!.userId!;

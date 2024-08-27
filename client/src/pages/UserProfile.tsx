@@ -35,7 +35,7 @@ export default function UserProfile() {
   const [likedMsgCount, setLikedMsgCount] = useState<number | null>(null);
 
   const id = useParams().id!;
-  const { id: mainUid } = useAuth().user!;
+  const mainUid = useAuth().user?.id;
   const isHimself = id === mainUid;
 
   const navigate = useNavigate();
@@ -100,10 +100,12 @@ export default function UserProfile() {
                   onClick={editProfile}
                 />
               ) : (
-                <FriendButton
-                  onClick={() => friendAction()}
-                  isFriend={user.isFriend}
-                />
+                mainUid && (
+                  <FriendButton
+                    onClick={() => friendAction()}
+                    isFriend={user.isFriend}
+                  />
+                )
               )}
             </div>
 

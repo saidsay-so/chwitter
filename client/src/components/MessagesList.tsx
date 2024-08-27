@@ -18,7 +18,7 @@ interface MessagesListProps {
   /**
    * ID du lecteur
    */
-  uid: User["id"];
+  uid?: User["id"];
   /**
    * Action d'ajout/suppression du like
    */
@@ -53,6 +53,7 @@ const MessagesList = ({
             fromHimself={msg.author.id === uid}
             removeAction={removeAction.bind(null, msg.id, i)}
             {...msg}
+            connected={!!uid}
           />
         </li>
       ))}
