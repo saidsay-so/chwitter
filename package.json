@@ -1,5 +1,6 @@
 {
   "name": "chwitter",
+  "packageManager": "pnpm@9.2.0",
   "workspaces": [
     "client",
     "server",

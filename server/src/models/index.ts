@@ -1,8 +1,7 @@
 import { UserSchema } from "./user";
 import { MessageSchema } from "./message";
-import { DocumentType, getModelForClass } from "@typegoose/typegoose";
+import { getModelForClass } from "@typegoose/typegoose";
 import { MessageResponse, UserResponse } from "common";
-import mongoose from "mongoose";
 import assert from "assert";
 export interface MessageTransformOptions extends UserTransformOptions {
   isLiked: boolean;
@@ -20,16 +19,10 @@ export const MessageModel = getModelForClass(MessageSchema, {
   schemaOptions: {
     timestamps: { createdAt: "date" },
     toJSON: {
-      transform: (
-        doc: DocumentType<MessageSchema>,
-        returnValue: mongoose.LeanDocument<MessageSchema> & {
-          author: UserResponse;
-        } & { _id: string },
-        opts: mongoose.ToObjectOptions & { custom: MessageTransformOptions }
-      ): MessageResponse => {
+      transform: (doc, returnValue, opts): MessageResponse => {
         assert(opts.custom);
         return new MessageResponse({
-          ...returnValue,
+          ...(returnValue as any),
           ...opts.custom,
           date: returnValue.date.getTime(),
           id: doc.id,
@@ -47,13 +40,13 @@ export interface UserTransformOptions {
 export const UserModel = getModelForClass(UserSchema, {
   schemaOptions: {
     toJSON: {
-      transform: (
-        doc: DocumentType<UserSchema>,
-        returnValue: mongoose.LeanDocument<UserSchema> & { _id: string },
-        opts: mongoose.ToObjectOptions & { custom: UserTransformOptions }
-      ): UserResponse => {
+      transform: (doc, returnValue, opts): UserResponse => {
         assert(opts.custom);
-        return new UserResponse({ ...returnValue, ...opts.custom, id: doc.id });
+        return new UserResponse({
+          ...(returnValue as any),
+          ...opts.custom,
+          id: doc.id,
+        });
       },
     },
   },
