@@ -1,12 +1,19 @@
 import "./NavigationPanel.css";
 import "./NavigationPanelAction.css";
 import { Link, NavLink, NavLinkProps } from "react-router-dom";
-import { MdAdd, MdDarkMode, MdLightMode, MdLogout } from "react-icons/md";
+import {
+  MdAdd,
+  MdDarkMode,
+  MdLightMode,
+  MdLogin,
+  MdLogout,
+} from "react-icons/md";
 import { ImSearch } from "react-icons/im";
 import Avatar from "./Avatar";
 import { FormEventHandler, MouseEventHandler } from "react";
 import { ReactNode } from "react";
 import { t } from "@lingui/macro";
+import { User } from "../services/user";
 
 interface PanelProps {
   /**
@@ -26,18 +33,7 @@ interface PanelProps {
    * Lien vers la page d'accueil
    */
   homePage: string;
-  /**
-   * Lien vers la photo de profil du lecteur
-   */
-  avatarLink?: string;
-  /**
-   * Nom du lecteur
-   */
-  name: string;
-  /**
-   * Lien vers le profil du lecteur
-   */
-  profileLink: string;
+  user: User | null;
 }
 
 /**
@@ -52,9 +48,7 @@ const NavigationPanel = ({
   onSearchInput,
   search,
   homePage,
-  avatarLink,
-  name,
-  profileLink,
+  user,
 }: PanelProps) => {
   return (
     <aside className="panel">
@@ -63,40 +57,59 @@ const NavigationPanel = ({
           <img className="logo" src="/logo192.png" alt="" />
         </Link>
       </div>
-      <div className="search-input">
-        <form onSubmit={onSearchSubmit}>
-          <input
-            value={search}
-            onInput={onSearchInput}
-            autoComplete="on"
-            type="search"
-          />
-        </form>
-        <button className="search-button">
-          <ImSearch />
-        </button>
-      </div>
-      <div className="panel-actions">
-        <div title={name}>
-          <Avatar picture={avatarLink} profileLink={profileLink} name={name} />
+      {user && (
+        <div className="search-input">
+          <form onSubmit={onSearchSubmit}>
+            <input
+              value={search}
+              onInput={onSearchInput}
+              autoComplete="on"
+              type="search"
+            />
+          </form>
+          <button className="search-button">
+            <ImSearch />
+          </button>
         </div>
-        <NavigationPanel.Action
-          icon={<MdAdd />}
-          text={t`Créer un message`}
-          action={createMessage}
-        />
+      )}
+
+      <div className="panel-actions">
+        {user && <NavigationPanel.AvatarButton {...user} />}
+        {user && (
+          <NavigationPanel.Action
+            icon={<MdAdd />}
+            text={t`Créer un message`}
+            action={createMessage}
+          />
+        )}
         <NavigationPanel.Action
           icon={colorScheme === "dark" ? <MdLightMode /> : <MdDarkMode />}
           text={t`Changer le thème`}
           action={switchColorScheme}
         />
-        <NavigationPanel.Action
-          icon={<MdLogout />}
-          text={t`Se déconnecter`}
-          action={signOut}
-        />
+        {user ? (
+          <NavigationPanel.Action
+            icon={<MdLogout />}
+            text={t`Se déconnecter`}
+            action={signOut}
+          />
+        ) : (
+          <NavigationPanel.Action
+            icon={<MdLogin />}
+            text={t`Se connecter`}
+            action={signOut}
+          />
+        )}
       </div>
     </aside>
+  );
+};
+
+NavigationPanel.AvatarButton = ({ avatarLink, name, profileLink }: User) => {
+  return (
+    <div title={name}>
+      <Avatar picture={avatarLink} profileLink={profileLink} name={name} />
+    </div>
   );
 };
 

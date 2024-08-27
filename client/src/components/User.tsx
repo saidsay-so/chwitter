@@ -29,6 +29,7 @@ interface UserProps {
    * Fonction d'ajout/suppression en tant qu'ami
    */
   friendAction: VoidFunction;
+  connected?: boolean;
 }
 
 /**
@@ -42,6 +43,7 @@ const User = ({
   displayName,
   description,
   friendAction,
+  connected = true,
 }: UserProps) => {
   return (
     <div className="user">
@@ -54,7 +56,7 @@ const User = ({
         </Link>
         <p className="description">{description}</p>
       </div>
-      {isFriend !== undefined && (
+      {connected && isFriend !== undefined && (
         <FriendButton
           className="action"
           onClick={() => friendAction()}

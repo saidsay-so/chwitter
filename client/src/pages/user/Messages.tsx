@@ -15,7 +15,7 @@ import "./Messages.css";
 
 export default function UserMessages() {
   const { uid, setMsgCount } = useOutletContext<UserProfileOutletContext>();
-  const { id: mainUid } = useAuth().user!;
+  const mainUid = useAuth().user?.id;
   const [
     messages,
     { load, like, removeMessage, unlike, addFriend, removeFriend },

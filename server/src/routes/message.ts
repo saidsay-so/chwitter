@@ -73,8 +73,6 @@ const checkMessageExists: RequestHandler = async (req, res, next) => {
   }
 };
 
-routes.all("*", requireAuth);
-
 /**
  * @typedef {object} MessageResponse
  * @property {string} id - message id
@@ -128,7 +126,7 @@ routes.get("/", async (req, res, next) => {
       params["$text"] = { $search: search, $language: "fr" };
     }
 
-    if (onlyfollowed !== "false") {
+    if (onlyfollowed !== "false" && req.session!.userId!) {
       const user = await UserModel.findById(req.session!.userId!)
         .select("friends")
         .exec();
@@ -159,14 +157,18 @@ routes.get("/", async (req, res, next) => {
         async (msg) =>
           msg.toJSON({
             custom: {
-              isFriend: await getFriendState(
-                req.session!.userId!,
-                (msg.author as DocumentType<UserSchema>)._id!
-              ),
+              isFriend: req.session?.userId
+                ? await getFriendState(
+                    req.session!.userId!,
+                    (msg.author as DocumentType<UserSchema>)._id!
+                  )
+                : false,
               avatarLink: getAvatarLink(
                 (msg.author as DocumentType<UserSchema>).id!
               ),
-              isLiked: await messageIsLiked(msg.id, req.session!.userId!),
+              isLiked: req.session?.userId
+                ? await messageIsLiked(msg.id, req.session!.userId!)
+                : false,
             },
           }) as unknown as MessageResponse
       )
@@ -190,7 +192,7 @@ routes.get("/", async (req, res, next) => {
  * @param {CreateMessageParams} request.body.required - message content
  * @return {MessageResponse} 201 - Message
  */
-routes.post("/", async (req, res, next) => {
+routes.post("/", requireAuth, async (req, res, next) => {
   const { userId: author } = req.session!;
   try {
     const { content }: CreateMessageParams = req.body;
@@ -225,6 +227,7 @@ routes.post("/", async (req, res, next) => {
  */
 routes.put(
   "/:mid/like",
+  requireAuth,
   checkRights,
   checkMessageExists,
   async (req, res, next) => {
@@ -273,6 +276,7 @@ routes.put(
  */
 routes.delete(
   "/:mid/like",
+  requireAuth,
   checkRights,
   checkMessageExists,
   async (req, res, next) => {
@@ -325,11 +329,15 @@ routes.get("/:mid", checkMessageExists, async (req, res, next) => {
     return res.status(200).json(
       msg.toJSON({
         custom: {
-          isLiked: await messageIsLiked(mid!, req.session!.userId!),
-          isFriend: await getFriendState(
-            req.session!.userId!,
-            (msg.author as DocumentType<UserSchema>)._id!
-          ),
+          isLiked: req.session?.userId
+            ? await messageIsLiked(mid!, req.session!.userId!)
+            : false,
+          isFriend: req.session?.userId
+            ? await getFriendState(
+                req.session!.userId!,
+                (msg.author as DocumentType<UserSchema>)._id!
+              )
+            : false,
           avatarLink: getAvatarLink(
             (msg.author as DocumentType<UserSchema>)._id!
           ),
@@ -350,6 +358,7 @@ routes.get("/:mid", checkMessageExists, async (req, res, next) => {
  */
 routes.delete(
   "/:mid",
+  requireAuth,
   checkMessageExists,
   isMessageAuthor,
   async (req, res, next) => {

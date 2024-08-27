@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter, Outlet } from "react-router-dom";
 
 import "./index.css";
 import MainLayout from "./layouts/MainLayout";
@@ -55,16 +55,20 @@ root.render(
             <AuthProvider>
               <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route
-                  element={
-                    <RequireAuthProvider>
-                      <MainLayout />
-                    </RequireAuthProvider>
-                  }
-                >
+                <Route element={<MainLayout />}>
                   <Route path="/" element={<HomeFeed />} />
-                  <Route path="/search" element={<Search />} />
-                  <Route path="/edit" element={<EditProfile />} />
+
+                  <Route
+                    element={
+                      <RequireAuthProvider>
+                        <Outlet />
+                      </RequireAuthProvider>
+                    }
+                  >
+                    <Route path="/search" element={<Search />} />
+                    <Route path="/edit" element={<EditProfile />} />
+                  </Route>
+
                   <Route path="/users/:id" element={<UserProfile />}>
                     <Route index element={<Navigate to="messages" replace />} />
                     <Route path="messages" element={<UserMessages />} />

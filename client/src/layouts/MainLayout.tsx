@@ -66,23 +66,21 @@ const MainLayout = () => {
       }}
     >
       <div className="main-layout">
-        {isConnected && (
-          <NavigationPanel
-            {...user}
-            search={search}
-            switchColorScheme={toggleColorScheme}
-            colorScheme={colorScheme}
-            onSearchInput={(e) => {
-              e.preventDefault();
-              setSearch((e.target as HTMLInputElement).value);
-            }}
-            onSearchSubmit={searchSubmit}
-            profileLink={user.profileLink}
-            homePage="/"
-            signOut={logout}
-            createMessage={createMessage}
-          />
-        )}
+        <NavigationPanel
+          user={user}
+          search={search}
+          switchColorScheme={toggleColorScheme}
+          colorScheme={colorScheme}
+          onSearchInput={(e) => {
+            e.preventDefault();
+            setSearch((e.target as HTMLInputElement).value);
+          }}
+          onSearchSubmit={searchSubmit}
+          homePage="/"
+          signOut={logout}
+          createMessage={createMessage}
+        />
+
         <main>
           <Outlet context={{ refMessageArea }} />
         </main>

@@ -16,7 +16,7 @@ import "./Messages.css";
 export default function UserLikedMessages() {
   const { uid, setLikedMsgCount } =
     useOutletContext<UserProfileOutletContext>();
-  const { id: mainUid } = useAuth().user!;
+  const mainUid = useAuth().user?.id;
   const [
     messages,
     { load, like, removeMessage, unlike, addFriend, removeFriend },
